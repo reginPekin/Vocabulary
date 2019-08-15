@@ -1,1 +1,1 @@
-// export { FolderWindow } from "./FolderWindow";
+export { FolderWindow } from "./FolderWindow";
