@@ -3,17 +3,18 @@ import { connect } from "react-redux";
 
 import { FolderWindow } from "../FolderWindow";
 
-export const App = ({ vocabulary }) => {
+export const AppContainer = ({ Vocabulary }) => {
   return (
     <div>
-      {vocabulary.map((folder, key) => (
+      vocabulary: {Vocabulary}
+      {/* {vocabulary.map((folder, key) => (
         <FolderWindow key={key} folder={folder} />
-      ))}
+      ))} */}
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  vocabulary: state.showPage.array
+  Vocabulary: state.array
 });
-export const MethodsList = connect(mapStateToProps)(App);
+export const App = connect(mapStateToProps)(AppContainer);
