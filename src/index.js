@@ -5,8 +5,7 @@ import { store } from "./Redux";
 
 import "./style/index.css";
 
-import { App } from "./Components/App/App";
-import { Vocabulary } from "./Vocabulary";
+import { App } from "./Components/App";
 
 ReactDOM.render(
   <Provider store={store}>
