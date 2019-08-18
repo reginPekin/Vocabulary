@@ -1,17 +1,13 @@
 import React from "react";
 
-import { DisplayPair } from "../DisplayPair";
+import { FolderBox } from "../FolderBox";
 
-export const FolderWindow = ({ folder }) => {
+export const FolderWindow = ({ vocabulary }) => {
   return (
     <div>
-      <span>{folder.folderName}</span>
-      <div>
-        {folder.words.map((wordPair, key) => (
-          <DisplayPair key={key} wordPair={wordPair} />
-        ))}
-      </div>
-      <br />
+      {vocabulary.map((folder, key) => (
+        <FolderBox folder={folder} key={key} />
+      ))}
     </div>
   );
 };
