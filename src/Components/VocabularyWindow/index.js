@@ -1,0 +1,1 @@
+export { VocabularyWindow } from "./VocabularyWindow";
