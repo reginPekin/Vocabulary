@@ -8,9 +8,6 @@ const InitialStateVocabulary = {
 
 const showPage = (state = InitialStateVocabulary, action) => {
   switch (action.type) {
-    case "show":
-      return state;
-
     default:
       return state;
   }
