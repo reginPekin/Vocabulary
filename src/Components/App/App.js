@@ -16,6 +16,6 @@ export const AppContainer = ({ Vocabulary }) => {
 };
 
 const mapStateToProps = state => ({
-  Vocabulary: state.array
+  Vocabulary: state.showPage.array
 });
 export const App = connect(mapStateToProps)(AppContainer);
