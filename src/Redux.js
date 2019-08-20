@@ -12,6 +12,11 @@ const InitialStateVocabulary = {
 
 const showPage = (state = InitialStateVocabulary, action) => {
   switch (action.type) {
+    case "ADD_NEW_FOLDER":
+      return [
+        ...state,
+        { id: action.id, folderName: action.folderName, isOpen: true }
+      ];
     default:
       return state;
   }
