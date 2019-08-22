@@ -1,4 +1,4 @@
-import { Vocabulary } from "./Vocabulary";
+import { Vocabulary } from "./vocabulary";
 
 import { createStore, combineReducers } from "redux";
 
@@ -10,8 +10,16 @@ const InitialStateVocabulary = {
   array: Vocabulary
 };
 
-const showPage = (state = InitialStateVocabulary, action) => {
+const addNewFolder = (state = InitialStateVocabulary, action) => {
   switch (action.type) {
+    case "ADD_NEW_FOLDER":
+      return {
+        ...state,
+        array: [
+          ...state.array,
+          { id: action.id, folderName: action.folderName, isOpen: true }
+        ]
+      };
     default:
       return state;
   }
@@ -27,6 +35,6 @@ const smallActions = (state = InitialState, action) => {
 };
 
 export const store = createStore(
-  combineReducers({ showPage, smallActions }),
+  combineReducers({ addNewFolder, smallActions }),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );

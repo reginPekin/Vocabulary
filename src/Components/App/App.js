@@ -2,8 +2,8 @@ import React from "react";
 
 import styles from "./App.module.css";
 
-import { FolderWindow } from "../FolderWindow";
-import { VocabularyWindow } from "../VocabularyWindow";
+import { FolderWindow } from "../folderWindow";
+import { VocabularyWindow } from "../vocabularyWindow";
 
 export const App = () => {
   return (
