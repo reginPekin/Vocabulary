@@ -20,10 +20,31 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
           { id: action.id, folderName: action.folderName, isOpen: true }
         ]
       };
+    case "CLOSE_ALL":
+      return {
+        ...state,
+        array: state.array.map(folder => {
+          return { ...folder, isOpen: false };
+        })
+      };
     default:
       return state;
   }
 };
+
+// const closeAndOpenFolder = (state = InitialStateVocabulary, action) => {
+//   switch (action.type) {
+//     case "CLOSE_ALL":
+//       return {
+//         ...state,
+//         array: state.array.map(folder => {
+//           return { ...folder, isOpen: false };
+//         })
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 const smallActions = (state = InitialState, action) => {
   switch (action.type) {
