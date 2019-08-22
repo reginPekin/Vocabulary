@@ -1,0 +1,1 @@
+export { VocabularyTable } from "./vocabularyTable";
