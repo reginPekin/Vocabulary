@@ -11,6 +11,7 @@ export const AddFolderContainer = ({ dispatch, vocabulary }) => {
           id: vocabulary.length,
           folderName: text
         });
+        setText("");
         event.preventDefault();
       }}
     >
