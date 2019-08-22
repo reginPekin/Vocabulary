@@ -2,7 +2,7 @@ export const Vocabulary = [
   {
     folderId: 0,
     folderName: "Animals",
-    isOpen: false,
+    isOpen: true,
     words: [
       { wordId: 0, foreignWord: "mouse", nativeWord: "мышь" },
       { wordId: 1, foreignWord: "snake", nativeWord: "змея" },
@@ -12,7 +12,7 @@ export const Vocabulary = [
   {
     folderId: 1,
     folderName: "Plants",
-    isOpen: false,
+    isOpen: true,
     words: [
       { wordId: 0, foreignWord: "pine", nativeWord: "сосна" },
       { wordId: 1, foreignWord: "tulpin", nativeWord: "тюльпан" },
