@@ -1,7 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
 
-import styles from "./VocabularyWindow.module.css";
+import { VocabularyTable } from "../vocabularyTable";
 
-export const VocabularyWindow = () => {
-  return <div className={styles.vocabularyWindow}>VocabularyWindow</div>;
+// import styles from "./VocabularyWindow.module.css";
+
+const VocabularyWindowContainer = ({ vocabulary }) => {
+  return <VocabularyTable vocabulary={vocabulary} />;
 };
+
+const mapStateProps = state => ({
+  vocabulary: state.addNewFolder.array
+});
+
+export const VocabularyWindow = connect(mapStateProps)(
+  VocabularyWindowContainer
+);
