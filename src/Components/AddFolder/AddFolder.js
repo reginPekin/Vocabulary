@@ -27,7 +27,7 @@ export const AddFolderContainer = ({ dispatch, vocabulary }) => {
 };
 
 const mapStateProps = state => ({
-  vocabulary: state.showPage.array
+  vocabulary: state.addNewFolder.array
 });
 
 export const AddFolder = connect(mapStateProps)(AddFolderContainer);
