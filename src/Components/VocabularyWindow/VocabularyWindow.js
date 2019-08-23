@@ -1,12 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Switch } from "react-router-dom";
 
 import { VocabularyTable } from "../vocabularyTable";
 
 // import styles from "./VocabularyWindow.module.css";
 
 const VocabularyWindowContainer = ({ vocabulary }) => {
-  return <VocabularyTable vocabulary={vocabulary} />;
+  vocabulary.map((folder, key) => (
+    <Switch>
+      <VocabularyTable folder={folder} key={key} />
+    </Switch>
+  ));
 };
 
 const mapStateProps = state => ({
