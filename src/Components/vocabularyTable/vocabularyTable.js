@@ -1,17 +1,16 @@
 import React from "react";
+import { Route } from "react-router-dom";
 
 import { DisplayPair } from "../displayPair";
 
-export const VocabularyTable = ({ vocabulary }) => {
+export const VocabularyTable = ({ folder }) => {
   return (
     <div>
-      {vocabulary.map(
-        folder =>
-          folder.isOpen &&
-          folder.words.map((wordPair, key) => (
-            <DisplayPair wordPair={wordPair} key={key} />
-          ))
-      )}
+      {folder.words.map((wordPair, key) => (
+        <Route path="/">
+          <DisplayPair wordPair={wordPair} key={key} />
+        </Route>
+      ))}
     </div>
   );
 };
