@@ -17,7 +17,12 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
         ...state,
         array: [
           ...state.array,
-          { id: action.id, folderName: action.folderName, isOpen: true }
+          {
+            id: action.id,
+            folderName: action.folderName,
+            isOpen: true,
+            words: []
+          }
         ]
       };
     case "CLOSE_ALL":
