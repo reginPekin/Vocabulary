@@ -2,14 +2,14 @@ import React from "react";
 
 import styles from "./App.module.css";
 
-import { FolderWindow } from "../folderWindow";
-import { VocabularyWindow } from "../vocabularyWindow";
+import { FolderWindow } from "../FolderWindow";
+import { RouteMain } from "../RouteMain";
 
 export const App = () => {
   return (
     <div className={styles.app}>
       <FolderWindow />
-      <VocabularyWindow />
+      <RouteMain />
     </div>
   );
 };
