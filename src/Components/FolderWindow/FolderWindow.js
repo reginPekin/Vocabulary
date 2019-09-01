@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { FolderBox } from "../folderBox";
-import { FolderSearch } from "../folderSearch";
-import { AddFolder } from "../addFolder";
+import { FolderBox } from "../FolderBox";
+import { FolderSearch } from "../FolderSearch";
+import { AddFolder } from "../AddFolder";
+import { AllWordsFolder } from "../AllWordsFolder";
 
 import styles from "./FolderWindow.module.css";
 
@@ -11,7 +12,9 @@ const FolderWindowContainer = ({ vocabulary, searchText }) => {
   console.log(vocabulary);
   return (
     <div className={styles.folderWindow}>
-      <FolderSearch />
+      <AllWordsFolder />
+      {vocabulary.length > 5 && <FolderSearch />}
+
       {vocabulary.map(
         (folder, key) =>
           (searchText === "" ||
@@ -21,6 +24,7 @@ const FolderWindowContainer = ({ vocabulary, searchText }) => {
             <FolderBox folder={folder} key={key} />
           )
       )}
+
       <AddFolder />
     </div>
   );
