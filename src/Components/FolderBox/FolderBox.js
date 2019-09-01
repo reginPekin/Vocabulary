@@ -1,18 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-const FolderBoxContainer = ({ folder, dispatch }) => {
+export const FolderBox = ({ folder }) => {
   return (
     <div>
-      <button onClick={() => dispatch({ type: "CLOSE_ALL" })}>
-        {folder.folderName}
-      </button>
+      <Link to={`/${folder.folderName}`}>{folder.folderName}</Link>
     </div>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.array
-});
-
-export const FolderBox = connect(mapStateProps)(FolderBoxContainer);
