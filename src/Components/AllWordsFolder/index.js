@@ -1,0 +1,1 @@
+export { AllWordsFolder } from "./AllWordsFolder";
