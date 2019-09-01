@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { connect } from "react-redux";
+import React, { useState } from "react";
 
 export const AddFolderContainer = ({ dispatch, vocabulary }) => {
   const [text, setText] = useState("");
