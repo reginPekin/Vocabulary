@@ -1,17 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Switch } from "react-router-dom";
 
-import { VocabularyTable } from "../vocabularyTable";
-
+import { VocabularyTable } from "../VocabularyTable";
 // import styles from "./VocabularyWindow.module.css";
 
 const VocabularyWindowContainer = ({ vocabulary }) => {
-  vocabulary.map((folder, key) => (
-    <Switch>
-      <VocabularyTable folder={folder} key={key} />
-    </Switch>
-  ));
+  return (
+    <div>
+      {vocabulary.map((folder, key) => (
+        <VocabularyTable folder={folder} key={key} />
+      ))}
+    </div>
+  );
 };
 
 const mapStateProps = state => ({
