@@ -1,1 +1,1 @@
-export { VocabularyTable } from "./vocabularyTable";
+export { VocabularyTable } from "./VocabularyTable";
