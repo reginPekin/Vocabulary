@@ -8,7 +8,7 @@ export const RouteMain = () => (
   <main>
     <Switch>
       <Route exact path="/" component={VocabularyWindow} />
-      <Route path="/:folderName" component={VocabularyWindow} />
+      <Route path="/:id" render={props => <VocabularyWindow {...props} />} />
     </Switch>
   </main>
 );
