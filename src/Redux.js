@@ -18,7 +18,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
         array: [
           ...state.array,
           {
-            id: action.id,
+            folderId: action.id,
             folderName: action.folderName,
             words: []
           }
