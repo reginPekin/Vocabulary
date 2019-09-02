@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { VocabularyTable } from "../VocabularyTable";
 // import styles from "./VocabularyWindow.module.css";
 
-const VocabularyWindowContainer = ({ vocabulary }) => {
+const VocabularyWindowContainer = ({ vocabulary, history }) => {
+  console.log("asdasdas", history.location.pathname);
   return (
     <div>
       {vocabulary.map((folder, key) => (
