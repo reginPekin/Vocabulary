@@ -1,4 +1,5 @@
 .vocabularyWindow {
   min-height: 100%;
-  background-color: gray;
+  background-color: white;
+  margin: 1em;
 }
