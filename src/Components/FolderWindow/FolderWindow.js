@@ -9,7 +9,6 @@ import { AllWordsFolder } from "../AllWordsFolder";
 import styles from "./FolderWindow.module.css";
 
 const FolderWindowContainer = ({ vocabulary, searchText }) => {
-  console.log(vocabulary);
   return (
     <div className={styles.folderWindow}>
       <AllWordsFolder />
