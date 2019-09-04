@@ -1,0 +1,1 @@
+export { AddWord } from "./AddWord";
