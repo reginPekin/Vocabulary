@@ -1,7 +1,7 @@
 .app {
   display: grid;
-  grid-template-columns: 5fr 12fr;
-  background-color: blue;
+  grid-template-columns: 4fr 14fr;
+  background-color: white;
   min-height: 100%;
   width: 100%;
   justify-items: stretch;
