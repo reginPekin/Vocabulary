@@ -25,6 +25,23 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
         ]
       };
 
+    case "ADD_NEW_WORD":
+      return {
+        ...state,
+        array: state.array.map(folder => {
+          if (folder.folderId === action.folderId) {
+            console.log(typeof folder.folderId, typeof action.folderId);
+            return {
+              ...folder,
+              words: [
+                ...folder.words,
+                { foreignWord: action.words, wordId: action.wordId }
+              ]
+            };
+          }
+          return folder;
+        })
+      };
     default:
       return state;
   }
