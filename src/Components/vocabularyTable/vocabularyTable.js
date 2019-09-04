@@ -4,6 +4,7 @@ import { DisplayPair } from "../DisplayPair";
 
 export const VocabularyTable = ({ folder }) => {
   // const url = `/${folder.folderName}`;
+  // console.log(folder);
   return (
     <div>
       {folder.words.map((wordPair, key) => (
