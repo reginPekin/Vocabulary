@@ -2,14 +2,10 @@ import React from "react";
 
 import { DisplayPair } from "../DisplayPair";
 
+// import style from "./VocabularyTable.module.css";
+
 export const VocabularyTable = ({ folder }) => {
-  // const url = `/${folder.folderName}`;
-  // console.log(folder);
-  return (
-    <div>
-      {folder.words.map((wordPair, key) => (
-        <DisplayPair wordPair={wordPair} key={key} />
-      ))}
-    </div>
-  );
+  return folder.words.map((wordPair, key) => (
+    <DisplayPair wordPair={wordPair} key={key} />
+  ));
 };
