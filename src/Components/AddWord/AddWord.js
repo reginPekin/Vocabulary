@@ -1,19 +1,33 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-const AddWordContainer = ({ dispatch, vocabulary, folderId }) => {
+const AddWordContainer = ({ dispatch, vocabulary, intFolderId, word }) => {
   const [text, setText] = useState("");
+  // const intFolderId = parseInt(folderId, 10);
 
   return (
     <form
       onSubmit={event => {
         event.preventDefault();
-        dispatch({
-          type: "ADD_NEW_WORD",
-          folderId: parseInt(folderId, 10),
-          words: text,
-          wordId: vocabulary[folderId].words.length
-        });
+        if (word === "foreign") {
+          console.log(vocabulary[intFolderId].words.length);
+          dispatch({
+            type: "ADD_NEW_WORD",
+            word: word,
+            foreignWord: text,
+            folderId: intFolderId,
+            wordId: vocabulary[intFolderId].words.length - 2
+          });
+          console.log(vocabulary[intFolderId].words.length - 2);
+        } else if (word === "native") {
+          dispatch({
+            type: "ADD_NEW_WORD",
+            word: word,
+            nativeWord: text,
+            folderId: intFolderId,
+            wordId: vocabulary[intFolderId].words.length - 1
+          });
+        }
         setText("");
       }}
     >
