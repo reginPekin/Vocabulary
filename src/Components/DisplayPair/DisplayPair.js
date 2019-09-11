@@ -4,9 +4,9 @@ import style from "./DisplayPair.module.css";
 
 export const DisplayPair = ({ wordPair }) => {
   return (
-    <div className={style.displayPair}>
-      <span>{wordPair.foreignWord}: </span>
-      <span>{wordPair.nativeWord}</span>
-    </div>
+    <tr className={style.displayPair}>
+      <td>{wordPair.foreignWord}</td>
+      <td>{wordPair.nativeWord}</td>
+    </tr>
   );
 };

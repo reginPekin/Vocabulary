@@ -1,3 +1,9 @@
 .displayPair {
   margin-bottom: 0.5em;
+  /* display: flex; */
+}
+
+td {
+  border: 1px solid black;
+  padding: 1em 1em 1em 1em;
 }
