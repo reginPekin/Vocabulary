@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { FolderBox } from "../FolderBox";
 import { FolderSearch } from "../FolderSearch";
-import { AddFolder } from "../AddFolder";
+import { NewFolder } from "../NewFolder";
 import { AllWordsFolder } from "../AllWordsFolder";
 
 import styles from "./FolderWindow.module.css";
@@ -24,7 +24,7 @@ const FolderWindowContainer = ({ vocabulary, searchText }) => {
           )
       )}
 
-      <AddFolder />
+      <NewFolder />
     </div>
   );
 };
