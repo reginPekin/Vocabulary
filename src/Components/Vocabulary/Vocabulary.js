@@ -1,7 +1,7 @@
 import React from "react";
 
 import { VocabularyTable } from "../VocabularyTable";
-import { AddWord } from "../AddWord";
+import { NewWord } from "../NewWord";
 
 import style from "./Vocabulary.module.css";
 
@@ -13,10 +13,10 @@ export const Vocabulary = ({ folder, folderId }) => {
         {folderId >= 0 && (
           <tr className={style.addWords}>
             <td>
-              <AddWord intFolderId={parseInt(folderId, 10)} word="foreign" />
+              <NewWord intFolderId={parseInt(folderId, 10)} word="foreign" />
             </td>
             <td>
-              <AddWord intFolderId={parseInt(folderId, 10)} word="native" />
+              <NewWord intFolderId={parseInt(folderId, 10)} word="native" />
             </td>
           </tr>
         )}
