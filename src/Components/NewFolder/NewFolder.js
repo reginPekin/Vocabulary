@@ -1,16 +1,24 @@
 import { connect } from "react-redux";
 import React, { useState } from "react";
+import axios from "axios";
 
-export const NewFolderContainer = ({ dispatch, vocabulary }) => {
+export const NewFolderContainer = ({ vocabulary, reset, onDispatch }) => {
   const [text, setText] = useState("");
+  console.log(vocabulary);
   return (
     <form
       onSubmit={event => {
-        dispatch({
-          type: "ADD_NEW_FOLDER",
-          id: vocabulary.length,
-          folderName: text
-        });
+        const newFolder = {
+          folderName: text,
+          folderId: vocabulary.length,
+          words: []
+        };
+
+        axios
+          .post("http://localhost:4000/vocabulary/add", newFolder)
+          .then(() => reset());
+
+        onDispatch();
         setText("");
         event.preventDefault();
       }}
