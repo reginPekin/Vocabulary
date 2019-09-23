@@ -5,9 +5,10 @@ import { Vocabulary } from "../Vocabulary";
 import { InfoBox } from "../InfoBox";
 import { VocabularyTable } from "../VocabularyTable";
 
-const VocabularyWindowContainer = ({ vocabulary, history }) => {
+export const VocabularyWindowContainer = ({ vocabulary, history }) => {
   const index = history.location.pathname.indexOf("/", 2);
   const id = history.location.pathname.slice(1, index);
+  // console.log(vocabulary);
 
   if (id.length > 0) {
     return (
@@ -21,9 +22,11 @@ const VocabularyWindowContainer = ({ vocabulary, history }) => {
       <div>
         <InfoBox name="Full vocabulary" />
         <table>
-          {vocabulary.map((folder, key) => (
-            <VocabularyTable folder={folder} key={key} />
-          ))}
+          <tbody>
+            {vocabulary.map((folder, key) => (
+              <VocabularyTable folder={folder} key={key} />
+            ))}
+          </tbody>
         </table>
       </div>
     );
