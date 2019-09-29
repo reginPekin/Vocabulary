@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import React, { useState } from "react";
 import axios from "axios";
 
-export const NewFolderContainer = ({ vocabulary, reset, onDispatch }) => {
+export const NewFolderContainer = ({ vocabulary, reset }) => {
   const [text, setText] = useState("");
   console.log(vocabulary);
   return (
@@ -10,15 +10,14 @@ export const NewFolderContainer = ({ vocabulary, reset, onDispatch }) => {
       onSubmit={event => {
         const newFolder = {
           folderName: text,
-          folderId: vocabulary.length,
-          words: []
+          words: [],
+          folderId: Math.floor(Math.random() * Math.floor(1000000))
         };
 
         axios
           .post("http://localhost:4000/vocabulary/add", newFolder)
           .then(() => reset());
 
-        onDispatch();
         setText("");
         event.preventDefault();
       }}
@@ -36,7 +35,7 @@ export const NewFolderContainer = ({ vocabulary, reset, onDispatch }) => {
 };
 
 const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.array
+  vocabulary: state.addNewFolder.vocabulary
 });
 
 export const NewFolder = connect(mapStateProps)(NewFolderContainer);
