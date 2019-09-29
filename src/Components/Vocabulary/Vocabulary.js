@@ -5,21 +5,21 @@ import { NewWord } from "../NewWord";
 
 import style from "./Vocabulary.module.css";
 
-export const Vocabulary = ({ folder, folderId }) => {
+export const Vocabulary = ({ folder }) => {
+  console.log("folder: ", folder);
   return (
     <table>
       <tbody>
         <VocabularyTable folder={folder} />
-        {folderId >= 0 && (
-          <tr className={style.addWords}>
-            <td>
-              <NewWord intFolderId={parseInt(folderId, 10)} word="foreign" />
-            </td>
-            <td>
-              <NewWord intFolderId={parseInt(folderId, 10)} word="native" />
-            </td>
-          </tr>
-        )}
+
+        <tr className={style.addWords}>
+          <td>
+            <NewWord folder={folder} word="foreign" />
+          </td>
+          <td>
+            <NewWord folder={folder} word="native" />
+          </td>
+        </tr>
       </tbody>
     </table>
   );
