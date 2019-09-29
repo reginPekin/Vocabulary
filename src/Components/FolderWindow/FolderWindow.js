@@ -10,20 +10,26 @@ import { AllWordsFolder } from "../AllWordsFolder";
 
 import styles from "./FolderWindow.module.css";
 
-export const FolderWindowContainer = ({ dispatch }) => {
+export const FolderWindowContainer = ({ dispatch, searchText }) => {
   const [vocabulary, setVocabulary] = useState([]);
 
   const [reset, setReset] = useState(0);
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/vocabulary/")
       .then(response => {
         setVocabulary(response.data);
+        dispatch({
+          type: "ADD_NEW_VOCABULARY",
+          vocabulary: response.data
+        });
       })
       .catch(error => {
         console.log(error);
       });
-  }, [reset]);
+  }, [dispatch, reset]);
+
   console.log(vocabulary);
   return (
     <div className={styles.folderWindow}>
@@ -31,41 +37,27 @@ export const FolderWindowContainer = ({ dispatch }) => {
       {vocabulary.length > 5 && <FolderSearch />}
 
       {vocabulary.map(
-        (folder, key) => (
-          // (searchText === "" ||
-          //   folder.folderName
-          //     .toLowerCase()
-          //     .indexOf(searchText.toLowerCase()) !== -1) && (
-          <FolderBox
-            folder={folder}
-            key={key}
-            reset={() => setReset(reset + 1)}
-            onDispatch={() =>
-              dispatch({
-                type: "ADD_NEW_FOLDER",
-                vocabulary: vocabulary
-              })
-            }
-          />
-        )
+        (folder, key) =>
+          (searchText === "" ||
+            folder.folderName
+              .toLowerCase()
+              .indexOf(searchText.toLowerCase()) !== -1) && (
+            <FolderBox
+              folder={folder}
+              key={key}
+              reset={() => setReset(reset + 1)}
+            />
+          )
         // )
       )}
 
-      <NewFolder
-        reset={() => setReset(reset + 1)}
-        onDispatch={() => {
-          dispatch({
-            type: "ADD_NEW_FOLDER",
-            vocabulary: vocabulary
-          });
-        }}
-      />
+      <NewFolder reset={() => setReset(reset + 1)} />
     </div>
   );
 };
 
 const mapStateProps = state => ({
-  voc: state.addNewFolder.array
+  searchText: state.smallActions.searchText
 });
 
 export const FolderWindow = connect(mapStateProps)(FolderWindowContainer);
