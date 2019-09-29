@@ -4,10 +4,11 @@ import axios from "axios";
 
 import style from "./FolderBox.module.css";
 
-export const FolderBox = ({ folder, reset, onDispatch }) => {
+export const FolderBox = ({ folder, reset }) => {
+  // console.log(folder);
   return (
     <div>
-      <Link to={`/${folder.folderName}/${folder.folderId}`}>
+      <Link to={`/${folder.folderId}/${folder.folderName}`}>
         <button className={style.boxFolder}>{folder.folderName}</button>
       </Link>
       <button
@@ -16,7 +17,6 @@ export const FolderBox = ({ folder, reset, onDispatch }) => {
             .get("http://localhost:4000/vocabulary/delete/" + folder._id)
             .then(() => reset())
             .catch(err => console.log(err));
-          onDispatch();
         }}
       >
         Delete me :c
