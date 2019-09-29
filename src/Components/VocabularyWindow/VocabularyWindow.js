@@ -3,38 +3,29 @@ import { connect } from "react-redux";
 
 import { Vocabulary } from "../Vocabulary";
 import { InfoBox } from "../InfoBox";
-import { VocabularyTable } from "../VocabularyTable";
 
 export const VocabularyWindowContainer = ({ vocabulary, history }) => {
   const index = history.location.pathname.indexOf("/", 2);
-  const id = history.location.pathname.slice(1, index);
-  // console.log(vocabulary);
+  const id = parseInt(history.location.pathname.slice(1, index), 10);
 
-  if (id.length > 0) {
-    return (
-      <div>
-        <InfoBox name={vocabulary[id].folderName} />
-        <Vocabulary folder={vocabulary[id]} key={id} folderId={id} />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <InfoBox name="Full vocabulary" />
-        <table>
-          <tbody>
-            {vocabulary.map((folder, key) => (
-              <VocabularyTable folder={folder} key={key} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+  return (
+    <div>
+      {vocabulary
+        .filter(folder => folder.folderId === id)
+        .map((folder, key) => {
+          return (
+            <div key={key}>
+              <InfoBox name={folder.folderName} />
+              <Vocabulary folder={folder} folderId={id} />
+            </div>
+          );
+        })}
+    </div>
+  );
 };
 
 const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.array
+  vocabulary: state.addNewFolder.vocabulary
 });
 
 export const VocabularyWindow = connect(mapStateProps)(
