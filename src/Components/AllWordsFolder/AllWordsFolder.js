@@ -6,7 +6,7 @@ import style from "../FolderBox/FolderBox.module.css";
 export const AllWordsFolder = () => {
   return (
     <Link to="/">
-      <button className={style.boxFolder}>All words</button>
+      <button className={style.boxFolder}>Start</button>
     </Link>
   );
 };
