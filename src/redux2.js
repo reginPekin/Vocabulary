@@ -5,16 +5,15 @@ const InitialState = {
 };
 
 const InitialStateVocabulary = {
-  array: []
+  vocabulary: []
 };
 
 const addNewFolder = (state = InitialStateVocabulary, action) => {
-  console.log(action.vocabulary);
   switch (action.type) {
-    case "ADD_NEW_FOLDER":
+    case "ADD_NEW_VOCABULARY":
       return {
         ...state,
-        array: action.vocabulary
+        vocabulary: action.vocabulary
       };
     default:
       return state;
