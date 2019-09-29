@@ -1,7 +1,7 @@
-const express = require("./node_modules/express");
+const express = require("express");
 const app = express();
-const bodyParser = require("./node_modules/body-parser");
-const cors = require("./node_modules/cors");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const PORT = 4000;
 
@@ -29,16 +29,6 @@ mongoose.connect(
   }
 );
 
-// const connect = mongoose.connection;
-
-// connect.once("open", () => {
-//   console.log("MongoDB database connection established successfully");
-// });
-
-// connect.on("error", error => {
-//   console.log("has error: " + error.message);
-// });
-
 vocabularyRoutes.route("/").get((req, res) => {
   // eslint-disable-next-line array-callback-return
   Vocabulary.find((err, vocabulary) => {
@@ -53,7 +43,7 @@ vocabularyRoutes.route("/").get((req, res) => {
 vocabularyRoutes.route("/:id").get((req, res) => {
   let id = req.params.id;
   Vocabulary.findById(id, (err, vocabulary) => {
-    res.json(vocabulary);
+    res.json(vocabulary.folderName);
   });
 });
 
