@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
 import { NewWord } from "../NewWord";
 
+import axios from "axios";
+
 import style from "./Vocabulary.module.css";
 
-export const Vocabulary = ({ folder }) => {
-  console.log("folder: ", folder);
+const VocabularyContainer = ({ dispatch, folder }) => {
+  const [reset, setReset] = useState(0);
+  useEffect(() => {
+    axios.get("http://localhost:4000/vocabulary/" + folder._id).then(response =>
+      dispatch({
+        type: "ADD_WORDS_ARRAY",
+        folderId: folder.folderId,
+        words: response.data
+      })
+    );
+  }, [dispatch, folder._id, folder.folderId, reset]);
+
   return (
     <table>
       <tbody>
@@ -14,13 +27,27 @@ export const Vocabulary = ({ folder }) => {
 
         <tr className={style.addWords}>
           <td>
-            <NewWord folder={folder} word="foreign" />
+            <NewWord
+              folder={folder}
+              word="foreign"
+              reset={() => setReset(reset + 1)}
+            />
           </td>
           <td>
-            <NewWord folder={folder} word="native" />
+            <NewWord
+              folder={folder}
+              word="native"
+              reset={() => setReset(reset + 1)}
+            />
           </td>
         </tr>
       </tbody>
     </table>
   );
 };
+
+const mapStateProps = state => ({
+  vocabulary: state.addNewFolder.vocabulary
+});
+
+export const Vocabulary = connect(mapStateProps)(VocabularyContainer);
