@@ -13,6 +13,7 @@ export const VocabularyWindowContainer = ({ vocabulary, history }) => {
       {vocabulary
         .filter(folder => folder.folderId === id)
         .map((folder, key) => {
+          if (folder.words === undefined) folder.words = [];
           return (
             <div key={key}>
               <InfoBox name={folder.folderName} />
