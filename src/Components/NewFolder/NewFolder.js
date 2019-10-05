@@ -4,13 +4,11 @@ import axios from "axios";
 
 export const NewFolderContainer = ({ vocabulary, reset }) => {
   const [text, setText] = useState("");
-  console.log(vocabulary);
   return (
     <form
       onSubmit={event => {
         const newFolder = {
           folderName: text,
-          words: [],
           folderId: Math.floor(Math.random() * Math.floor(1000000))
         };
 
