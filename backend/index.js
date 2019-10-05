@@ -29,21 +29,42 @@ mongoose.connect(
   }
 );
 
-vocabularyRoutes.route("/").get((req, res) => {
+vocabularyRoutes.route("/all").get((req, res) => {
   // eslint-disable-next-line array-callback-return
   Vocabulary.find((err, vocabulary) => {
     if (err) {
       console.log(err);
     } else {
-      res.json(vocabulary);
+      res.send(vocabulary);
     }
   });
+});
+
+vocabularyRoutes.route("/").get((req, res) => {
+  Vocabulary.aggregate(
+    [
+      {
+        $group: {
+          _id: "$_id",
+          folderId: { $sum: "$folderId" },
+          folderName: { $first: "$folderName" }
+        }
+      }
+    ],
+    (err, vocabulary) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(vocabulary);
+      }
+    }
+  );
 });
 
 vocabularyRoutes.route("/:id").get((req, res) => {
   let id = req.params.id;
   Vocabulary.findById(id, (err, vocabulary) => {
-    res.json(vocabulary.folderName);
+    res.json(vocabulary.words);
   });
 });
 
@@ -60,7 +81,7 @@ vocabularyRoutes.route("/update/:id").post((req, res) => {
       .then(vocabulary => {
         res.json("vocabulary updated!");
       })
-      .catch(err => {
+      .catch(error => {
         res.status(400).send("Update not possible");
       });
   });
