@@ -68,23 +68,29 @@ vocabularyRoutes.route("/:id").get((req, res) => {
   });
 });
 
-vocabularyRoutes.route("/update/:id").post((req, res) => {
-  Vocabulary.findById(req.params.id, (err, vocabulary) => {
-    if (!vocabulary) res.status(404).send("data is not found");
-    else {
-      vocabulary.folderName = req.body.folderName;
-      vocabulary.folderId = req.body.folderId;
-      vocabulary.words = req.bosy.words;
+// vocabularyRoutes.route("/addWord/:id").post((req, res) => {
+//   Vocabulary.update(
+//     req.params.id,
+//     { $push: { words: { $each: [{ foreignLanguage: req.body }] } } },
+//     (err, vocabulary) => {
+//       if (err) return err;
+//       res.send("Added successfully!");
+//     }
+//   );
+// });
+
+vocabularyRoutes.route("/addWord").post((req, res) => {
+  Vocabulary.updateMany(
+    { id: req.body.id },
+    {
+      $push: { words: { $each: [{ foreignLanguage: req.body }] } }
+    },
+    (err, vocabulary) => {
+      if (err) {
+        console.log(err);
+      }
     }
-    vocabulary
-      .save()
-      .then(vocabulary => {
-        res.json("vocabulary updated!");
-      })
-      .catch(error => {
-        res.status(400).send("Update not possible");
-      });
-  });
+  );
 });
 
 vocabularyRoutes.route("/delete/:id").get((req, res) => {
