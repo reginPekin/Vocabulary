@@ -83,7 +83,7 @@ vocabularyRoutes.route("/addWord").post((req, res) => {
   Vocabulary.updateMany(
     { id: req.body.id },
     {
-      $push: { words: { $each: [{ foreignLanguage: req.body }] } }
+      $push: { words: { $each: [{ foreignWord: req.body.foreignWord }] } }
     },
     (err, vocabulary) => {
       if (err) {
