@@ -9,7 +9,8 @@ export const NewFolderContainer = ({ vocabulary, reset }) => {
       onSubmit={event => {
         const newFolder = {
           folderName: text,
-          folderId: Math.floor(Math.random() * Math.floor(1000000))
+          folderId: Math.floor(Math.random() * Math.floor(1000000)),
+          words: []
         };
 
         axios
