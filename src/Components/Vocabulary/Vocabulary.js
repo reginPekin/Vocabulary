@@ -18,7 +18,8 @@ const VocabularyContainer = ({ dispatch, folder }) => {
         words: response.data
       })
     );
-  }, [dispatch, folder._id, folder.folderId, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, reset]);
 
   return (
     <table>
