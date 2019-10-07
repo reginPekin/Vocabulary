@@ -69,36 +69,65 @@ vocabularyRoutes.route("/:id").get((req, res) => {
 });
 
 vocabularyRoutes.route("/addWord").post((req, res) => {
-  // if (req.body.foreignWord !== undefined) {
-  Vocabulary.updateOne(
-    { folderId: req.body.id },
-    {
-      $push: {
-        words: {
-          $each: [{ foreignWord: req.body.foreignWord }]
+  if (req.body.foreignWord !== undefined) {
+    Vocabulary.updateOne(
+      { folderId: req.body.id },
+      {
+        $push: {
+          words: {
+            $each: [{ foreignWord: req.body.foreignWord }]
+          }
+        }
+      },
+      (err, vocabulary) => {
+        if (err) {
+          console.log(err);
         }
       }
-    },
-    (err, vocabulary) => {
-      if (err) {
-        console.log(err);
+    );
+  } else {
+    Vocabulary.updateOne(
+      { folderId: req.body.id },
+      {
+        $push: {
+          words: {
+            $each: [{ nativeWord: req.body.nativeWord }]
+          }
+        }
+      },
+      (err, vocabulary) => {
+        if (err) {
+          console.log(err);
+        }
       }
-    }
-  );
-  // }
+    );
+  }
 });
 
 vocabularyRoutes.route("/addWordToPair").post((req, res) => {
-  Vocabulary.updateOne(
-    { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
-    { $set: { "words.$.foreignWord": req.body.foreignWord } },
-    { upsert: true },
-    (err, vocabulary) => {
-      if (err) {
-        console.log(err);
+  if (req.body.wordLanguage === "foreign") {
+    Vocabulary.updateOne(
+      { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
+      { $set: { "words.$.foreignWord": req.body.foreignWord } },
+      { upsert: true },
+      (err, vocabulary) => {
+        if (err) {
+          console.log(err);
+        }
       }
-    }
-  );
+    );
+  } else {
+    Vocabulary.updateOne(
+      { folderId: req.body.id, "words.foreignWord": req.body.foreignWord },
+      { $set: { "words.$.nativeWord": req.body.nativeWord } },
+      { upsert: true },
+      (err, vocabulary) => {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+  }
 });
 
 vocabularyRoutes.route("/delete/:id").get((req, res) => {
