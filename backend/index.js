@@ -68,23 +68,31 @@ vocabularyRoutes.route("/:id").get((req, res) => {
   });
 });
 
-// vocabularyRoutes.route("/addWord/:id").post((req, res) => {
-//   Vocabulary.update(
-//     req.params.id,
-//     { $push: { words: { $each: [{ foreignLanguage: req.body }] } } },
-//     (err, vocabulary) => {
-//       if (err) return err;
-//       res.send("Added successfully!");
-//     }
-//   );
-// });
-
 vocabularyRoutes.route("/addWord").post((req, res) => {
-  Vocabulary.updateMany(
-    { id: req.body.id },
+  // if (req.body.foreignWord !== undefined) {
+  Vocabulary.updateOne(
+    { folderId: req.body.id },
     {
-      $push: { words: { $each: [{ foreignWord: req.body.foreignWord }] } }
+      $push: {
+        words: {
+          $each: [{ foreignWord: req.body.foreignWord }]
+        }
+      }
     },
+    (err, vocabulary) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+  // }
+});
+
+vocabularyRoutes.route("/addWordToPair").post((req, res) => {
+  Vocabulary.updateOne(
+    { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
+    { $set: { "words.$.foreignWord": req.body.foreignWord } },
+    { upsert: true },
     (err, vocabulary) => {
       if (err) {
         console.log(err);
