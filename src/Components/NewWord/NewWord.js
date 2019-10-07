@@ -22,45 +22,44 @@ const NewWordContainer = ({ dispatch, vocabulary, folder, word, reset }) => {
             let newWord = {
               foreignWord: text,
               id: folder.folderId,
-              nativeWord: folder.words[folderLength - 1].nativeWord
+              nativeWord: folder.words[folderLength - 1].nativeWord,
+              wordLanguage: "foreign"
             };
-            console.log(newWord.nativeWord);
 
             axios.post(
               "http://localhost:4000/vocabulary/addWordToPair",
               newWord
             );
+          } else {
+            let newWord = {
+              foreignWord: text,
+              id: folder.folderId
+            };
+            axios.post("http://localhost:4000/vocabulary/addWord", newWord);
           }
-        } else {
-          let newWord = {
-            foreignWord: text,
-            id: folder.folderId
-          };
-          axios.post("http://localhost:4000/vocabulary/addWord", newWord);
+        } else if (word === "native") {
+          if (
+            folderLength > 0 &&
+            folder.words[folderLength - 1].nativeWord === undefined
+          ) {
+            let newWord = {
+              nativeWord: text,
+              id: folder.folderId,
+              foreignWord: folder.words[folderLength - 1].foreignWord,
+              wordLanguage: "native"
+            };
+            axios.post(
+              "http://localhost:4000/vocabulary/addWordToPair",
+              newWord
+            );
+          } else {
+            let newWord = {
+              nativeWord: text,
+              id: folder.folderId
+            };
+            axios.post("http://localhost:4000/vocabulary/addWord", newWord);
+          }
         }
-        // } else if (word === "native") {
-        //   if (
-        //     vocabularyLength > 0 &&
-        //     vocabulary[intFolderId].words[vocabularyLength - 1].nativeWord ===
-        //       undefined
-        //   ) {
-        //     dispatch({
-        //       type: "ADD_NEW_WORD",
-        //       word: word,
-        //       nativeWord: text,
-        //       folderId: intFolderId,
-        //       wordId: vocabularyLength - 1
-        //     });
-        //   } else {
-        //     dispatch({
-        //       type: "ADD_NEW_WORD",
-        //       word: word,
-        //       nativeWord: text,
-        //       folderId: intFolderId,
-        //       wordId: vocabularyLength
-        //     });
-        // }
-        // }
         setText("");
       }}
     >
