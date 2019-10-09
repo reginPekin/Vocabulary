@@ -41,24 +41,21 @@ vocabularyRoutes.route("/all").get((req, res) => {
 });
 
 vocabularyRoutes.route("/").get((req, res) => {
-  Vocabulary.aggregate(
-    [
-      {
-        $group: {
-          _id: "$_id",
-          folderId: { $sum: "$folderId" },
-          folderName: { $first: "$folderName" }
-        }
-      }
-    ],
-    (err, vocabulary) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(vocabulary);
+  Vocabulary.aggregate([
+    {
+      $group: {
+        _id: "$_id",
+        folderId: { $sum: "$folderId" },
+        folderName: { $first: "$folderName" }
       }
     }
-  );
+  ])
+    .then(vocabulary => {
+      res.json(vocabulary);
+    })
+    .catch(err => {
+      res.send("Getting folders information failed");
+    });
 });
 
 vocabularyRoutes.route("/:id").get((req, res) => {
@@ -68,7 +65,7 @@ vocabularyRoutes.route("/:id").get((req, res) => {
   });
 });
 
-vocabularyRoutes.route("/addWord").post((req, res) => {
+vocabularyRoutes.route("/newWord").post((req, res) => {
   if (req.body.foreignWord !== undefined) {
     Vocabulary.updateOne(
       { folderId: req.body.id },
@@ -78,13 +75,14 @@ vocabularyRoutes.route("/addWord").post((req, res) => {
             $each: [{ foreignWord: req.body.foreignWord }]
           }
         }
-      },
-      (err, vocabulary) => {
-        if (err) {
-          console.log(err);
-        }
       }
-    );
+    )
+      .then(vocabulary => {
+        res.status(200).json({ vocabulary: "word added successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("adding new word failed");
+      });
   } else {
     Vocabulary.updateOne(
       { folderId: req.body.id },
@@ -94,50 +92,18 @@ vocabularyRoutes.route("/addWord").post((req, res) => {
             $each: [{ nativeWord: req.body.nativeWord }]
           }
         }
-      },
-      (err, vocabulary) => {
-        if (err) {
-          console.log(err);
-        }
       }
-    );
+    )
+      .then(vocabulary => {
+        res.status(200).json({ vocabulary: "word added successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("adding new word failed");
+      });
   }
 });
 
-vocabularyRoutes.route("/addWordToPair").post((req, res) => {
-  if (req.body.wordLanguage === "foreign") {
-    Vocabulary.updateOne(
-      { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
-      { $set: { "words.$.foreignWord": req.body.foreignWord } },
-      { upsert: true },
-      (err, vocabulary) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-  } else {
-    Vocabulary.updateOne(
-      { folderId: req.body.id, "words.foreignWord": req.body.foreignWord },
-      { $set: { "words.$.nativeWord": req.body.nativeWord } },
-      { upsert: true },
-      (err, vocabulary) => {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-  }
-});
-
-vocabularyRoutes.route("/delete/:id").get((req, res) => {
-  Vocabulary.findByIdAndRemove(req.params.id, err => {
-    if (err) return err;
-    res.send("Deleted successfully!");
-  });
-});
-
-vocabularyRoutes.route("/add").post((req, res) => {
+vocabularyRoutes.route("/newFold").post((req, res) => {
   let vocabulary = new Vocabulary(req.body);
   vocabulary
     .save()
@@ -147,6 +113,41 @@ vocabularyRoutes.route("/add").post((req, res) => {
     .catch(err => {
       res.status(400).send("adding new vocabulary failed");
     });
+});
+
+vocabularyRoutes.route("/secondWordInPair").post((req, res) => {
+  if (req.body.wordLanguage === "foreign") {
+    Vocabulary.updateOne(
+      { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
+      { $set: { "words.$.foreignWord": req.body.foreignWord } },
+      { upsert: true }
+    )
+      .then(vocabulary => {
+        res.status(200).json({ vocabulary: "secondWord added successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("adding new word failed");
+      });
+  } else {
+    Vocabulary.updateOne(
+      { folderId: req.body.id, "words.foreignWord": req.body.foreignWord },
+      { $set: { "words.$.nativeWord": req.body.nativeWord } },
+      { upsert: true }
+    )
+      .then(vocabulary => {
+        res.status(200).json({ vocabulary: "seconsWord added successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("adding new word failed");
+      });
+  }
+});
+
+vocabularyRoutes.route("/delete/:id").get((req, res) => {
+  Vocabulary.findByIdAndRemove(req.params.id, err => {
+    if (err) return err;
+    res.send("Deleted successfully!");
+  });
 });
 
 app.listen(PORT, () => {
