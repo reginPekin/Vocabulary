@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
 import React, { useState } from "react";
 import axios from "axios";
 
-export const NewFolderContainer = ({ vocabulary, reset }) => {
+export const NewFolder = ({ reset }) => {
   const [text, setText] = useState("");
+
   return (
     <form
       onSubmit={event => {
@@ -12,9 +12,8 @@ export const NewFolderContainer = ({ vocabulary, reset }) => {
           folderId: Math.floor(Math.random() * Math.floor(1000000)),
           words: []
         };
-
         axios
-          .post("http://localhost:4000/vocabulary/add", newFolder)
+          .post("http://localhost:4000/vocabulary/newFold", newFolder)
           .then(() => reset());
 
         setText("");
@@ -32,9 +31,3 @@ export const NewFolderContainer = ({ vocabulary, reset }) => {
     </form>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const NewFolder = connect(mapStateProps)(NewFolderContainer);
