@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 
 import axios from "axios";
 
-const NewWordContainer = ({ dispatch, vocabulary, folder, word, reset }) => {
+export const NewWord = ({ folder, word, reset }) => {
   const [text, setText] = useState("");
-  // if (folder.words.length > 0) console.log(folder.words[0].nativeWord);
   const folderLength = folder.words.length;
 
   return (
     <form
       onSubmit={event => {
         event.preventDefault();
-        reset();
-
+        // reset();
         if (word === "foreign") {
           if (
             folderLength > 0 &&
@@ -26,16 +23,20 @@ const NewWordContainer = ({ dispatch, vocabulary, folder, word, reset }) => {
               wordLanguage: "foreign"
             };
 
-            axios.post(
-              "http://localhost:4000/vocabulary/addWordToPair",
-              newWord
-            );
+            axios
+              .post(
+                "http://localhost:4000/vocabulary/secondWordInPair",
+                newWord
+              )
+              .then(() => reset());
           } else {
             let newWord = {
               foreignWord: text,
               id: folder.folderId
             };
-            axios.post("http://localhost:4000/vocabulary/addWord", newWord);
+            axios
+              .post("http://localhost:4000/vocabulary/newWord", newWord)
+              .then(() => reset());
           }
         } else if (word === "native") {
           if (
@@ -48,18 +49,23 @@ const NewWordContainer = ({ dispatch, vocabulary, folder, word, reset }) => {
               foreignWord: folder.words[folderLength - 1].foreignWord,
               wordLanguage: "native"
             };
-            axios.post(
-              "http://localhost:4000/vocabulary/addWordToPair",
-              newWord
-            );
+            axios
+              .post(
+                "http://localhost:4000/vocabulary/secondWordInPair",
+                newWord
+              )
+              .then(() => reset());
           } else {
             let newWord = {
               nativeWord: text,
               id: folder.folderId
             };
-            axios.post("http://localhost:4000/vocabulary/addWord", newWord);
+            axios
+              .post("http://localhost:4000/vocabulary/newWord", newWord)
+              .then(() => reset());
           }
         }
+
         setText("");
       }}
     >
@@ -74,9 +80,3 @@ const NewWordContainer = ({ dispatch, vocabulary, folder, word, reset }) => {
     </form>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const NewWord = connect(mapStateProps)(NewWordContainer);
