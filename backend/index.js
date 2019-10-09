@@ -18,7 +18,8 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb://127.0.0.1:27017/vocabulary",
   {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   },
   error => {
     if (!error) {
@@ -40,8 +41,8 @@ vocabularyRoutes.route("/all").get((req, res) => {
   });
 });
 
-vocabularyRoutes.route("/").get((req, res) => {
-  Vocabulary.aggregate([
+vocabularyRoutes.route("/gettingFolders").get(async (req, res) => {
+  const vocabulary = await Vocabulary.aggregate([
     {
       $group: {
         _id: "$_id",
@@ -49,16 +50,11 @@ vocabularyRoutes.route("/").get((req, res) => {
         folderName: { $first: "$folderName" }
       }
     }
-  ])
-    .then(vocabulary => {
-      res.json(vocabulary);
-    })
-    .catch(err => {
-      res.send("Getting folders information failed");
-    });
+  ]);
+  res.json(vocabulary);
 });
 
-vocabularyRoutes.route("/:id").get((req, res) => {
+vocabularyRoutes.route("/folderVocabulary/:id").get((req, res) => {
   let id = req.params.id;
   Vocabulary.findById(id, (err, vocabulary) => {
     res.json(vocabulary.words);
