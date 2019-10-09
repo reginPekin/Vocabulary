@@ -12,12 +12,12 @@ import styles from "./FolderWindow.module.css";
 
 export const FolderWindowContainer = ({ dispatch, searchText }) => {
   const [vocabulary, setVocabulary] = useState([]);
-
   const [reset, setReset] = useState(0);
+  console.log(reset);
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/vocabulary/")
+      .get("http://localhost:4000/vocabulary/gettingFolders")
       .then(response => {
         setVocabulary(response.data);
         dispatch({
@@ -30,7 +30,6 @@ export const FolderWindowContainer = ({ dispatch, searchText }) => {
       });
   }, [dispatch, reset]);
 
-  console.log(vocabulary);
   return (
     <div className={styles.folderWindow}>
       <AllWordsFolder />
