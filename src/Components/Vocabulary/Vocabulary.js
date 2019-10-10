@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
@@ -8,11 +8,10 @@ import axios from "axios";
 
 import style from "./Vocabulary.module.css";
 
-const VocabularyContainer = ({ dispatch, folder }) => {
-  const [reset, setReset] = useState(0);
+const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
   useEffect(() => {
     axios
-      .get("http://localhost:4000/vocabulary/folderVocabulary/" + folder._id)
+      .get("http://localhost:4000/vocabulary/folders/" + folder.folderId)
       .then(response =>
         dispatch({
           type: "ADD_WORDS_ARRAY",
@@ -24,7 +23,7 @@ const VocabularyContainer = ({ dispatch, folder }) => {
         console.log(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, reset]);
+  }, [dispatch, wordCounter]);
 
   return (
     <table>
@@ -36,14 +35,24 @@ const VocabularyContainer = ({ dispatch, folder }) => {
             <NewWord
               folder={folder}
               word="foreign"
-              reset={() => setReset(reset + 1)}
+              reset={() =>
+                dispatch({
+                  type: "INCREASE_WORD_COUNTER",
+                  wordCounter: wordCounter
+                })
+              }
             />
           </td>
           <td>
             <NewWord
               folder={folder}
               word="native"
-              reset={() => setReset(reset + 1)}
+              reset={() =>
+                dispatch({
+                  type: "INCREASE_WORD_COUNTER",
+                  wordCounter: wordCounter
+                })
+              }
             />
           </td>
         </tr>
@@ -53,7 +62,8 @@ const VocabularyContainer = ({ dispatch, folder }) => {
 };
 
 const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
+  vocabulary: state.addNewFolder.vocabulary,
+  wordCounter: state.smallActions.wordCounter
 });
 
 export const Vocabulary = connect(mapStateProps)(VocabularyContainer);
