@@ -18,8 +18,7 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb://127.0.0.1:27017/vocabulary",
   {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    useNewUrlParser: true
   },
   error => {
     if (!error) {
@@ -30,80 +29,44 @@ mongoose.connect(
   }
 );
 
-vocabularyRoutes.route("/all").get((req, res) => {
-  // eslint-disable-next-line array-callback-return
-  Vocabulary.find((err, vocabulary) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(vocabulary);
-    }
-  });
-});
-
-vocabularyRoutes.route("/gettingFolders").get(async (req, res) => {
-  const vocabulary = await Vocabulary.aggregate([
+vocabularyRoutes.route("/folders/names").get((_, res) => {
+  Vocabulary.aggregate([
     {
       $group: {
         _id: "$_id",
         folderId: { $sum: "$folderId" },
         folderName: { $first: "$folderName" }
       }
+    },
+    {
+      $sort: { folderName: 1 }
     }
-  ]);
-  res.json(vocabulary);
+  ]).then(vocabulary => res.json(vocabulary));
 });
 
-vocabularyRoutes.route("/folderVocabulary/:id").get((req, res) => {
-  let id = req.params.id;
-  Vocabulary.findById(id, (err, vocabulary) => {
-    res.json(vocabulary.words);
-  });
+vocabularyRoutes.route("/folders/:id").get((req, res) => {
+  Vocabulary.findOne({ folderId: req.params.id })
+    .then(vocabulary => res.json(vocabulary.words))
+    .catch(err => {
+      res.status(400).send("file didn't find");
+    });
 });
 
-vocabularyRoutes.route("/newWord").post((req, res) => {
-  if (req.body.foreignWord !== undefined) {
-    Vocabulary.updateOne(
-      { folderId: req.body.id },
-      {
-        $push: {
-          words: {
-            $each: [{ foreignWord: req.body.foreignWord }]
-          }
-        }
-      }
-    )
-      .then(vocabulary => {
-        res.status(200).json({ vocabulary: "word added successfully" });
-      })
-      .catch(err => {
-        res.status(400).send("adding new word failed");
-      });
-  } else {
-    Vocabulary.updateOne(
-      { folderId: req.body.id },
-      {
-        $push: {
-          words: {
-            $each: [{ nativeWord: req.body.nativeWord }]
-          }
-        }
-      }
-    )
-      .then(vocabulary => {
-        res.status(200).json({ vocabulary: "word added successfully" });
-      })
-      .catch(err => {
-        res.status(400).send("adding new word failed");
-      });
-  }
+vocabularyRoutes.route("/folders/:id").delete((req, res) => {
+  Vocabulary.findOneAndDelete({ folderId: req.params.id })
+    .then(() => {
+      res.status(200).json({ vocabulary: "folder deleted successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("folder removing failed");
+    });
 });
 
-vocabularyRoutes.route("/newFold").post((req, res) => {
+vocabularyRoutes.route("/folders").post((req, res) => {
   let vocabulary = new Vocabulary(req.body);
   vocabulary
     .save()
-    .then(vocabulary => {
+    .then(() => {
       res.status(200).json({ vocabulary: "vocabulary added successfully" });
     })
     .catch(err => {
@@ -111,39 +74,48 @@ vocabularyRoutes.route("/newFold").post((req, res) => {
     });
 });
 
-vocabularyRoutes.route("/secondWordInPair").post((req, res) => {
-  if (req.body.wordLanguage === "foreign") {
+vocabularyRoutes
+  .route("/folders/:folderId/words/:wordId")
+  .delete((req, res) => {
+    console.log(req.params.wordId);
     Vocabulary.updateOne(
-      { folderId: req.body.id, "words.nativeWord": req.body.nativeWord },
-      { $set: { "words.$.foreignWord": req.body.foreignWord } },
-      { upsert: true }
+      { folderId: req.params.folderId },
+      {
+        $pull: { words: { wordId: req.params.wordId } }
+      }
     )
-      .then(vocabulary => {
-        res.status(200).json({ vocabulary: "secondWord added successfully" });
+      .then(resp => {
+        console.log("200: ", resp);
+        res.status(200).json({ vocabulary: "wordPair deleted successfully" });
       })
       .catch(err => {
-        res.status(400).send("adding new word failed");
+        res.status(400).send("rewoving wordPair failed. " + err);
       });
-  } else {
-    Vocabulary.updateOne(
-      { folderId: req.body.id, "words.foreignWord": req.body.foreignWord },
-      { $set: { "words.$.nativeWord": req.body.nativeWord } },
-      { upsert: true }
-    )
-      .then(vocabulary => {
-        res.status(200).json({ vocabulary: "seconsWord added successfully" });
-      })
-      .catch(err => {
-        res.status(400).send("adding new word failed");
-      });
-  }
-});
-
-vocabularyRoutes.route("/delete/:id").get((req, res) => {
-  Vocabulary.findByIdAndRemove(req.params.id, err => {
-    if (err) return err;
-    res.send("Deleted successfully!");
   });
+
+vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
+  Vocabulary.updateOne(
+    { folderId: req.params.id },
+    {
+      $push: {
+        words: {
+          $each: [
+            {
+              foreignWord: req.body.foreignWord,
+              nativeWord: req.body.nativeWord,
+              wordId: req.body.wordId
+            }
+          ]
+        }
+      }
+    }
+  )
+    .then(() => {
+      res.status(200).json({ vocabulary: "wordPair added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("adding new wordPair failed");
+    });
 });
 
 app.listen(PORT, () => {
