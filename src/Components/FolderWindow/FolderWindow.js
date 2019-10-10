@@ -10,16 +10,13 @@ import { AllWordsFolder } from "../AllWordsFolder";
 
 import styles from "./FolderWindow.module.css";
 
-export const FolderWindowContainer = ({ dispatch, searchText }) => {
-  const [vocabulary, setVocabulary] = useState([]);
+export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
   const [reset, setReset] = useState(0);
-  console.log(reset);
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/vocabulary/gettingFolders")
+      .get("http://localhost:4000/vocabulary/folders/names")
       .then(response => {
-        setVocabulary(response.data);
         dispatch({
           type: "ADD_NEW_VOCABULARY",
           vocabulary: response.data
@@ -33,9 +30,9 @@ export const FolderWindowContainer = ({ dispatch, searchText }) => {
   return (
     <div className={styles.folderWindow}>
       <AllWordsFolder />
-      {vocabulary.length > 5 && <FolderSearch />}
+      {Vocabulary.length > 5 && <FolderSearch />}
 
-      {vocabulary.map(
+      {Vocabulary.map(
         (folder, key) =>
           (searchText === "" ||
             folder.folderName
@@ -56,7 +53,8 @@ export const FolderWindowContainer = ({ dispatch, searchText }) => {
 };
 
 const mapStateProps = state => ({
-  searchText: state.smallActions.searchText
+  searchText: state.smallActions.searchText,
+  Vocabulary: state.addNewFolder.vocabulary
 });
 
 export const FolderWindow = connect(mapStateProps)(FolderWindowContainer);
