@@ -1,7 +1,8 @@
 import { createStore, combineReducers } from "redux";
 
 const InitialState = {
-  searchText: ""
+  searchText: "",
+  wordCounter: 0
 };
 
 const InitialStateVocabulary = {
@@ -28,6 +29,89 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
           return folder;
         })
       };
+    case "ADD_NEW_FOLDER":
+      return {
+        ...state,
+        vocabulary: [...state.vocabulary, action.newFolder]
+      };
+    case "DELETE_FOLDER":
+      return {
+        ...state,
+        vocabulary: state.vocabulary.filter(
+          folder => folder.folderId !== action.folderId
+        )
+      };
+    case "ADD_NEW_WORD":
+      return {
+        ...state,
+        vocabulary: state.vocabulary.map(folder => {
+          if (folder.folderId === action.folderId) {
+            if (
+              folder.words.filter(word => word.wordId === action.wordId)
+                .length > 0
+            ) {
+              return {
+                ...folder,
+                words: folder.words.map(word => {
+                  if (word.wordId === action.wordId) {
+                    if (action.word === "foreign") {
+                      return {
+                        ...word,
+                        foreignWord: action.foreignWord
+                      };
+                    } else {
+                      return {
+                        ...word,
+                        nativeWord: action.nativeWord
+                      };
+                    }
+                  }
+                  return word;
+                })
+              };
+            } else {
+              if (action.word === "foreign") {
+                return {
+                  ...folder,
+                  words: [
+                    ...folder.words,
+                    {
+                      foreignWord: action.foreignWord,
+                      wordId: action.wordId
+                    }
+                  ]
+                };
+              } else {
+                return {
+                  ...folder,
+                  words: [
+                    ...folder.words,
+                    {
+                      nativeWord: action.nativeWord,
+                      wordId: action.wordId
+                    }
+                  ]
+                };
+              }
+            }
+          }
+          return folder;
+        })
+      };
+    case "DELETE_WORDS":
+      return {
+        ...state,
+        vocabulary: state.vocabulary.map(folder => {
+          if (folder.folderId === action.folderId)
+            return {
+              ...folder,
+              words: folder.words.filter(
+                words => words.wordId !== action.wordId
+              )
+            };
+          else return folder;
+        })
+      };
     default:
       return state;
   }
@@ -37,6 +121,11 @@ const smallActions = (state = InitialState, action) => {
   switch (action.type) {
     case "CHANGE_SEARCH_TEXT":
       return { ...state, searchText: action.searchText };
+    case "INCREASE_WORD_COUNTER":
+      return {
+        ...state,
+        wordCounter: action.wordCounter + 1
+      };
     default:
       return state;
   }
