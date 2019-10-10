@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
+import { connect } from "react-redux";
+
 import axios from "axios";
 
-export const NewWord = ({ folder, word, reset }) => {
+export const NewWordContainer = ({ folder, word, reset, dispatch }) => {
   const [text, setText] = useState("");
   const folderLength = folder.words.length;
 
@@ -16,53 +18,64 @@ export const NewWord = ({ folder, word, reset }) => {
             folderLength > 0 &&
             folder.words[folderLength - 1].foreignWord === undefined
           ) {
+            dispatch({
+              type: "ADD_NEW_WORD",
+              folderId: folder.folderId,
+              wordId: folder.words[folderLength - 1].wordId,
+              word: "foreign",
+              foreignWord: text
+            });
             let newWord = {
               foreignWord: text,
-              id: folder.folderId,
               nativeWord: folder.words[folderLength - 1].nativeWord,
-              wordLanguage: "foreign"
+              wordId: folder.words[folderLength - 1].wordId
             };
-
-            axios
-              .post(
-                "http://localhost:4000/vocabulary/secondWordInPair",
-                newWord
-              )
-              .then(() => reset());
+            axios.post(
+              "http://localhost:4000/vocabulary/folders/" +
+                folder.folderId +
+                "/words",
+              newWord
+            );
           } else {
-            let newWord = {
-              foreignWord: text,
-              id: folder.folderId
-            };
-            axios
-              .post("http://localhost:4000/vocabulary/newWord", newWord)
-              .then(() => reset());
+            dispatch({
+              type: "ADD_NEW_WORD",
+              folderId: folder.folderId,
+              word: "foreign",
+              wordId: Math.floor(Math.random() * Math.floor(100000000)),
+              foreignWord: text
+            });
           }
         } else if (word === "native") {
           if (
             folderLength > 0 &&
             folder.words[folderLength - 1].nativeWord === undefined
           ) {
+            dispatch({
+              type: "ADD_NEW_WORD",
+              folderId: folder.folderId,
+              wordId: folder.words[folderLength - 1].wordId,
+              word: "native",
+              nativeWord: text
+            });
             let newWord = {
               nativeWord: text,
-              id: folder.folderId,
               foreignWord: folder.words[folderLength - 1].foreignWord,
-              wordLanguage: "native"
+              wordId: folder.words[folderLength - 1].wordId
             };
-            axios
-              .post(
-                "http://localhost:4000/vocabulary/secondWordInPair",
-                newWord
-              )
-              .then(() => reset());
+            axios.post(
+              "http://localhost:4000/vocabulary/folders/" +
+                folder.folderId +
+                "/words",
+              newWord
+            );
           } else {
-            let newWord = {
-              nativeWord: text,
-              id: folder.folderId
-            };
-            axios
-              .post("http://localhost:4000/vocabulary/newWord", newWord)
-              .then(() => reset());
+            dispatch({
+              type: "ADD_NEW_WORD",
+              folderId: folder.folderId,
+              word: "native",
+              wordId: Math.floor(Math.random() * Math.floor(100000000)),
+              nativeWord: text
+            });
           }
         }
 
@@ -80,3 +93,9 @@ export const NewWord = ({ folder, word, reset }) => {
     </form>
   );
 };
+
+const mapStateProps = state => ({
+  vocabulary: state.addNewFolder.vocabulary
+});
+
+export const NewWord = connect(mapStateProps)(NewWordContainer);
