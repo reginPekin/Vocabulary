@@ -8,8 +8,6 @@ import style from "./FolderBox.module.css";
 
 const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
   const [text, setText] = useState("");
-  console.log(text);
-  // console.log(wordCounter);
   return (
     <div>
       <div className={style.buttonsDiv}>
@@ -47,6 +45,13 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
 
       <form
         onSubmit={event => {
+          // let folderName = {
+          //   folderName: text
+          // }
+          axios.patch(
+            "http://localhost:4000/vocabulary/folders/" + folder.folderId,
+            { folderName: text }
+          );
           dispatch({
             type: "RENAME_FOLDER",
             folderId: folder.folderId,
