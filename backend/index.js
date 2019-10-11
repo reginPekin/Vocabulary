@@ -67,31 +67,28 @@ vocabularyRoutes.route("/folders").post((req, res) => {
   vocabulary
     .save()
     .then(() => {
-      res.status(200).json({ vocabulary: "vocabulary added successfully" });
+      res.status(200).json({ vocabulary: "folder added successfully" });
     })
     .catch(err => {
-      res.status(400).send("adding new vocabulary failed");
+      res.status(400).send("adding new folder failed");
     });
 });
 
-vocabularyRoutes
-  .route("/folders/:folderId/words/:wordId")
-  .delete((req, res) => {
-    console.log(req.params.wordId);
-    Vocabulary.updateOne(
-      { folderId: req.params.folderId },
-      {
-        $pull: { words: { wordId: req.params.wordId } }
-      }
-    )
-      .then(resp => {
-        console.log("200: ", resp);
-        res.status(200).json({ vocabulary: "wordPair deleted successfully" });
-      })
-      .catch(err => {
-        res.status(400).send("rewoving wordPair failed. " + err);
-      });
-  });
+vocabularyRoutes.route("/folders/:folderId/words/:wordId").post((req, res) => {
+  Vocabulary.updateOne(
+    { folderId: req.body.folderId },
+    {
+      $pull: { words: { wordId: req.body.wordId } }
+    }
+  )
+    .then(resp => {
+      console.log("200: ", resp);
+      res.status(200).json({ vocabulary: "wordPair deleted successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("rewoving wordPair failed. " + err);
+    });
+});
 
 vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
   Vocabulary.updateOne(
