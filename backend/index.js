@@ -115,6 +115,21 @@ vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
     });
 });
 
+vocabularyRoutes.route("/folders/:id").patch((req, res) => {
+  Vocabulary.updateOne(
+    { folderId: req.params.id },
+    {
+      $set: { folderName: req.body.folderName }
+    }
+  )
+    .then(() => {
+      res.status(200).json({ vocabulary: "wordPair added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("adding new wordPair failed");
+    });
+});
+
 app.listen(PORT, () => {
   console.log("Server is running on Port: " + PORT);
 });
