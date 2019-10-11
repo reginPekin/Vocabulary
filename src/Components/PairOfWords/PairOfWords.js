@@ -14,13 +14,18 @@ const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
       <td>
         <button
           onClick={() => {
-            console.log("!!!!", wordPair.wordId);
-            axios.delete(
+            let wordInf = {
+              folderId: folderId,
+              wordId: wordPair.wordId
+            };
+            axios.post(
               "http://localhost:4000/vocabulary/folders/" +
                 folderId +
                 "/words/" +
-                wordPair.wordId
+                wordPair.wordId,
+              wordInf
             );
+
             dispatch({
               type: "DELETE_WORDS",
               folderId: folderId,
