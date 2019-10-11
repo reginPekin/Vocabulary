@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -7,38 +7,64 @@ import { connect } from "react-redux";
 import style from "./FolderBox.module.css";
 
 const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
+  const [text, setText] = useState("");
+  console.log(text);
   // console.log(wordCounter);
   return (
     <div>
-      <Link to={`/${folder.folderId}/${folder.folderName}`}>
+      <div className={style.buttonsDiv}>
+        <Link to={`/${folder.folderId}/${folder.folderName}`}>
+          <button
+            onClick={() => {
+              if (folder.words === undefined) {
+                dispatch({
+                  type: "INCREASE_WORD_COUNTER",
+                  wordCounter: wordCounter
+                });
+              }
+            }}
+            className={style.boxFolder}
+          >
+            {folder.folderName}
+          </button>
+        </Link>
+        <button>Edit me!</button>
         <button
           onClick={() => {
-            if (folder.words === undefined) {
-              dispatch({
-                type: "INCREASE_WORD_COUNTER",
-                wordCounter: wordCounter
-              });
-            }
+            axios
+              .delete(
+                "http://localhost:4000/vocabulary/folders/" + folder.folderId
+              )
+              .then(
+                dispatch({ type: "DELETE_FOLDER", folderId: folder.folderId })
+              )
+              .catch(err => console.log(err));
           }}
-          className={style.boxFolder}
         >
-          {folder.folderName}
+          Delete me :c
         </button>
-      </Link>
-      <button
-        onClick={() => {
-          axios
-            .delete(
-              "http://localhost:4000/vocabulary/folders/" + folder.folderId
-            )
-            .then(
-              dispatch({ type: "DELETE_FOLDER", folderId: folder.folderId })
-            )
-            .catch(err => console.log(err));
+      </div>
+
+      <form
+        onSubmit={event => {
+          dispatch({
+            type: "RENAME_FOLDER",
+            folderId: folder.folderId,
+            folderName: text
+          });
+          setText("");
+          event.preventDefault();
         }}
       >
-        Delete me :c
-      </button>
+        <input
+          type="text"
+          placeholder="new folder"
+          value={text}
+          onChange={event => {
+            setText(event.target.value);
+          }}
+        />
+      </form>
     </div>
   );
 };
