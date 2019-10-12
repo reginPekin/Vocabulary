@@ -35,23 +35,32 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
       $group: {
         _id: "$_id",
         folderId: { $sum: "$folderId" },
-        folderName: { $first: "$folderName" }
+        folderName: { $first: "$folderName" },
+        date: { $sum: "$date" }
       }
     },
     {
-      $sort: { folderName: 1 }
+      $sort: { date: -1 }
     }
   ]).then(vocabulary => res.json(vocabulary));
 });
 
 vocabularyRoutes.route("/folders").post((req, res) => {
-  let vocabulary = new Vocabulary(req.body);
-  vocabulary
-    .save()
-    .then(() => {
+  Vocabulary.insertMany([
+    {
+      folderName: req.body.folderName,
+      folderId: req.body.folderId,
+      date: req.body.date,
+      words: req.body.words
+    }
+  ])
+    .then(resp => {
+      console.log("req.body: ", req.body);
+      console.log("200: ", resp);
       res.status(200).json({ vocabulary: "folder added successfully" });
     })
     .catch(err => {
+      console.log("err" + err);
       res.status(400).send("adding new folder failed");
     });
 });
