@@ -4,13 +4,29 @@ import { connect } from "react-redux";
 
 import axios from "axios";
 
+import { NewWordName } from "../NewWordName";
+
 import style from "./DisplayPair.module.css";
 
 const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
   return (
     <tr className={style.PairOfWords}>
-      <td>{wordPair.foreignWord}</td>
-      <td>{wordPair.nativeWord}</td>
+      <td>
+        {wordPair.foreignWord}
+        <NewWordName
+          folderId={folderId}
+          wordId={wordPair.wordId}
+          word="foreign"
+        />
+      </td>
+      <td>
+        {wordPair.nativeWord}{" "}
+        <NewWordName
+          folderId={folderId}
+          wordId={wordPair.wordId}
+          word="native"
+        />
+      </td>
       <td>
         <button
           onClick={() => {
