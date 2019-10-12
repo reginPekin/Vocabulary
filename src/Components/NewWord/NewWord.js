@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import axios from "axios";
 
-export const NewWordContainer = ({ folder, word, reset, dispatch }) => {
+export const NewWordContainer = ({ folder, word, dispatch }) => {
   const [text, setText] = useState("");
   const folderLength = folder.words.length;
 
