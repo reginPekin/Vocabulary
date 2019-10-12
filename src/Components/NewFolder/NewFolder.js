@@ -11,6 +11,7 @@ const NewFolderContainer = ({ dispatch }) => {
       onSubmit={event => {
         const newFolder = {
           folderName: text,
+          date: Date.now(),
           folderId: Math.floor(Math.random() * Math.floor(100000000)),
           words: []
         };
