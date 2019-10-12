@@ -32,7 +32,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
     case "ADD_NEW_FOLDER":
       return {
         ...state,
-        vocabulary: [...state.vocabulary, action.newFolder]
+        vocabulary: [action.newFolder, ...state.vocabulary]
       };
     case "DELETE_FOLDER":
       return {
@@ -98,6 +98,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
           return folder;
         })
       };
+
     case "DELETE_WORDS":
       return {
         ...state,
