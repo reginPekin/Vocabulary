@@ -45,9 +45,6 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
 
       <form
         onSubmit={event => {
-          // let folderName = {
-          //   folderName: text
-          // }
           axios.patch(
             "http://localhost:4000/vocabulary/folders/" + folder.folderId,
             { folderName: text }
