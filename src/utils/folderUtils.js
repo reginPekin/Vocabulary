@@ -1,5 +1,3 @@
-import { NewFolder } from "../components/NewFolder/NewFolder";
-
 export const deleteFolder = folderId => {
   return {
     type: "DELETE_FOLDER",
