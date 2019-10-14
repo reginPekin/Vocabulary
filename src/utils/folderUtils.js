@@ -1,3 +1,5 @@
+import { NewFolder } from "../components/NewFolder/NewFolder";
+
 export const deleteFolder = folderId => {
   return {
     type: "DELETE_FOLDER",
@@ -10,3 +12,10 @@ export const renameFolder = (folderId, folderName) => ({
   folderId,
   folderName
 });
+
+export const createFolder = newFolder => {
+  return {
+    type: "ADD_NEW_FOLDER",
+    newFolder
+  };
+};
