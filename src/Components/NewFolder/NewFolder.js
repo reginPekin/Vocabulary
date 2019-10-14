@@ -3,6 +3,8 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
+import { createFolder } from "../../utils/folderUtils";
+
 const NewFolderContainer = ({ dispatch }) => {
   const [text, setText] = useState("");
 
@@ -18,9 +20,7 @@ const NewFolderContainer = ({ dispatch }) => {
 
         axios
           .post("http://localhost:4000/vocabulary/folders", newFolder)
-          .then(() =>
-            dispatch({ type: "ADD_NEW_FOLDER", newFolder: newFolder })
-          );
+          .then(() => dispatch(createFolder(newFolder)));
 
         setText("");
         event.preventDefault();
