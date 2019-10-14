@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
@@ -9,6 +9,8 @@ import axios from "axios";
 import style from "./Vocabulary.module.css";
 
 const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
+  const [newWordTable, setNewWordTable] = useState(false);
+  const [isAble, setIsAble] = useState("able");
   useEffect(() => {
     axios
       .get("http://localhost:4000/vocabulary/folders/" + folder.folderId)
@@ -26,38 +28,48 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
   }, [dispatch, wordCounter]);
 
   return (
-    <table>
-      <tbody>
-        <VocabularyTable folder={folder} />
-
-        <tr className={style.addWords}>
-          <td>
-            <NewWord
-              folder={folder}
-              word="foreign"
-              reset={() =>
-                dispatch({
-                  type: "INCREASE_WORD_COUNTER",
-                  wordCounter: wordCounter
-                })
-              }
-            />
-          </td>
-          <td>
-            <NewWord
-              folder={folder}
-              word="native"
-              reset={() =>
-                dispatch({
-                  type: "INCREASE_WORD_COUNTER",
-                  wordCounter: wordCounter
-                })
-              }
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <table>
+        <tbody>
+          <VocabularyTable folder={folder} />
+          {newWordTable && (
+            <tr className={style.addWords}>
+              <td>
+                <NewWord
+                  folder={folder}
+                  word="foreign"
+                  isAble={isAble}
+                  setIsAble={() => setIsAble("disable")}
+                  reset={() =>
+                    dispatch({
+                      type: "INCREASE_WORD_COUNTER",
+                      wordCounter: wordCounter
+                    })
+                  }
+                />
+              </td>
+              <td>
+                <NewWord
+                  folder={folder}
+                  word="native"
+                  reset={() =>
+                    dispatch({
+                      type: "INCREASE_WORD_COUNTER",
+                      wordCounter: wordCounter
+                    })
+                  }
+                />
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      {!newWordTable && (
+        <button onClick={() => setNewWordTable(!newWordTable)}>
+          Add new words
+        </button>
+      )}{" "}
+    </div>
   );
 };
 
