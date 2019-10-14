@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { connect } from "react-redux";
 
-import { addNewWord } from "../../utils/addNewWord";
+import { addNewWord } from "../../utils/wordUtils";
 
 import axios from "axios";
 
