@@ -4,3 +4,7 @@
   font-size: 15px;
   border-radius: 5px;
 }
+
+.textareaEditFolderName {
+  user-select: elem; /* Someday */
+}
