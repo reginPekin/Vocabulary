@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 import { NewWordName } from "../NewWordName";
-
+import { deleteWordsPair } from "../../utils/wordUtils";
 import style from "./DisplayPair.module.css";
 
 const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
@@ -34,19 +34,16 @@ const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
               folderId: folderId,
               wordId: wordPair.wordId
             };
-            axios.post(
-              "http://localhost:4000/vocabulary/folders/" +
-                folderId +
-                "/words/" +
-                wordPair.wordId,
-              wordInf
-            );
+            axios
+              .post(
+                "http://localhost:4000/vocabulary/folders/" +
+                  folderId +
+                  "/words/" +
+                  wordPair.wordId,
+                wordInf
+              )
+              .then(dispatch(deleteWordsPair(folderId, wordPair.wordId)));
 
-            dispatch({
-              type: "DELETE_WORDS",
-              folderId: folderId,
-              wordId: wordPair.wordId
-            });
             console.log(wordPair.wordId);
           }}
         >
