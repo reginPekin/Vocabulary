@@ -4,6 +4,8 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
+import { deleteFolder, renameFolder } from "../../utils/folderUtils";
+
 import style from "./FolderBox.module.css";
 
 const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
@@ -35,9 +37,7 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
                 .delete(
                   "http://localhost:4000/vocabulary/folders/" + folder.folderId
                 )
-                .then(
-                  dispatch({ type: "DELETE_FOLDER", folderId: folder.folderId })
-                )
+                .then(dispatch(deleteFolder(folder.folderId)))
                 .catch(err => console.log(err));
             }}
           >
@@ -52,11 +52,7 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
               "http://localhost:4000/vocabulary/folders/" + folder.folderId,
               { folderName: text }
             );
-            dispatch({
-              type: "RENAME_FOLDER",
-              folderId: folder.folderId,
-              folderName: text
-            });
+            dispatch(renameFolder(folder.folderId, text));
             setText("");
             setVisibility(!visibility);
             event.preventDefault();
