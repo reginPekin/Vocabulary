@@ -2,29 +2,41 @@ import React, { useState } from "react";
 
 import { connect } from "react-redux";
 
+import { addNewWord } from "../../utils/addNewWord";
+
 import axios from "axios";
 
-export const NewWordContainer = ({ folder, word, dispatch }) => {
+export const NewWordContainer = ({
+  folder,
+  word,
+  dispatch,
+  isAble,
+  setIsAble
+}) => {
   const [text, setText] = useState("");
   const folderLength = folder.words.length;
+  console.log(text);
 
   return (
     <form
       onSubmit={event => {
         event.preventDefault();
+        console.log(text);
         // reset();
         if (word === "foreign") {
           if (
             folderLength > 0 &&
             folder.words[folderLength - 1].foreignWord === undefined
           ) {
-            dispatch({
-              type: "ADD_NEW_WORD",
-              folderId: folder.folderId,
-              wordId: folder.words[folderLength - 1].wordId,
-              word: "foreign",
-              foreignWord: text
-            });
+            dispatch(
+              addNewWord(
+                folder.folderId,
+                folder.words[folderLength - 1].wordId,
+                "foreign",
+                text,
+                folder.words[folderLength - 1].nativeWord
+              )
+            );
             let newWord = {
               foreignWord: text,
               nativeWord: folder.words[folderLength - 1].nativeWord,
@@ -37,26 +49,29 @@ export const NewWordContainer = ({ folder, word, dispatch }) => {
               newWord
             );
           } else {
-            dispatch({
-              type: "ADD_NEW_WORD",
-              folderId: folder.folderId,
-              word: "foreign",
-              wordId: Math.floor(Math.random() * Math.floor(100000000)),
-              foreignWord: text
-            });
+            dispatch(
+              addNewWord(
+                folder.folderId,
+                Math.floor(Math.random() * Math.floor(100000000)),
+                "foreign",
+                text
+              )
+            );
           }
         } else if (word === "native") {
           if (
             folderLength > 0 &&
             folder.words[folderLength - 1].nativeWord === undefined
           ) {
-            dispatch({
-              type: "ADD_NEW_WORD",
-              folderId: folder.folderId,
-              wordId: folder.words[folderLength - 1].wordId,
-              word: "native",
-              nativeWord: text
-            });
+            dispatch(
+              addNewWord(
+                folder.folderId,
+                folder.words[folderLength - 1].wordId,
+                "native",
+                folder.words[folderLength - 1].foreignWord,
+                text
+              )
+            );
             let newWord = {
               nativeWord: text,
               foreignWord: folder.words[folderLength - 1].foreignWord,
@@ -69,13 +84,15 @@ export const NewWordContainer = ({ folder, word, dispatch }) => {
               newWord
             );
           } else {
-            dispatch({
-              type: "ADD_NEW_WORD",
-              folderId: folder.folderId,
-              word: "native",
-              wordId: Math.floor(Math.random() * Math.floor(100000000)),
-              nativeWord: text
-            });
+            dispatch(
+              addNewWord(
+                folder.folderId,
+                Math.floor(Math.random() * Math.floor(100000000)),
+                "native",
+                undefined,
+                text
+              )
+            );
           }
         }
 
