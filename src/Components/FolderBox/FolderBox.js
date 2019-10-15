@@ -64,6 +64,14 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
               setText(event.target.value);
             }}
           />
+          <button
+            onClick={() => {
+              setVisibility(!visibility);
+              setText("");
+            }}
+          >
+            Cancel
+          </button>
         </form>
       )}
     </div>
