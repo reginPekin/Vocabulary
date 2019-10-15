@@ -12,6 +12,9 @@ import style from "./FolderBox.module.css";
 const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(true);
+  const changeVisibility = () => {
+    setVisibility(!visibility);
+  };
   return (
     <div>
       {visibility && (
@@ -28,7 +31,7 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
               {folder.folderName}
             </button>
           </Link>
-          <button onClick={() => setVisibility(!visibility)}>Edit me!</button>
+          <button onClick={() => changeVisibility()}>Edit me!</button>
           <button
             onClick={() => {
               axios
@@ -44,35 +47,37 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
         </div>
       )}
       {!visibility && (
-        <form
-          onSubmit={event => {
-            axios.patch(
-              "http://localhost:4000/vocabulary/folders/" + folder.folderId,
-              { folderName: text }
-            );
-            dispatch(renameFolder(folder.folderId, text));
-            setText("");
-            setVisibility(!visibility);
-            event.preventDefault();
-          }}
-        >
-          <input
-            type="text"
-            placeholder="new folder"
-            value={text}
-            onChange={event => {
-              setText(event.target.value);
+        <div>
+          <form
+            onSubmit={event => {
+              axios.patch(
+                "http://localhost:4000/vocabulary/folders/" + folder.folderId,
+                { folderName: text }
+              );
+              dispatch(renameFolder(folder.folderId, text));
+              setText("");
+              changeVisibility();
+              event.preventDefault();
             }}
-          />
+          >
+            <input
+              type="text"
+              placeholder="new folder"
+              value={text}
+              onChange={event => {
+                setText(event.target.value);
+              }}
+            />
+          </form>
           <button
             onClick={() => {
-              setVisibility(!visibility);
+              changeVisibility();
               setText("");
             }}
           >
             Cancel
           </button>
-        </form>
+        </div>
       )}
     </div>
   );
