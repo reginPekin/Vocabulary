@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 // import styles from "./FolderSearch.module.css";
+import { setSearchText } from "../../utils/smallActions";
 
 const FolderSearchContainer = ({ dispatch }) => {
   const [text, setText] = useState("");
@@ -13,10 +14,7 @@ const FolderSearchContainer = ({ dispatch }) => {
       value={text}
       onChange={event => {
         setText(event.target.value);
-        dispatch({
-          type: "CHANGE_SEARCH_TEXT",
-          searchText: event.target.value
-        });
+        dispatch(setSearchText(event.target.value));
       }}
     />
   );

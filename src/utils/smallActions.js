@@ -4,3 +4,10 @@ export const increaseWordCounter = wordCounter => {
     wordCounter
   };
 };
+
+export const setSearchText = searchText => {
+  return {
+    type: "CHANGE_SEARCH_TEXT",
+    searchText
+  };
+};
