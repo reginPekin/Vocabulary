@@ -5,6 +5,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 import { deleteFolder, renameFolder } from "../../utils/folderUtils";
+import { increaseWordCounter } from "../../utils/smallActions";
 
 import style from "./FolderBox.module.css";
 
@@ -19,10 +20,7 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
             <button
               onClick={() => {
                 if (folder.words === undefined) {
-                  dispatch({
-                    type: "INCREASE_WORD_COUNTER",
-                    wordCounter: wordCounter
-                  });
+                  dispatch(increaseWordCounter(wordCounter));
                 }
               }}
               className={style.boxFolder}
