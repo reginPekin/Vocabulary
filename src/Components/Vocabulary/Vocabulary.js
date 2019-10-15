@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
 import { NewWord } from "../NewWord";
+import { increaseWordCounter } from "../../utils/smallActions";
 
 import axios from "axios";
 
@@ -40,24 +41,14 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
                   word="foreign"
                   isAble={isAble}
                   setIsAble={() => setIsAble("disable")}
-                  reset={() =>
-                    dispatch({
-                      type: "INCREASE_WORD_COUNTER",
-                      wordCounter: wordCounter
-                    })
-                  }
+                  reset={() => dispatch(increaseWordCounter(wordCounter))}
                 />
               </td>
               <td>
                 <NewWord
                   folder={folder}
                   word="native"
-                  reset={() =>
-                    dispatch({
-                      type: "INCREASE_WORD_COUNTER",
-                      wordCounter: wordCounter
-                    })
-                  }
+                  reset={() => dispatch(increaseWordCounter(wordCounter))}
                 />
               </td>
             </tr>
