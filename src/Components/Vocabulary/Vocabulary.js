@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
 import { NewWord } from "../NewWord";
+import { getWordsArray } from "../../utils/wordUtils";
 import { increaseWordCounter } from "../../utils/smallActions";
 
 import axios from "axios";
@@ -15,13 +16,7 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
   useEffect(() => {
     axios
       .get("http://localhost:4000/vocabulary/folders/" + folder.folderId)
-      .then(response =>
-        dispatch({
-          type: "ADD_WORDS_ARRAY",
-          folderId: folder.folderId,
-          words: response.data
-        })
-      )
+      .then(response => dispatch(getWordsArray(folder.folderId, response.data)))
       .catch(error => {
         console.log(error);
       });

@@ -32,3 +32,11 @@ export const editWord = (word, wordId, folderId, renamedWord) => {
     renamedWord
   };
 };
+
+export const getWordsArray = (folderId, words) => {
+  return {
+    type: "ADD_WORDS_ARRAY",
+    folderId,
+    words
+  };
+};
