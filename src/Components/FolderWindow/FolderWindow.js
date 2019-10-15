@@ -7,6 +7,7 @@ import { FolderBox } from "../FolderBox";
 import { FolderSearch } from "../FolderSearch";
 import { NewFolder } from "../NewFolder";
 import { AllWordsFolder } from "../AllWordsFolder";
+import { getFoldersNames } from "../../utils/folderUtils";
 
 import styles from "./FolderWindow.module.css";
 
@@ -17,10 +18,7 @@ export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
     axios
       .get("http://localhost:4000/vocabulary/folders/names")
       .then(response => {
-        dispatch({
-          type: "ADD_NEW_VOCABULARY",
-          vocabulary: response.data
-        });
+        dispatch(getFoldersNames(response.data));
       })
       .catch(error => {
         console.log(error);

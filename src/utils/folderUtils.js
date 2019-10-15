@@ -1,3 +1,10 @@
+export const getFoldersNames = vocabulary => {
+  return {
+    type: "ADD_NEW_VOCABULARY",
+    vocabulary
+  };
+};
+
 export const deleteFolder = folderId => {
   return {
     type: "DELETE_FOLDER",
