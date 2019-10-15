@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import axios from "axios";
@@ -12,8 +12,6 @@ import { getFoldersNames } from "../../utils/folderUtils";
 import styles from "./FolderWindow.module.css";
 
 export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
-  const [reset, setReset] = useState(0);
-
   useEffect(() => {
     axios
       .get("http://localhost:4000/vocabulary/folders/names")
@@ -23,7 +21,7 @@ export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
       .catch(error => {
         console.log(error);
       });
-  }, [dispatch, reset]);
+  }, [dispatch]);
 
   return (
     <div className={styles.folderWindow}>
@@ -36,16 +34,12 @@ export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
             folder.folderName
               .toLowerCase()
               .indexOf(searchText.toLowerCase()) !== -1) && (
-            <FolderBox
-              folder={folder}
-              key={key}
-              reset={() => setReset(reset + 1)}
-            />
+            <FolderBox folder={folder} key={key} />
           )
         // )
       )}
 
-      <NewFolder reset={() => setReset(reset + 1)} />
+      <NewFolder />
     </div>
   );
 };
