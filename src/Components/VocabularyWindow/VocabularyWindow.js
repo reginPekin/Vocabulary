@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { Vocabulary } from "../Vocabulary";
 import { InfoBox } from "../InfoBox";
 
-export const VocabularyWindowContainer = ({ vocabulary, history }) => {
+export const VocabularyWindowContainer = ({
+  vocabulary,
+  history,
+  wordCounter
+}) => {
   const index = history.location.pathname.indexOf("/", 2);
   const id = parseInt(history.location.pathname.slice(1, index), 10);
 
@@ -17,7 +21,11 @@ export const VocabularyWindowContainer = ({ vocabulary, history }) => {
           return (
             <div key={key}>
               <InfoBox name={folder.folderName} />
-              <Vocabulary folder={folder} folderId={id} />
+              <Vocabulary
+                folder={folder}
+                folderId={id}
+                wordCounter={wordCounter}
+              />
             </div>
           );
         })}
@@ -26,7 +34,8 @@ export const VocabularyWindowContainer = ({ vocabulary, history }) => {
 };
 
 const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
+  vocabulary: state.addNewFolder.vocabulary,
+  wordCounter: state.smallActions.wordCounter
 });
 
 export const VocabularyWindow = connect(mapStateProps)(
