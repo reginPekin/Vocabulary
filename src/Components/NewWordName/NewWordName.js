@@ -6,7 +6,13 @@ import { editWord } from "../../utils/wordUtils";
 
 import axios from "axios";
 
-const NewWordNameContainer = ({ folderId, wordId, word, dispatch }) => {
+const NewWordNameContainer = ({
+  folderId,
+  wordId,
+  word,
+  dispatch,
+  changeVisibility
+}) => {
   const [text, setText] = useState("");
   return (
     <form
@@ -25,7 +31,7 @@ const NewWordNameContainer = ({ folderId, wordId, word, dispatch }) => {
             }
           )
           .then(dispatch(editWord(word, wordId, folderId, text)));
-
+        changeVisibility();
         setText("");
         event.preventDefault();
       }}
@@ -34,6 +40,7 @@ const NewWordNameContainer = ({ folderId, wordId, word, dispatch }) => {
         type="text"
         value={text}
         onChange={event => setText(event.target.value)}
+        autoFocus
       />
     </form>
   );
