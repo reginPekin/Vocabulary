@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { deleteFolder, renameFolder } from "../../utils/folderUtils";
 import { increaseWordCounter } from "../../utils/smallActions";
 
 import style from "./FolderBox.module.css";
 
-const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
+export const FolderBox = ({ folder, wordCounter }) => {
+  const dispatch = useDispatch();
+
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => {
@@ -62,11 +64,12 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
           >
             <input
               type="text"
-              placeholder="new folder"
+              placeholder="rename me"
               value={text}
               onChange={event => {
                 setText(event.target.value);
               }}
+              autoFocus
             />
           </form>
           <button
@@ -82,9 +85,3 @@ const FolderBoxContainer = ({ folder, dispatch, wordCounter }) => {
     </div>
   );
 };
-
-const mapStateProps = state => ({
-  wordCounter: state.smallActions.wordCounter
-});
-
-export const FolderBox = connect(mapStateProps)(FolderBoxContainer);
