@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 
-import { connect } from "react-redux";
-
 import { addNewWord } from "../../utils/wordUtils";
 
 import axios from "axios";
 
-export const NewWordContainer = ({
-  folder,
-  word,
-  dispatch,
-  isAble,
-  setIsAble
-}) => {
+export const NewWord = ({ folder, word, dispatch }) => {
   const [text, setText] = useState("");
   const folderLength = folder.words.length;
   console.log(text);
@@ -20,9 +12,6 @@ export const NewWordContainer = ({
   return (
     <form
       onSubmit={event => {
-        event.preventDefault();
-        console.log(text);
-        // reset();
         if (word === "foreign") {
           if (
             folderLength > 0 &&
@@ -97,6 +86,7 @@ export const NewWordContainer = ({
         }
 
         setText("");
+        event.preventDefault();
       }}
     >
       <input
@@ -110,9 +100,3 @@ export const NewWordContainer = ({
     </form>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const NewWord = connect(mapStateProps)(NewWordContainer);

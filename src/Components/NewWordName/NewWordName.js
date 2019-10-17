@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
-import { connect } from "react-redux";
-
 import { editWord } from "../../utils/wordUtils";
 
 import axios from "axios";
 
-const NewWordNameContainer = ({
+export const NewWordName = ({
   folderId,
   wordId,
   word,
@@ -45,9 +43,3 @@ const NewWordNameContainer = ({
     </form>
   );
 };
-
-const mapState = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const NewWordName = connect(mapState)(NewWordNameContainer);
