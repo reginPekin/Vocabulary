@@ -11,7 +11,12 @@ import { getFoldersNames } from "../../utils/folderUtils";
 
 import styles from "./FolderWindow.module.css";
 
-export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
+const FolderWindowContainer = ({
+  dispatch,
+  searchText,
+  Vocabulary,
+  wordCounter
+}) => {
   useEffect(() => {
     axios
       .get("http://localhost:4000/vocabulary/folders/names")
@@ -34,7 +39,7 @@ export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
             folder.folderName
               .toLowerCase()
               .indexOf(searchText.toLowerCase()) !== -1) && (
-            <FolderBox folder={folder} key={key} />
+            <FolderBox folder={folder} key={key} wordCounter={wordCounter} />
           )
         // )
       )}
@@ -46,7 +51,8 @@ export const FolderWindowContainer = ({ dispatch, searchText, Vocabulary }) => {
 
 const mapStateProps = state => ({
   searchText: state.smallActions.searchText,
-  Vocabulary: state.addNewFolder.vocabulary
+  Vocabulary: state.addNewFolder.vocabulary,
+  wordCounter: state.smallActions.wordCounter
 });
 
 export const FolderWindow = connect(mapStateProps)(FolderWindowContainer);
