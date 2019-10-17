@@ -1,31 +1,53 @@
-import React from "react";
-
-import { connect } from "react-redux";
-
+import React, { useState } from "react";
 import axios from "axios";
 
 import { NewWordName } from "../NewWordName";
+
 import { deleteWordsPair } from "../../utils/wordUtils";
+
 import style from "./DisplayPair.module.css";
 
-const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
+export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
+  const [isVisibleForeign, setIsVisibleForeign] = useState(true);
+  const [isVisibleNative, setIsVisibleNative] = useState(true);
   return (
     <tr className={style.PairOfWords}>
       <td>
-        {wordPair.foreignWord}
-        <NewWordName
-          folderId={folderId}
-          wordId={wordPair.wordId}
-          word="foreign"
-        />
+        {isVisibleForeign && (
+          <div>
+            {wordPair.foreignWord}
+            <button onClick={() => setIsVisibleForeign(!isVisibleForeign)}>
+              Edit me
+            </button>
+          </div>
+        )}
+        {!isVisibleForeign && (
+          <NewWordName
+            folderId={folderId}
+            wordId={wordPair.wordId}
+            word="foreign"
+            changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
+            dispatch={dispatch}
+          />
+        )}
       </td>
       <td>
-        {wordPair.nativeWord}{" "}
-        <NewWordName
-          folderId={folderId}
-          wordId={wordPair.wordId}
-          word="native"
-        />
+        {isVisibleNative && (
+          <div>
+            {wordPair.nativeWord}
+            <button onClick={() => setIsVisibleNative(!isVisibleNative)}>
+              Edit me
+            </button>
+          </div>
+        )}
+        {!isVisibleNative && (
+          <NewWordName
+            folderId={folderId}
+            wordId={wordPair.wordId}
+            word="native"
+            changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
+          />
+        )}
       </td>
       <td>
         <button
@@ -53,9 +75,3 @@ const PairOfWordsContainer = ({ folderId, wordPair, dispatch }) => {
     </tr>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const PairOfWords = connect(mapStateProps)(PairOfWordsContainer);
