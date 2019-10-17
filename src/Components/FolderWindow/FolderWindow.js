@@ -22,9 +22,6 @@ const FolderWindowContainer = ({
       .get("http://localhost:4000/vocabulary/folders/names")
       .then(response => {
         dispatch(getFoldersNames(response.data));
-      })
-      .catch(error => {
-        console.log(error);
       });
   }, [dispatch]);
 
