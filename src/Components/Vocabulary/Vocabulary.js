@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
 import { NewWord } from "../NewWord";
@@ -10,7 +10,9 @@ import axios from "axios";
 
 import style from "./Vocabulary.module.css";
 
-const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
+export const Vocabulary = ({ folder, wordCounter }) => {
+  const dispatch = useDispatch();
+
   const [newWordTable, setNewWordTable] = useState(false);
   const [isAble, setIsAble] = useState("able");
   useEffect(() => {
@@ -27,7 +29,7 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
     <div>
       <table>
         <tbody>
-          <VocabularyTable folder={folder} />
+          <VocabularyTable folder={folder} dispatch={dispatch} />
           {newWordTable && (
             <tr className={style.addWords}>
               <td>
@@ -36,6 +38,7 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
                   word="foreign"
                   isAble={isAble}
                   setIsAble={() => setIsAble("disable")}
+                  dispatch={dispatch}
                   reset={() => dispatch(increaseWordCounter(wordCounter))}
                 />
               </td>
@@ -44,6 +47,7 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
                   folder={folder}
                   word="native"
                   reset={() => dispatch(increaseWordCounter(wordCounter))}
+                  dispatch={dispatch}
                 />
               </td>
             </tr>
@@ -58,10 +62,3 @@ const VocabularyContainer = ({ dispatch, folder, wordCounter }) => {
     </div>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary,
-  wordCounter: state.smallActions.wordCounter
-});
-
-export const Vocabulary = connect(mapStateProps)(VocabularyContainer);

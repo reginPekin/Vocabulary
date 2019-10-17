@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { createFolder } from "../../utils/folderUtils";
 
-const NewFolderContainer = ({ dispatch }) => {
+export const NewFolder = () => {
+  const dispatch = useDispatch();
   const [text, setText] = useState("");
 
   return (
@@ -37,9 +38,3 @@ const NewFolderContainer = ({ dispatch }) => {
     </form>
   );
 };
-
-const mapStateProps = state => ({
-  vocabulary: state.addNewFolder.vocabulary
-});
-
-export const NewFolder = connect(mapStateProps)(NewFolderContainer);

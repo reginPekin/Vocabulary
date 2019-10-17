@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 // import styles from "./FolderSearch.module.css";
 import { setSearchText } from "../../utils/smallActions";
 
-const FolderSearchContainer = ({ dispatch }) => {
+export const FolderSearch = () => {
+  const dispatch = useDispatch();
+
   const [text, setText] = useState("");
 
   return (
@@ -19,9 +21,3 @@ const FolderSearchContainer = ({ dispatch }) => {
     />
   );
 };
-
-const mapStateProps = state => ({
-  text: state.smallActions.searchText
-});
-
-export const FolderSearch = connect(mapStateProps)(FolderSearchContainer);
