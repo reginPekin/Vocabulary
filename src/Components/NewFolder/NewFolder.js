@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { createFolder } from "../../utils/folderUtils";
 export const NewFolder = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
-
+  const ref = useRef(null);
   return (
     <form
       onSubmit={event => {
@@ -24,10 +24,12 @@ export const NewFolder = () => {
           .then(() => dispatch(createFolder(newFolder)));
 
         setText("");
+        ref.current.blur();
         event.preventDefault();
       }}
     >
       <input
+        ref={ref}
         type="text"
         placeholder="new folder"
         value={text}
