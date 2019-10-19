@@ -60,13 +60,7 @@ const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
   );
 };
 
-const FolderInput = ({
-  folder,
-
-  dispatch,
-
-  changeVisibility
-}) => {
+const FolderInput = ({ folder, dispatch, changeVisibility }) => {
   const [text, setText] = useState("");
   const ref = useRef(null);
   useOutsideAlerter(ref, changeVisibility);
