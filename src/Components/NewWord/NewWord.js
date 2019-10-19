@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { addNewWord } from "../../utils/wordUtils";
 
@@ -7,7 +7,7 @@ import axios from "axios";
 export const NewWord = ({ folder, word, dispatch }) => {
   const [text, setText] = useState("");
   const folderLength = folder.words.length;
-  console.log(text);
+  const ref = useRef(null);
 
   return (
     <form
@@ -84,12 +84,13 @@ export const NewWord = ({ folder, word, dispatch }) => {
             );
           }
         }
-
+        ref.current.blur();
         setText("");
         event.preventDefault();
       }}
     >
       <input
+        ref={ref}
         type="text"
         placeholder="Add word"
         value={text}
