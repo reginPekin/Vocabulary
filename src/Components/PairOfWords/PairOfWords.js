@@ -27,7 +27,7 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
         {!isVisibleForeign && (
           <NewWordName
             folderId={folderId}
-            wordPair={wordPair}
+            wordId={wordPair.wordId}
             wordLanguage="foreign"
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
             dispatch={dispatch}
@@ -52,6 +52,7 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
             wordLanguage="native"
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
             word={wordPair.nativeWord}
+            dispatch={dispatch}
           />
         )}
       </td>
