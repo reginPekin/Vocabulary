@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 import { useDispatch } from "react-redux";
 
 import { deleteFolder, renameFolder } from "../../utils/folderUtils";
 import { increaseWordCounter } from "../../utils/smallActions";
+
+import * as sdk from "../../sdk";
 
 import style from "./FolderBox.module.css";
 
@@ -27,10 +28,8 @@ const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
       <button onClick={() => changeVisibility()}>Edit me!</button>
       <button
         onClick={() => {
-          axios
-            .delete(
-              "http://localhost:4000/vocabulary/folders/" + folder.folderId
-            )
+          sdk
+            .deleteFolder(folder)
             .then(dispatch(deleteFolder(folder.folderId)))
             .catch(err => console.log(err));
         }}
@@ -68,12 +67,9 @@ const FolderInput = ({ folder, dispatch, changeVisibility }) => {
     <div>
       <form
         onSubmit={event => {
-          axios.patch(
-            "http://localhost:4000/vocabulary/folders/" + folder.folderId,
-            { folderName: text }
-          );
-          dispatch(renameFolder(folder.folderId, text));
-
+          sdk
+            .renameFolder(folder, text)
+            .then(dispatch(renameFolder(folder.folderId, text)));
           changeVisibility();
           setText("");
           inputRename.current.blur();

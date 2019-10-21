@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 import { NewWordName } from "../NewWordName";
 
@@ -7,9 +6,12 @@ import { deleteWordsPair } from "../../utils/wordUtils";
 
 import style from "./DisplayPair.module.css";
 
+import * as sdk from "../../sdk";
+
 export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
   const [isVisibleForeign, setIsVisibleForeign] = useState(true);
   const [isVisibleNative, setIsVisibleNative] = useState(true);
+
   return (
     <tr className={style.PairOfWords}>
       <td>
@@ -21,10 +23,11 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
             </button>
           </div>
         )}
+
         {!isVisibleForeign && (
           <NewWordName
             folderId={folderId}
-            wordId={wordPair.wordId}
+            wordPair={wordPair}
             word="foreign"
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
             dispatch={dispatch}
@@ -56,17 +59,9 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
               folderId: folderId,
               wordId: wordPair.wordId
             };
-            axios
-              .post(
-                "http://localhost:4000/vocabulary/folders/" +
-                  folderId +
-                  "/words/" +
-                  wordPair.wordId,
-                wordInf
-              )
+            sdk
+              .deleteWordsPair(folderId, wordPair, wordInf)
               .then(dispatch(deleteWordsPair(folderId, wordPair.wordId)));
-
-            console.log(wordPair.wordId);
           }}
         >
           Don't delete me, please :c

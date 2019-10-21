@@ -3,10 +3,11 @@ import { useDispatch } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
 import { NewWord } from "../NewWord";
+
 import { getWordsArray } from "../../utils/wordUtils";
 import { increaseWordCounter } from "../../utils/smallActions";
 
-import axios from "axios";
+import * as sdk from "../../sdk";
 
 import style from "./Vocabulary.module.css";
 
@@ -16,12 +17,10 @@ export const Vocabulary = ({ folder, wordCounter }) => {
   const [newWordTable, setNewWordTable] = useState(false);
   const [isAble, setIsAble] = useState("able");
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/vocabulary/folders/" + folder.folderId)
-      .then(response => dispatch(getWordsArray(folder.folderId, response.data)))
-      .catch(error => {
-        console.log(error);
-      });
+    sdk
+      .getWordsArray(folder)
+      .then(response => dispatch(getWordsArray(folder.folderId, response)));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, wordCounter]);
 

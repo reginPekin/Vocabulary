@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
-import axios from "axios";
-
 import { FolderBox } from "../FolderBox";
 import { FolderSearch } from "../FolderSearch";
 import { NewFolder } from "../NewFolder";
 import { AllWordsFolder } from "../AllWordsFolder";
+
 import { getFoldersNames } from "../../utils/folderUtils";
+
+import * as sdk from "../../sdk";
 
 import styles from "./FolderWindow.module.css";
 
@@ -18,11 +19,7 @@ const FolderWindowContainer = ({
   wordCounter
 }) => {
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/vocabulary/folders/names")
-      .then(response => {
-        dispatch(getFoldersNames(response.data));
-      });
+    sdk.getFolderNames().then(response => dispatch(getFoldersNames(response)));
   }, [dispatch]);
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 import { addNewWord } from "../../utils/wordUtils";
 
-import axios from "axios";
+import * as sdk from "../../sdk";
 
 export const NewWord = ({ folder, word, dispatch }) => {
   const [text, setText] = useState("");
@@ -31,12 +31,7 @@ export const NewWord = ({ folder, word, dispatch }) => {
               nativeWord: folder.words[folderLength - 1].nativeWord,
               wordId: folder.words[folderLength - 1].wordId
             };
-            axios.post(
-              "http://localhost:4000/vocabulary/folders/" +
-                folder.folderId +
-                "/words",
-              newWord
-            );
+            sdk.createNewWord(folder, newWord);
           } else {
             dispatch(
               addNewWord(
@@ -66,12 +61,7 @@ export const NewWord = ({ folder, word, dispatch }) => {
               foreignWord: folder.words[folderLength - 1].foreignWord,
               wordId: folder.words[folderLength - 1].wordId
             };
-            axios.post(
-              "http://localhost:4000/vocabulary/folders/" +
-                folder.folderId +
-                "/words",
-              newWord
-            );
+            sdk.createNewWord(folder, newWord);
           } else {
             dispatch(
               addNewWord(
@@ -85,11 +75,13 @@ export const NewWord = ({ folder, word, dispatch }) => {
           }
         }
         ref.current.blur();
+        console.log(ref.current.nextSibling);
         setText("");
         event.preventDefault();
       }}
     >
       <input
+        id={word}
         ref={ref}
         type="text"
         placeholder="Add word"

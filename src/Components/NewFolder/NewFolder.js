@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
 
 import { useDispatch } from "react-redux";
 
 import { createFolder } from "../../utils/folderUtils";
+
+import * as sdk from "../../sdk";
 
 export const NewFolder = () => {
   const dispatch = useDispatch();
@@ -19,8 +20,8 @@ export const NewFolder = () => {
           words: []
         };
 
-        axios
-          .post("http://localhost:4000/vocabulary/folders", newFolder)
+        sdk
+          .createFolder(newFolder)
           .then(() => dispatch(createFolder(newFolder)));
 
         setText("");
