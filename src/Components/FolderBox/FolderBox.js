@@ -9,25 +9,6 @@ import { increaseWordCounter } from "../../utils/smallActions";
 
 import style from "./FolderBox.module.css";
 
-// const dispatch = useDispatch();
-
-const useOutsideAlerter = (ref, changeVisibility) => {
-  const handleClickOutside = event => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      changeVisibility();
-    }
-  };
-
-  useEffect(() => {
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  });
-};
-
 const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
   return (
     <div className={style.buttonsDiv}>
@@ -61,9 +42,28 @@ const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
 };
 
 const FolderInput = ({ folder, dispatch, changeVisibility }) => {
-  const [text, setText] = useState("");
-  const ref = useRef(null);
-  useOutsideAlerter(ref, changeVisibility);
+  const [text, setText] = useState(folder.folderName);
+
+  const inputRename = useRef(null);
+
+  // Listener on Click Outside
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (inputRename.current && !inputRename.current.contains(event.target)) {
+        changeVisibility();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [changeVisibility]);
+
+  useEffect(() => {
+    if (inputRename && inputRename.current) {
+      inputRename.current.select();
+    }
+  }, [inputRename]);
+
   return (
     <div>
       <form
@@ -76,12 +76,12 @@ const FolderInput = ({ folder, dispatch, changeVisibility }) => {
 
           changeVisibility();
           setText("");
-          ref.current.blur();
+          inputRename.current.blur();
           event.preventDefault();
         }}
       >
         <input
-          ref={ref}
+          ref={inputRename}
           type="text"
           placeholder="rename me"
           value={text}
@@ -108,9 +108,7 @@ export const FolderBox = ({ folder, wordCounter }) => {
 
   const [visibility, setVisibility] = useState(true);
 
-  const changeVisibility = () => {
-    setVisibility(!visibility);
-  };
+  const changeVisibility = () => setVisibility(!visibility);
 
   if (visibility)
     return (
