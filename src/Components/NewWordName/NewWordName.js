@@ -7,13 +7,14 @@ import * as sdk from "../../sdk";
 export const NewWordName = ({
   folderId,
   wordPair,
-  word,
+  wordLanguage,
   dispatch,
-  changeVisibility
+  changeVisibility,
+  word
 }) => {
-  const [text, setText] = useState("cc");
+  const [text, setText] = useState(word);
   const inputRef = useRef(null);
-
+  console.log(word);
   useEffect(() => {
     if (inputRef.current && inputRef) {
       inputRef.current.select();
@@ -35,14 +36,16 @@ export const NewWordName = ({
     <form
       onSubmit={event => {
         const newName = {
-          word,
+          word: wordLanguage,
           wordId: wordPair.wordId,
           folderId,
           renamedWord: text
         };
         sdk
           .editWord(folderId, wordPair, newName)
-          .then(dispatch(editWord(word, wordPair.wordId, folderId, text)));
+          .then(
+            dispatch(editWord(wordLanguage, wordPair.wordId, folderId, text))
+          );
         changeVisibility();
         setText("");
         event.preventDefault();
