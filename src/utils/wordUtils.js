@@ -23,10 +23,10 @@ export const deleteWordsPair = (folderId, wordId) => {
   };
 };
 
-export const editWord = (word, wordId, folderId, renamedWord) => {
+export const editWord = (wordLanguage, wordId, folderId, renamedWord) => {
   return {
     type: "EDIT_WORD_NAME",
-    word,
+    wordLanguage,
     wordId,
     folderId,
     renamedWord
