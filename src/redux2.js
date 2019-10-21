@@ -124,6 +124,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
       };
 
     case "EDIT_WORD_NAME":
+      console.log(action.wordLanguage);
       return {
         ...state,
         vocabulary: state.vocabulary.map(folder => {
@@ -132,9 +133,9 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
               ...folder,
               words: folder.words.map(words => {
                 if (words.wordId === action.wordId) {
-                  if (action.word === "native")
+                  if (action.wordLanguage === "native")
                     return { ...words, nativeWord: action.renamedWord };
-                  if (action.word === "foreign")
+                  if (action.wordLanguage === "foreign")
                     return { ...words, foreignWord: action.renamedWord };
                   else return words;
                 } else return words;
