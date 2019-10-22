@@ -26,6 +26,7 @@ export const NewWordsPair = ({ folderId, dispatch }) => {
               type="text"
               ref={foreignInputRef}
               value={foreignText}
+              autoFocus
               onChange={event => setForeignText(event.target.value)}
             />
           </form>
