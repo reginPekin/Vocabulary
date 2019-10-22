@@ -46,54 +46,17 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
         ...state,
         vocabulary: state.vocabulary.map(folder => {
           if (folder.folderId === action.folderId) {
-            if (
-              folder.words.filter(word => word.wordId === action.wordId)
-                .length > 0
-            ) {
-              return {
-                ...folder,
-                words: folder.words.map(word => {
-                  if (word.wordId === action.wordId) {
-                    if (action.word === "foreign") {
-                      return {
-                        ...word,
-                        foreignWord: action.foreignWord
-                      };
-                    } else {
-                      return {
-                        ...word,
-                        nativeWord: action.nativeWord
-                      };
-                    }
-                  }
-                  return word;
-                })
-              };
-            } else {
-              if (action.word === "foreign") {
-                return {
-                  ...folder,
-                  words: [
-                    ...folder.words,
-                    {
-                      foreignWord: action.foreignWord,
-                      wordId: action.wordId
-                    }
-                  ]
-                };
-              } else {
-                return {
-                  ...folder,
-                  words: [
-                    ...folder.words,
-                    {
-                      nativeWord: action.nativeWord,
-                      wordId: action.wordId
-                    }
-                  ]
-                };
-              }
-            }
+            return {
+              ...folder,
+              words: [
+                ...folder.words,
+                {
+                  nativeWord: action.nativeWord,
+                  foreignWord: action.foreignWord,
+                  wordId: action.wordId
+                }
+              ]
+            };
           }
           return folder;
         })
