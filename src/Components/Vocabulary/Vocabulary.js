@@ -2,20 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
-import { NewWord } from "../NewWord";
+import { NewWordsPair } from "../NewWordsPair";
 
 import { getWordsArray } from "../../utils/wordUtils";
-import { increaseWordCounter } from "../../utils/smallActions";
 
 import * as sdk from "../../sdk";
-
-import style from "./Vocabulary.module.css";
 
 export const Vocabulary = ({ folder, wordCounter }) => {
   const dispatch = useDispatch();
 
   const [newWordTable, setNewWordTable] = useState(false);
-  const [isAble, setIsAble] = useState("able");
   useEffect(() => {
     sdk
       .getWordsArray(folder)
@@ -30,26 +26,7 @@ export const Vocabulary = ({ folder, wordCounter }) => {
         <tbody>
           <VocabularyTable folder={folder} dispatch={dispatch} />
           {newWordTable && (
-            <tr className={style.addWords}>
-              <td>
-                <NewWord
-                  folder={folder}
-                  word="foreign"
-                  isAble={isAble}
-                  setIsAble={() => setIsAble("disable")}
-                  dispatch={dispatch}
-                  reset={() => dispatch(increaseWordCounter(wordCounter))}
-                />
-              </td>
-              <td>
-                <NewWord
-                  folder={folder}
-                  word="native"
-                  reset={() => dispatch(increaseWordCounter(wordCounter))}
-                  dispatch={dispatch}
-                />
-              </td>
-            </tr>
+            <NewWordsPair folderId={folder.folderId} dispatch={dispatch} />
           )}
         </tbody>
       </table>
