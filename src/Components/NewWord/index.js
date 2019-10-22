@@ -1,1 +1,0 @@
-export { NewWord } from "./NewWord";
