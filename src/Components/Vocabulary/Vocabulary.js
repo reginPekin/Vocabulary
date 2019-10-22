@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { VocabularyTable } from "../VocabularyTable";
@@ -11,7 +11,6 @@ import * as sdk from "../../sdk";
 export const Vocabulary = ({ folder, wordCounter }) => {
   const dispatch = useDispatch();
 
-  const [newWordTable, setNewWordTable] = useState(false);
   useEffect(() => {
     sdk
       .getWordsArray(folder)
@@ -25,16 +24,9 @@ export const Vocabulary = ({ folder, wordCounter }) => {
       <table>
         <tbody>
           <VocabularyTable folder={folder} dispatch={dispatch} />
-          {newWordTable && (
-            <NewWordsPair folderId={folder.folderId} dispatch={dispatch} />
-          )}
         </tbody>
       </table>
-      {!newWordTable && (
-        <button onClick={() => setNewWordTable(!newWordTable)}>
-          Add new words
-        </button>
-      )}{" "}
+      <NewWordsPair dispatch={dispatch} folderId={folder.folderId} />
     </div>
   );
 };
