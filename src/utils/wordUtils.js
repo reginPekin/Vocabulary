@@ -1,17 +1,10 @@
-export const addNewWord = (
-  folderId,
-  wordId,
-  word,
-  foreignWord = undefined,
-  nativeWord = undefined
-) => {
+export const addNewWord = newWord => {
   return {
     type: "ADD_NEW_WORD",
-    folderId,
-    word,
-    wordId,
-    foreignWord,
-    nativeWord
+    folderId: newWord.folderId,
+    wordId: newWord.wordId,
+    foreignWord: newWord.foreignWord,
+    nativeWord: newWord.nativeWord
   };
 };
 
