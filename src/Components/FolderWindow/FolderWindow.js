@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 
 import { FolderBox } from "../FolderBox";
 import { FolderSearch } from "../FolderSearch";
@@ -12,12 +13,18 @@ import * as sdk from "../../sdk";
 
 import styles from "./FolderWindow.module.css";
 
-const FolderWindowContainer = ({
+const FolderWindowContainerRouter = ({
   dispatch,
   searchText,
   Vocabulary,
-  wordCounter
+  wordCounter,
+  history
 }) => {
+  const currentFolderLink = history.location.pathname;
+  const currentFolderId = currentFolderLink.slice(
+    1,
+    currentFolderLink.indexOf("/", 2)
+  );
   useEffect(() => {
     sdk.getFolderNames().then(response => dispatch(getFoldersNames(response)));
   }, [dispatch]);
@@ -33,12 +40,17 @@ const FolderWindowContainer = ({
             folder.folderName
               .toLowerCase()
               .indexOf(searchText.toLowerCase()) !== -1) && (
-            <FolderBox folder={folder} key={key} wordCounter={wordCounter} />
+            <FolderBox
+              folder={folder}
+              key={key}
+              wordCounter={wordCounter}
+              currentFolderId={currentFolderId}
+            />
           )
         // )
       )}
 
-      <NewFolder />
+      <NewFolder history={history} />
     </div>
   );
 };
@@ -49,4 +61,6 @@ const mapStateProps = state => ({
   wordCounter: state.smallActions.wordCounter
 });
 
-export const FolderWindow = connect(mapStateProps)(FolderWindowContainer);
+const FolderWindowRouter = connect(mapStateProps)(FolderWindowContainerRouter);
+
+export const FolderWindow = withRouter(FolderWindowRouter);
