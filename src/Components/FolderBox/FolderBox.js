@@ -10,11 +10,25 @@ import * as sdk from "../../sdk";
 
 import style from "./FolderBox.module.css";
 
-const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
+const FolderButton = ({
+  folder,
+  wordCounter,
+  dispatch,
+  changeVisibility,
+  currentFolderId
+}) => {
+  dispatch({ type: "KEEP_FOLDER", folderId: folder.folderId });
+
   return (
     <div className={style.buttonsDiv}>
       <Link to={`/${folder.folderId}/${folder.folderName}`}>
         <button
+          style={{
+            backgroundColor:
+              parseInt(currentFolderId) === folder.folderId
+                ? "#D4D4D4"
+                : "white"
+          }}
           onClick={() => {
             if (folder.words === undefined) {
               dispatch(increaseWordCounter(wordCounter));
@@ -101,7 +115,7 @@ const FolderInput = ({ folder, dispatch, changeVisibility }) => {
   );
 };
 
-export const FolderBox = ({ folder, wordCounter }) => {
+export const FolderBox = ({ folder, wordCounter, currentFolderId }) => {
   const dispatch = useDispatch();
 
   const [visibility, setVisibility] = useState(true);
@@ -115,6 +129,7 @@ export const FolderBox = ({ folder, wordCounter }) => {
         wordCounter={wordCounter}
         dispatch={dispatch}
         changeVisibility={changeVisibility}
+        currentFolderId={currentFolderId}
       />
     );
   else
