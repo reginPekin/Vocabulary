@@ -26,16 +26,18 @@ const FolderButton = ({ folder, wordCounter, dispatch, changeVisibility }) => {
         </button>
       </Link>
       <button onClick={() => changeVisibility()}>Edit me!</button>
-      <button
-        onClick={() => {
-          sdk
-            .deleteFolder(folder)
-            .then(dispatch(deleteFolder(folder.folderId)))
-            .catch(err => console.log(err));
-        }}
-      >
-        Delete me :c
-      </button>
+      <Link to="/">
+        <button
+          onClick={() => {
+            sdk
+              .deleteFolder(folder)
+              .then(dispatch(deleteFolder(folder.folderId)))
+              .catch(err => console.log(err));
+          }}
+        >
+          Delete me :c
+        </button>
+      </Link>
     </div>
   );
 };
