@@ -31,7 +31,7 @@ const FolderWindowContainerRouter = ({
 
   return (
     <div className={styles.folderWindow}>
-      <AllWordsFolder />
+      <AllWordsFolder currentFolderId={currentFolderId} />
       {Vocabulary.length > 5 && <FolderSearch />}
 
       {Vocabulary.map(
