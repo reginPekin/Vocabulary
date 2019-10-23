@@ -6,7 +6,8 @@ const InitialState = {
 };
 
 const InitialStateVocabulary = {
-  vocabulary: []
+  vocabulary: [],
+  folderId: 0
 };
 
 const addNewFolder = (state = InitialStateVocabulary, action) => {
@@ -87,7 +88,6 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
       };
 
     case "EDIT_WORD_NAME":
-      console.log(action.wordLanguage);
       return {
         ...state,
         vocabulary: state.vocabulary.map(folder => {
@@ -107,6 +107,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
           } else return folder;
         })
       };
+
     default:
       return state;
   }
