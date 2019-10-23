@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { withRouter } from "react-router";
 
 import { useDispatch } from "react-redux";
 
@@ -7,7 +6,7 @@ import { createFolder } from "../../utils/folderUtils";
 
 import * as sdk from "../../sdk";
 
-const NewFolderRouter = ({ history }) => {
+export const NewFolder = ({ history }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const ref = useRef(null);
@@ -42,5 +41,3 @@ const NewFolderRouter = ({ history }) => {
     </form>
   );
 };
-
-export const NewFolder = withRouter(NewFolderRouter);
