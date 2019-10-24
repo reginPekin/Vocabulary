@@ -1,8 +1,12 @@
 .app {
-  display: grid;
-  grid-template-columns: 4fr 14fr;
+  display: flex;
   background-color: white;
   min-height: 100%;
   width: 100%;
   justify-items: stretch;
+}
+
+.main {
+  padding: 1em;
+  margin: 1em;
 }
