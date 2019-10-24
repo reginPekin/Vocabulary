@@ -18,14 +18,14 @@ export const editWord = async (folderId, wordId, newName) => {
 
 export const deleteFolder = async folder => {
   return await axios.delete(
-    "http://localhost:4000/vocabulary/folders/" + folder.folderId
+    "http://localhost:4000/vocabulary/folders/" + folder.id
   );
 };
 
 export const renameFolder = async (folder, text) => {
   return await axios.patch(
-    "http://localhost:4000/vocabulary/folders/" + folder.folderId,
-    { folderName: text }
+    "http://localhost:4000/vocabulary/folders/" + folder.id,
+    { name: text }
   );
 };
 
@@ -43,18 +43,18 @@ export const createFolder = async newFolder => {
   );
 };
 
-export const deleteWordsPair = async (folderId, wordPair, wordInf) => {
+export const deleteWordsPair = async (folderId, wordInf) => {
   return await axios.post(
     "http://localhost:4000/vocabulary/folders/" +
       folderId +
       "/words/" +
-      wordPair.wordId,
+      wordInf.wordId,
     wordInf
   );
 };
 
-export const getWordsArray = async folder => {
+export const getWordsArray = async folderId => {
   return await axios
-    .get("http://localhost:4000/vocabulary/folders/" + folder.folderId)
+    .get("http://localhost:4000/vocabulary/folders/" + folderId)
     .then(response => response.data);
 };

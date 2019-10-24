@@ -38,7 +38,7 @@ export const NewWordName = ({
         const newName = {
           word: wordLanguage,
           wordId,
-          folderId,
+          id: folderId,
           renamedWord: text
         };
         sdk

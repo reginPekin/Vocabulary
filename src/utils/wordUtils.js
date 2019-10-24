@@ -1,35 +1,35 @@
 export const addNewWord = newWord => {
   return {
     type: "ADD_NEW_WORD",
-    folderId: newWord.folderId,
+    id: newWord.folderId,
     wordId: newWord.wordId,
     foreignWord: newWord.foreignWord,
     nativeWord: newWord.nativeWord
   };
 };
 
-export const deleteWordsPair = (folderId, wordId) => {
+export const deleteWordsPair = (id, wordId) => {
   return {
     type: "DELETE_WORDS",
-    folderId,
+    id,
     wordId
   };
 };
 
-export const editWord = (wordLanguage, wordId, folderId, renamedWord) => {
+export const editWord = (wordLanguage, wordId, id, renamedWord) => {
   return {
     type: "EDIT_WORD_NAME",
     wordLanguage,
     wordId,
-    folderId,
+    id,
     renamedWord
   };
 };
 
-export const getWordsArray = (folderId, words) => {
+export const getWordsArray = (id, words) => {
   return {
     type: "ADD_WORDS_ARRAY",
-    folderId,
+    id,
     words
   };
 };

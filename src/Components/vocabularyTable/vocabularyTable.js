@@ -7,7 +7,7 @@ import { PairOfWords } from "../PairOfWords";
 export const VocabularyTable = ({ folder, dispatch }) => {
   return folder.words.map((wordPair, key) => (
     <PairOfWords
-      folderId={folder.folderId}
+      folderId={folder.id}
       wordPair={wordPair}
       key={key}
       dispatch={dispatch}

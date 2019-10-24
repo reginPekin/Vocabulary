@@ -14,9 +14,9 @@ export const NewFolder = ({ history }) => {
     <form
       onSubmit={event => {
         const newFolder = {
-          folderName: text,
+          name: text,
           date: Date.now(),
-          folderId: Math.floor(Math.random() * Math.floor(100000000)),
+          id: Math.floor(Math.random() * Math.floor(100000000)),
           words: []
         };
 
@@ -24,7 +24,7 @@ export const NewFolder = ({ history }) => {
           .createFolder(newFolder)
           .then(() => dispatch(createFolder(newFolder)));
         setText("");
-        history.push(`/${newFolder.folderId}/${newFolder.folderName}`);
+        history.push(`/${newFolder.id}/${newFolder.name}`);
         ref.current.blur();
         event.preventDefault();
       }}

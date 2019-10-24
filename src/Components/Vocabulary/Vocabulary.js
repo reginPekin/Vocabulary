@@ -8,16 +8,18 @@ import { getWordsArray } from "../../utils/wordUtils";
 
 import * as sdk from "../../sdk";
 
-export const Vocabulary = ({ folder, wordCounter }) => {
+export const Vocabulary = ({ folder }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("Hey");
+
     sdk
-      .getWordsArray(folder)
-      .then(response => dispatch(getWordsArray(folder.folderId, response)));
+      .getWordsArray(folder.id)
+      .then(response => dispatch(getWordsArray(folder.id, response)));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, wordCounter]);
+  }, [folder]);
 
   return (
     <div>
@@ -26,7 +28,7 @@ export const Vocabulary = ({ folder, wordCounter }) => {
           <VocabularyTable folder={folder} dispatch={dispatch} />
         </tbody>
       </table>
-      <NewWordsPair dispatch={dispatch} folderId={folder.folderId} />
+      <NewWordsPair dispatch={dispatch} folderId={folder.id} />
     </div>
   );
 };

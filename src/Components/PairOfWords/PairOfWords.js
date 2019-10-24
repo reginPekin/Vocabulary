@@ -60,11 +60,11 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
         <button
           onClick={() => {
             let wordInf = {
-              folderId: folderId,
+              id: folderId,
               wordId: wordPair.wordId
             };
             sdk
-              .deleteWordsPair(folderId, wordPair, wordInf)
+              .deleteWordsPair(folderId, wordInf)
               .then(dispatch(deleteWordsPair(folderId, wordPair.wordId)));
           }}
         >

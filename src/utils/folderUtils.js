@@ -1,21 +1,21 @@
-export const getFoldersNames = vocabulary => {
+export const getFoldersNames = folders => {
   return {
-    type: "ADD_NEW_VOCABULARY",
-    vocabulary
+    type: "GET_FOLDERS_NAMES",
+    folders
   };
 };
 
-export const deleteFolder = folderId => {
+export const deleteFolder = id => {
   return {
     type: "DELETE_FOLDER",
-    folderId
+    id
   };
 };
 
-export const renameFolder = (folderId, folderName) => ({
+export const renameFolder = (id, name) => ({
   type: "RENAME_FOLDER",
-  folderId,
-  folderName
+  id,
+  name
 });
 
 export const createFolder = newFolder => {
