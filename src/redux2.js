@@ -1,8 +1,7 @@
 import { createStore, combineReducers } from "redux";
 
 const InitialState = {
-  searchText: "",
-  wordCounter: 0
+  searchText: ""
 };
 
 const InitialStateVocabulary = {
@@ -117,11 +116,7 @@ const smallActions = (state = InitialState, action) => {
   switch (action.type) {
     case "CHANGE_SEARCH_TEXT":
       return { ...state, searchText: action.searchText };
-    case "INCREASE_WORD_COUNTER":
-      return {
-        ...state,
-        wordCounter: action.wordCounter + 1
-      };
+
     default:
       return state;
   }
