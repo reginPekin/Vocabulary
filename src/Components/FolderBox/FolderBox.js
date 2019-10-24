@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { deleteFolder, renameFolder } from "../../utils/folderUtils";
-import { increaseWordCounter } from "../../utils/smallActions";
 
 import * as sdk from "../../sdk";
 
@@ -12,41 +11,30 @@ import style from "./FolderBox.module.css";
 
 const FolderButton = ({
   folder,
-  wordCounter,
   dispatch,
   changeVisibility,
   currentFolderId
 }) => {
-  dispatch({ type: "KEEP_FOLDER", folderId: folder.folderId });
+  dispatch({ type: "KEEP_FOLDER", folderId: folder.id });
 
   return (
     <div className={style.buttonsDiv}>
-      <Link to={`/${folder.folderId}/${folder.folderName}`}>
+      <Link to={`/${folder.id}/${folder.name}`}>
         <button
           style={{
             backgroundColor:
-              parseInt(currentFolderId) === folder.folderId
-                ? "#D4D4D4"
-                : "white"
-          }}
-          onClick={() => {
-            if (folder.words === undefined) {
-              dispatch(increaseWordCounter(wordCounter));
-            }
+              parseInt(currentFolderId) === folder.id ? "#D4D4D4" : "white"
           }}
           className={style.boxFolder}
         >
-          {folder.folderName}
+          {folder.name}
         </button>
       </Link>
       <button onClick={() => changeVisibility()}>Edit me!</button>
       <Link to="/">
         <button
           onClick={() => {
-            sdk
-              .deleteFolder(folder)
-              .then(dispatch(deleteFolder(folder.folderId)))
-              .catch(err => console.log(err));
+            sdk.deleteFolder(folder).then(dispatch(deleteFolder(folder.id)));
           }}
         >
           Delete me :c
@@ -57,7 +45,7 @@ const FolderButton = ({
 };
 
 const FolderInput = ({ folder, dispatch, changeVisibility }) => {
-  const [text, setText] = useState(folder.folderName);
+  const [text, setText] = useState(folder.name);
 
   const inputRename = useRef(null);
 
@@ -85,7 +73,7 @@ const FolderInput = ({ folder, dispatch, changeVisibility }) => {
         onSubmit={event => {
           sdk
             .renameFolder(folder, text)
-            .then(dispatch(renameFolder(folder.folderId, text)));
+            .then(dispatch(renameFolder(folder.id, text)));
           changeVisibility();
           setText("");
           inputRename.current.blur();
@@ -115,7 +103,7 @@ const FolderInput = ({ folder, dispatch, changeVisibility }) => {
   );
 };
 
-export const FolderBox = ({ folder, wordCounter, currentFolderId }) => {
+export const FolderBox = ({ folder, currentFolderId }) => {
   const dispatch = useDispatch();
 
   const [visibility, setVisibility] = useState(true);
@@ -126,7 +114,6 @@ export const FolderBox = ({ folder, wordCounter, currentFolderId }) => {
     return (
       <FolderButton
         folder={folder}
-        wordCounter={wordCounter}
         dispatch={dispatch}
         changeVisibility={changeVisibility}
         currentFolderId={currentFolderId}
