@@ -7,7 +7,7 @@ const PORT = 4000;
 
 const vocabularyRoutes = express.Router();
 
-const Vocabulary = require("./vocabulary.model");
+const Folders = require("./vocabulary.model");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -30,26 +30,29 @@ mongoose.connect(
 );
 
 vocabularyRoutes.route("/folders/names").get((_, res) => {
-  Vocabulary.aggregate([
+  Folders.aggregate([
     {
       $group: {
         _id: "$_id",
-        folderId: { $sum: "$folderId" },
-        folderName: { $first: "$folderName" },
+        id: { $sum: "$id" },
+        name: { $first: "$name" },
         date: { $sum: "$date" }
       }
     },
     {
       $sort: { date: -1 }
     }
-  ]).then(vocabulary => res.json(vocabulary));
+  ]).then(folders => {
+    res.json(folders);
+    console.log(folders);
+  });
 });
 
 vocabularyRoutes.route("/folders").post((req, res) => {
-  Vocabulary.insertMany([
+  Folders.insertMany([
     {
-      folderName: req.body.folderName,
-      folderId: req.body.folderId,
+      name: req.body.name,
+      id: req.body.id,
       date: req.body.date,
       words: req.body.words
     }
@@ -66,7 +69,7 @@ vocabularyRoutes.route("/folders").post((req, res) => {
 });
 
 vocabularyRoutes.route("/folders/:id").get((req, res) => {
-  Vocabulary.findOne({ folderId: req.params.id })
+  Folders.findOne({ id: req.params.id })
     .then(vocabulary => res.json(vocabulary.words))
     .catch(err => {
       res.status(400).send("file didn't find");
@@ -74,7 +77,7 @@ vocabularyRoutes.route("/folders/:id").get((req, res) => {
 });
 
 vocabularyRoutes.route("/folders/:id").delete((req, res) => {
-  Vocabulary.findOneAndDelete({ folderId: req.params.id })
+  Folders.findOneAndDelete({ id: req.params.id })
     .then(() => {
       res.status(200).json({ vocabulary: "folder deleted successfully" });
     })
@@ -84,10 +87,10 @@ vocabularyRoutes.route("/folders/:id").delete((req, res) => {
 });
 
 vocabularyRoutes.route("/folders/:id").patch((req, res) => {
-  Vocabulary.updateOne(
-    { folderId: req.params.id },
+  Folders.updateOne(
+    { id: req.params.id },
     {
-      $set: { folderName: req.body.folderName }
+      $set: { name: req.body.name }
     }
   )
     .then(() => {
@@ -98,9 +101,9 @@ vocabularyRoutes.route("/folders/:id").patch((req, res) => {
     });
 });
 
-vocabularyRoutes.route("/folders/:folderId/words/:wordId").post((req, res) => {
-  Vocabulary.updateOne(
-    { folderId: req.body.folderId },
+vocabularyRoutes.route("/folders/:id/words/:wordId").post((req, res) => {
+  Folders.updateOne(
+    { id: req.body.id },
     {
       $pull: { words: { wordId: req.body.wordId } }
     }
@@ -115,8 +118,8 @@ vocabularyRoutes.route("/folders/:folderId/words/:wordId").post((req, res) => {
 });
 
 vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
-  Vocabulary.updateOne(
-    { folderId: req.params.id },
+  Folders.updateOne(
+    { id: req.params.id },
     {
       $push: {
         words: {
@@ -139,35 +142,33 @@ vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
     });
 });
 
-vocabularyRoutes
-  .route("/folders/:folderId/words/edit/:wordId")
-  .patch((req, res) => {
-    if (req.body.word === "foreign") {
-      Vocabulary.updateOne(
-        { folderId: req.body.folderId, "words.wordId": req.body.wordId },
-        { $set: { "words.$.foreignWord": req.body.renamedWord } }
-      )
-        .then(resp => {
-          console.log("200: ", resp);
-          res.status(200).json({ vocabulary: "word edited successfully" });
-        })
-        .catch(err => {
-          res.status(400).send("editing word failed" + err);
-        });
-    } else if (req.body.word === "native") {
-      Vocabulary.updateOne(
-        { folderId: req.body.folderId, "words.wordId": req.body.wordId },
-        { $set: { "words.$.nativeWord": req.body.renamedWord } }
-      )
-        .then(resp => {
-          console.log("200: ", resp);
-          res.status(200).json({ vocabulary: "word edited successfully" });
-        })
-        .catch(err => {
-          res.status(400).send("editing word failed" + err);
-        });
-    }
-  });
+vocabularyRoutes.route("/folders/:id/words/edit/:wordId").patch((req, res) => {
+  if (req.body.word === "foreign") {
+    Folders.updateOne(
+      { id: req.body.id, "words.wordId": req.body.wordId },
+      { $set: { "words.$.foreignWord": req.body.renamedWord } }
+    )
+      .then(resp => {
+        console.log("200: ", resp);
+        res.status(200).json({ vocabulary: "word edited successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("editing word failed" + err);
+      });
+  } else if (req.body.word === "native") {
+    Folders.updateOne(
+      { id: req.body.id, "words.wordId": req.body.wordId },
+      { $set: { "words.$.nativeWord": req.body.renamedWord } }
+    )
+      .then(resp => {
+        console.log("200: ", resp);
+        res.status(200).json({ vocabulary: "word edited successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("editing word failed" + err);
+      });
+  }
+});
 
 app.listen(PORT, () => {
   console.log("Server is running on Port: " + PORT);

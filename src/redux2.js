@@ -5,22 +5,22 @@ const InitialState = {
 };
 
 const InitialStateVocabulary = {
-  vocabulary: [],
-  folderId: 0
+  folders: [],
+  id: 0
 };
 
 const addNewFolder = (state = InitialStateVocabulary, action) => {
   switch (action.type) {
-    case "ADD_NEW_VOCABULARY":
+    case "GET_FOLDERS_NAMES":
       return {
         ...state,
-        vocabulary: action.vocabulary
+        folders: action.folders
       };
     case "ADD_WORDS_ARRAY":
       return {
         ...state,
-        vocabulary: state.vocabulary.map(folder => {
-          if (folder.folderId === action.folderId) {
+        folders: state.folders.map(folder => {
+          if (folder.id === action.id) {
             return {
               ...folder,
               words: action.words
@@ -32,20 +32,18 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
     case "ADD_NEW_FOLDER":
       return {
         ...state,
-        vocabulary: [action.newFolder, ...state.vocabulary]
+        folders: [action.newFolder, ...state.folders]
       };
     case "DELETE_FOLDER":
       return {
         ...state,
-        vocabulary: state.vocabulary.filter(
-          folder => folder.folderId !== action.folderId
-        )
+        folders: state.folders.filter(folder => folder.id !== action.id)
       };
     case "ADD_NEW_WORD":
       return {
         ...state,
-        vocabulary: state.vocabulary.map(folder => {
-          if (folder.folderId === action.folderId) {
+        folders: state.folders.map(folder => {
+          if (folder.id === action.id) {
             return {
               ...folder,
               words: [
@@ -65,8 +63,8 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
     case "DELETE_WORDS":
       return {
         ...state,
-        vocabulary: state.vocabulary.map(folder => {
-          if (folder.folderId === action.folderId)
+        folders: state.folders.map(folder => {
+          if (folder.id === action.id)
             return {
               ...folder,
               words: folder.words.filter(
@@ -79,9 +77,8 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
     case "RENAME_FOLDER":
       return {
         ...state,
-        vocabulary: state.vocabulary.map(folder => {
-          if (folder.folderId === action.folderId)
-            return { ...folder, folderName: action.folderName };
+        folders: state.folders.map(folder => {
+          if (folder.id === action.id) return { ...folder, name: action.name };
           else return folder;
         })
       };
@@ -89,8 +86,8 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
     case "EDIT_WORD_NAME":
       return {
         ...state,
-        vocabulary: state.vocabulary.map(folder => {
-          if (folder.folderId === action.folderId) {
+        folders: state.folders.map(folder => {
+          if (folder.id === action.id) {
             return {
               ...folder,
               words: folder.words.map(words => {
@@ -116,7 +113,6 @@ const smallActions = (state = InitialState, action) => {
   switch (action.type) {
     case "CHANGE_SEARCH_TEXT":
       return { ...state, searchText: action.searchText };
-
     default:
       return state;
   }

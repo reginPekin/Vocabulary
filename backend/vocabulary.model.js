@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let Vocabulary = new Schema(
+let Folders = new Schema(
   {
-    folderName: {
+    name: {
       type: String
     },
-    folderId: {
+    id: {
       type: Number
     },
     words: {
@@ -19,4 +19,4 @@ let Vocabulary = new Schema(
   { versionKey: false }
 );
 
-module.exports = mongoose.model("Vocabulary", Vocabulary);
+module.exports = mongoose.model("vocabulary", Folders);
