@@ -5,8 +5,10 @@ import { useDispatch } from "react-redux";
 import { createFolder } from "../../utils/folderUtils";
 
 import * as sdk from "../../sdk";
+import { useNavigation } from "react-navi";
 
 export const NewFolder = ({ history }) => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [text, setText] = useState("");
   const ref = useRef(null);
@@ -24,7 +26,7 @@ export const NewFolder = ({ history }) => {
           .createFolder(newFolder)
           .then(() => dispatch(createFolder(newFolder)));
         setText("");
-        history.push(`/${newFolder.id}/${newFolder.name}`);
+        navigation.navigate(`/${newFolder.id}/${newFolder.name}`);
         ref.current.blur();
         event.preventDefault();
       }}
