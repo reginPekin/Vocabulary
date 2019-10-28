@@ -8,9 +8,9 @@ export const NewWordName = ({
   folderId,
   wordId,
   wordLanguage,
-  dispatch,
   changeVisibility,
-  word
+  word,
+  onSubmit = () => null
 }) => {
   const [text, setText] = useState(word);
   const inputRef = useRef(null);
@@ -41,9 +41,8 @@ export const NewWordName = ({
           id: folderId,
           renamedWord: text
         };
-        sdk
-          .editWord(folderId, wordId, newName)
-          .then(dispatch(editWord(wordLanguage, wordId, folderId, text)));
+        sdk.editWord(folderId, wordId, newName).then(() => onSubmit(newName));
+
         changeVisibility();
         setText("");
         event.preventDefault();
