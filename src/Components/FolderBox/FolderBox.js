@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-navi";
 
 import { useDispatch } from "react-redux";
 
@@ -15,11 +15,9 @@ const FolderButton = ({
   changeVisibility,
   currentFolderId
 }) => {
-  dispatch({ type: "KEEP_FOLDER", folderId: folder.id });
-
   return (
     <div className={style.buttonsDiv}>
-      <Link to={`/${folder.id}/${folder.name}`}>
+      <Link href={`/voc/${folder.id}`} activeClassName="active">
         <button
           style={{
             backgroundColor:
@@ -31,7 +29,7 @@ const FolderButton = ({
         </button>
       </Link>
       <button onClick={() => changeVisibility()}>Edit me!</button>
-      <Link to="/">
+      <Link href="/" activeClassName="active">
         <button
           onClick={() => {
             sdk.deleteFolder(folder).then(dispatch(deleteFolder(folder.id)));
