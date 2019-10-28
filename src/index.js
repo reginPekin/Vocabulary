@@ -1,18 +1,27 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux2";
-import { BrowserRouter } from "react-router-dom";
+import { Router, View } from "react-navi";
+import { routes } from "./routes";
 
 import "./style/index.css";
+import styles from "./style/index.module.css";
 
-import { App } from "./components/App";
+import { Menu } from "./components/Menu";
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Router routes={routes}>
+      <main className={styles.app}>
+        <Menu />
+        <Suspense fallback={null}>
+          <section className={styles.main}>
+            <View />
+          </section>
+        </Suspense>
+      </main>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
