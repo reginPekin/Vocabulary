@@ -68,9 +68,17 @@ vocabularyRoutes.route("/folders").post((req, res) => {
     });
 });
 
-vocabularyRoutes.route("/folders/:id").get((req, res) => {
+vocabularyRoutes.route("/folders/:id/words").get((req, res) => {
   Folders.findOne({ id: req.params.id })
     .then(vocabulary => res.json(vocabulary.words))
+    .catch(err => {
+      res.status(400).send("file didn't find");
+    });
+});
+
+vocabularyRoutes.route("/folders/:id").get((req, res) => {
+  Folders.findOne({ id: req.params.id })
+    .then(vocabulary => res.json(vocabulary))
     .catch(err => {
       res.status(400).send("file didn't find");
     });
