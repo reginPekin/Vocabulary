@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { NewWordName } from "../NewWordName";
 
-import { deleteWordsPair } from "../../utils/wordUtils";
+import { deleteWordsPair, editWord } from "../../utils/wordUtils";
 
 import style from "./DisplayPair.module.css";
 
@@ -52,7 +52,16 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
             wordLanguage="native"
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
             word={wordPair.nativeWord}
-            dispatch={dispatch}
+            onSubmit={newWord =>
+              dispatch(
+                editWord(
+                  newWord.wordLanguage,
+                  newWord.wordId,
+                  newWord.folderId,
+                  newWord.renamedWord
+                )
+              )
+            }
           />
         )}
       </td>
