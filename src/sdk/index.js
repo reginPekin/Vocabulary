@@ -55,6 +55,12 @@ export const deleteWordsPair = async (folderId, wordInf) => {
 
 export const getWordsArray = async folderId => {
   return await axios
+    .get("http://localhost:4000/vocabulary/folders/" + folderId + "/words")
+    .then(response => response.data);
+};
+
+export const getFolder = async folderId => {
+  return await axios
     .get("http://localhost:4000/vocabulary/folders/" + folderId)
     .then(response => response.data);
 };
