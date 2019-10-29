@@ -26,7 +26,7 @@ export const editWord = (wordLanguage, wordId, id, renamedWord) => {
   };
 };
 
-export const getWordsArray = (id, words) => {
+export const addWordsArray = (id, words) => {
   return {
     type: "ADD_WORDS_ARRAY",
     id,
