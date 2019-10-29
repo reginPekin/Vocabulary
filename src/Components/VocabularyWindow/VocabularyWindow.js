@@ -1,32 +1,30 @@
 import React from "react";
-import { connect } from "react-redux";
+
+import { mount, route } from "navi";
 
 import { Vocabulary } from "../Vocabulary";
 import { InfoBox } from "../InfoBox";
 
-export const VocabularyWindowContainer = ({ folders, history }) => {
-  const index = history.location.pathname.indexOf("/", 2);
-  const id = parseInt(history.location.pathname.slice(1, index), 10);
+import * as sdk from "../../sdk";
 
+const VocabularyWindow = ({ folder }) => {
   return (
     <div>
-      {folders
-        .filter(folder => folder.id === id)
-        .map((folder, key) => {
-          if (folder.words === undefined) folder.words = [];
-          return (
-            <div key={key}>
-              <InfoBox name={folder.name} />
-              <Vocabulary folder={folder} folderId={id} />
-            </div>
-          );
-        })}
+      <InfoBox name={folder.name} />
+      <Vocabulary folder={folder} />
     </div>
   );
 };
 
-const mapStateProps = state => ({ folders: state.addNewFolder.folders });
-
-export const VocabularyWindow = connect(mapStateProps)(
-  VocabularyWindowContainer
-);
+export default mount({
+  "/:id": route({
+    async getView(request) {
+      try {
+        const folder = await sdk.getFolder(request.params.id);
+        return <VocabularyWindow folder={folder} />;
+      } catch (error) {
+        return <div>F</div>;
+      }
+    }
+  })
+});
