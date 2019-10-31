@@ -1,7 +1,8 @@
 import { createStore, combineReducers } from "redux";
 
 const InitialState = {
-  searchText: ""
+  searchText: "",
+  beam: 0
 };
 
 const InitialStateVocabulary = {
@@ -21,6 +22,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
         ...state,
         folders: state.folders.map(folder => {
           if (folder.id === action.id) {
+            console.log("yyyy");
             return {
               ...folder,
               words: action.words
@@ -29,6 +31,7 @@ const addNewFolder = (state = InitialStateVocabulary, action) => {
           return folder;
         })
       };
+
     case "ADD_NEW_FOLDER":
       return {
         ...state,
@@ -113,6 +116,8 @@ const smallActions = (state = InitialState, action) => {
   switch (action.type) {
     case "CHANGE_SEARCH_TEXT":
       return { ...state, searchText: action.searchText };
+    case "SET_HOOK_BEAM":
+      return { ...state, beam: state.beam + 1 };
     default:
       return state;
   }
