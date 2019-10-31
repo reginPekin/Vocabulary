@@ -2,13 +2,11 @@ import React, { useState } from "react";
 
 import { NewWordName } from "../NewWordName";
 
-import { deleteWordsPair, editWord } from "../../utils/wordUtils";
-
 import style from "./DisplayPair.module.css";
 
 import * as sdk from "../../sdk";
 
-export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
+export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
   const [isVisibleForeign, setIsVisibleForeign] = useState(true);
   const [isVisibleNative, setIsVisibleNative] = useState(true);
 
@@ -30,8 +28,8 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
             wordId={wordPair.wordId}
             wordLanguage="foreign"
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
-            dispatch={dispatch}
             word={wordPair.foreignWord}
+            onEdit={onEdit}
           />
         )}
       </td>
@@ -41,7 +39,7 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
           <div>
             {wordPair.nativeWord}
             <button onClick={() => setIsVisibleNative(!isVisibleNative)}>
-              Edit me
+              Edit
             </button>
           </div>
         )}
@@ -52,16 +50,7 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
             wordLanguage="native"
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
             word={wordPair.nativeWord}
-            onSubmit={newWord =>
-              dispatch(
-                editWord(
-                  newWord.wordLanguage,
-                  newWord.wordId,
-                  newWord.folderId,
-                  newWord.renamedWord
-                )
-              )
-            }
+            onEdit={onEdit}
           />
         )}
       </td>
@@ -72,9 +61,7 @@ export const PairOfWords = ({ folderId, wordPair, dispatch }) => {
               id: folderId,
               wordId: wordPair.wordId
             };
-            sdk
-              .deleteWordsPair(folderId, wordInf)
-              .then(dispatch(deleteWordsPair(folderId, wordPair.wordId)));
+            sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
           }}
         >
           Don't delete me, please :c
