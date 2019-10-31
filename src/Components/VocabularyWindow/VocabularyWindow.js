@@ -1,17 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { mount, route } from "navi";
 
-import { Vocabulary } from "../Vocabulary";
 import { InfoBox } from "../InfoBox";
+import { NewWordsPair } from "../NewWordsPair";
+import { PairOfWords } from "../PairOfWords";
 
 import * as sdk from "../../sdk";
 
-const VocabularyWindow = ({ folder }) => {
+const VocabularyWindow = ({ folderRequest }) => {
+  const dispatch = useDispatch();
+  const [folder, setFolder] = useState(folderRequest);
+
+  useEffect(() => {
+    setFolder(folderRequest);
+  }, [folderRequest]);
+
   return (
     <div>
-      <InfoBox name={folder.name} />
-      <Vocabulary folder={folder} />
+      <InfoBox
+        folder={folder}
+        onRename={newName => {
+          setFolder({ ...folder, name: newName });
+          dispatch({ type: "SET_HOOK_BEAM" });
+        }}
+      />
+      <div>
+        <table>
+          <tbody>
+            {folder.words.map((wordPair, key) => (
+              <PairOfWords
+                folderId={folder.id}
+                wordPair={wordPair}
+                key={key}
+                onDelete={wordId => {
+                  let newWords = folder.words.filter(
+                    words => words.wordId !== wordId
+                  );
+                  setFolder({ ...folder, words: newWords });
+                }}
+                onEdit={(wordId, wordLanguage, newName) => {
+                  setFolder({
+                    ...folder,
+                    words: folder.words.map(words => {
+                      if (words.wordId === wordId) {
+                        if (wordLanguage === "foreign")
+                          words.foreignWord = newName;
+                        else if (wordLanguage === "native")
+                          words.nativeWord = newName;
+                      }
+                      return words;
+                    })
+                  });
+                }}
+              />
+            ))}
+          </tbody>
+        </table>
+        <NewWordsPair
+          folderId={folder.id}
+          onAdd={newWord => {
+            setFolder({ ...folder, words: [...folder.words, newWord] });
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -19,9 +72,9 @@ const VocabularyWindow = ({ folder }) => {
 export default mount({
   "/:id": route({
     async getView(request) {
+      const folder = await sdk.getFolder(request.params.id);
       try {
-        const folder = await sdk.getFolder(request.params.id);
-        return <VocabularyWindow folder={folder} />;
+        return <VocabularyWindow folderRequest={folder} />;
       } catch (error) {
         return <div>F</div>;
       }
