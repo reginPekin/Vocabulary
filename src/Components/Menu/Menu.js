@@ -1,69 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { NotFoundBoundary, useLoadingRoute, useCurrentRoute } from "react-navi";
+import { useCurrentRoute } from "react-navi";
 
 import { FolderBox } from "../FolderBox";
-import { FolderSearch } from "../FolderSearch";
 import { NewFolder } from "../NewFolder";
-import { LoadingBar } from "../LoadingBar";
 
-import { getFoldersNames } from "../../utils/folderUtils";
-import { getCurrentFolderId, isSuitable } from "../../utils/smallActions";
+import { getCurrentFolderId } from "../../utils/smallActions";
 
 import * as sdk from "../../sdk";
 
 import styles from "./Menu.module.css";
 
-const MenuContainerRouter = ({ children, dispatch, searchText, folders }) => {
-  let loadingRoute = useLoadingRoute();
+const MenuContainer = ({ beam }) => {
+  const [folderNames, setFolderNames] = useState([]);
   let route = useCurrentRoute();
-  const currentFolderId = getCurrentFolderId(route.url.pathname);
+  const currentFolderId = getCurrentFolderId(route.url.href);
 
   useEffect(() => {
     sdk.getFolderNames().then(response => {
-      console.log("response", response);
-      dispatch(getFoldersNames(response));
+      setFolderNames(response);
     });
-  }, [dispatch]);
+  }, [beam]);
 
   return (
     <div className={styles.folderWindow}>
-      <LoadingBar isActive={!!loadingRoute} />
-      {folders.length > 5 && <FolderSearch />}
-
-      {folders.map(
-        (folder, key) =>
-          isSuitable(searchText, folder) && (
-            <FolderBox
-              folder={folder}
-              key={key}
-              currentFolderId={currentFolderId}
-            />
-          )
+      {folderNames.map(
+        (folder, key) => (
+          // isSuitable(searchText, folder) && (
+          <FolderBox
+            folder={folder}
+            key={key}
+            isActive={currentFolderId}
+            onDelete={folderId => {
+              setFolderNames(
+                folderNames.filter(folder => folderId !== folder.id)
+              );
+            }}
+          />
+        )
+        // )
       )}
-      <NewFolder />
-      <main>
-        <NotFoundBoundary render={renderNotFound}>
-          {children || null}
-        </NotFoundBoundary>
-      </main>
+      <NewFolder
+        onAdd={newFolder => setFolderNames([newFolder, ...folderNames])}
+      />
     </div>
   );
 };
 
-function renderNotFound() {
-  return (
-    <div className="App-error">
-      <h1>404 - Not Found</h1>
-    </div>
-  );
-}
-
 const mapStateProps = state => ({
-  searchText: state.smallActions.searchText,
-  folders: state.addNewFolder.folders
+  beam: state.smallActions.beam
 });
 
-const MenuRouter = connect(mapStateProps)(MenuContainerRouter);
-
-export const Menu = MenuRouter;
+export const Menu = connect(mapStateProps)(MenuContainer);
