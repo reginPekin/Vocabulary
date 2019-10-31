@@ -1,15 +1,10 @@
 import React, { useState, useRef } from "react";
 
-import { useDispatch } from "react-redux";
-
-import { createFolder } from "../../utils/folderUtils";
-
 import * as sdk from "../../sdk";
 import { useNavigation } from "react-navi";
 
-export const NewFolder = ({ history }) => {
+export const NewFolder = ({ onAdd }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const [text, setText] = useState("");
   const ref = useRef(null);
   return (
@@ -24,10 +19,13 @@ export const NewFolder = ({ history }) => {
 
         sdk
           .createFolder(newFolder)
-          .then(() => dispatch(createFolder(newFolder)));
-        setText("");
-        navigation.navigate(`/${newFolder.id}/${newFolder.name}`);
+          .then(onAdd(newFolder))
+          .then(() => {
+            navigation.navigate(`/voc/${newFolder.id}`);
+          });
+
         ref.current.blur();
+        setText("");
         event.preventDefault();
       }}
     >
