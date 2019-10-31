@@ -1,1 +1,0 @@
-export { Vocabulary } from "./Vocabulary";

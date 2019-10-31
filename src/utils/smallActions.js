@@ -5,10 +5,8 @@ export const setSearchText = searchText => {
   };
 };
 
-export const getCurrentFolderId = history => {
-  const currentFolderLink = history.location.pathname;
-
-  return currentFolderLink.slice(1, currentFolderLink.indexOf("/", 2));
+export const getCurrentFolderId = currentFolderLink => {
+  return currentFolderLink.slice(5);
 };
 
 export const isSuitable = (searchText, folder) => {
