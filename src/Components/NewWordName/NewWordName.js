@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { editWord } from "../../utils/wordUtils";
-
 import * as sdk from "../../sdk";
 
 export const NewWordName = ({
@@ -10,7 +8,7 @@ export const NewWordName = ({
   wordLanguage,
   changeVisibility,
   word,
-  onSubmit = () => null
+  onEdit = () => null
 }) => {
   const [text, setText] = useState(word);
   const inputRef = useRef(null);
@@ -41,7 +39,9 @@ export const NewWordName = ({
           id: folderId,
           renamedWord: text
         };
-        sdk.editWord(folderId, wordId, newName).then(() => onSubmit(newName));
+        sdk
+          .editWord(folderId, wordId, newName)
+          .then(() => onEdit(wordId, wordLanguage, text));
 
         changeVisibility();
         setText("");
