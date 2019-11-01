@@ -3,12 +3,13 @@ import React, { useState, useRef } from "react";
 import * as sdk from "../../sdk";
 import { useNavigation } from "react-navi";
 
-export const NewFolder = ({ onAdd }) => {
+export const NewFolder = ({ onAdd, className }) => {
   const navigation = useNavigation();
   const [text, setText] = useState("");
   const ref = useRef(null);
   return (
     <form
+      className={className}
       onSubmit={event => {
         const newFolder = {
           name: text,

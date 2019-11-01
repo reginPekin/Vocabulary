@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Button } from "../Button";
 import { EditingInput } from "../EditingInput";
 
-import style from "./DisplayPair.module.css";
+import Delete from "../../images/deleteImage.png";
+
+import styles from "./DisplayPair.module.css";
 
 import * as sdk from "../../sdk";
 
@@ -12,7 +14,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
   const [isVisibleNative, setIsVisibleNative] = useState(true);
 
   return (
-    <tr className={style.PairOfWords}>
+    <tr className={styles.PairOfWords}>
       <td>
         {isVisibleForeign && (
           <Button
@@ -65,7 +67,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
           />
         )}
       </td>
-      <td>
+      <td className={styles.deleteTd}>
         <Button
           onClick={() => {
             let wordInf = {
@@ -74,7 +76,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             };
             sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
           }}
-          value="Delete"
+          value={<img alt="Delete" src={Delete} />}
         />
       </td>
     </tr>

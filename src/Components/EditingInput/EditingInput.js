@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import styles from "./EditInput.module.css";
+
 export const EditingInput = ({
   initialState,
   changeVisibility = () => null,
@@ -35,6 +37,7 @@ export const EditingInput = ({
       }}
     >
       <input
+        className={styles.input}
         ref={inputRef}
         type="text"
         value={text}

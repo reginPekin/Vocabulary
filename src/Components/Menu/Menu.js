@@ -24,6 +24,10 @@ const MenuContainer = ({ beam }) => {
 
   return (
     <div className={styles.folderWindow}>
+      <NewFolder
+        className={styles.newFolder}
+        onAdd={newFolder => setFolderNames([newFolder, ...folderNames])}
+      />
       {folderNames.map(
         (folder, key) => (
           // isSuitable(searchText, folder) && (
@@ -40,9 +44,6 @@ const MenuContainer = ({ beam }) => {
         )
         // )
       )}
-      <NewFolder
-        onAdd={newFolder => setFolderNames([newFolder, ...folderNames])}
-      />
     </div>
   );
 };
