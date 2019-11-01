@@ -6,7 +6,8 @@ export const setSearchText = searchText => {
 };
 
 export const getCurrentFolderId = currentFolderLink => {
-  return currentFolderLink.slice(5);
+  const index = currentFolderLink.indexOf("/", 1);
+  return currentFolderLink.slice(index + 1);
 };
 
 export const isSuitable = (searchText, folder) => {
