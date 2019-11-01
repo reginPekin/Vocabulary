@@ -35,7 +35,7 @@ const VocabularyWindow = ({ folderRequest }) => {
                 wordPair={wordPair}
                 key={key}
                 onDelete={wordId => {
-                  let newWords = folder.words.filter(
+                  const newWords = folder.words.filter(
                     words => words.wordId !== wordId
                   );
                   setFolder({ ...folder, words: newWords });

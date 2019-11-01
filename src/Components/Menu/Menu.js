@@ -13,7 +13,7 @@ import styles from "./Menu.module.css";
 
 const MenuContainer = ({ beam }) => {
   const [folderNames, setFolderNames] = useState([]);
-  let route = useCurrentRoute();
+  const route = useCurrentRoute();
   const currentFolderId = getCurrentFolderId(route.url.href);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const MenuContainer = ({ beam }) => {
           <FolderBox
             folder={folder}
             key={key}
-            isActive={currentFolderId}
+            isActive={parseInt(currentFolderId) === folder.id}
             onDelete={folderId => {
               setFolderNames(
                 folderNames.filter(folder => folderId !== folder.id)

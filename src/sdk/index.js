@@ -6,12 +6,12 @@ export const getFolderNames = async () => {
     .then(response => response.data);
 };
 
-export const editWord = async (folderId, wordId, newName) => {
+export const editWord = async newName => {
   return await axios.patch(
     "http://localhost:4000/vocabulary/folders/" +
-      folderId +
+      newName.id +
       "/words/edit/" +
-      wordId,
+      newName.wordId,
     newName
   );
 };
