@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { NewWordName } from "../NewWordName";
+import { Button } from "../Button";
+import { EditingInput } from "../EditingInput";
 
 import style from "./DisplayPair.module.css";
 
@@ -14,48 +15,58 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
     <tr className={style.PairOfWords}>
       <td>
         {isVisibleForeign && (
-          <div>
-            {wordPair.foreignWord}
-            <button onClick={() => setIsVisibleForeign(!isVisibleForeign)}>
-              Edit me
-            </button>
-          </div>
+          <Button
+            value={wordPair.foreignWord}
+            onClick={() => setIsVisibleForeign(!isVisibleForeign)}
+          />
         )}
 
         {!isVisibleForeign && (
-          <NewWordName
-            folderId={folderId}
-            wordId={wordPair.wordId}
-            wordLanguage="foreign"
+          <EditingInput
+            initialState={wordPair.foreignWord}
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
-            word={wordPair.foreignWord}
-            onEdit={onEdit}
+            onSubmit={value => {
+              const newName = {
+                word: "foreign",
+                wordId: wordPair.wordId,
+                id: folderId,
+                renamedWord: value
+              };
+              sdk
+                .editWord(newName)
+                .then(() => onEdit(newName.wordId, "foreign", value));
+            }}
           />
         )}
       </td>
 
       <td>
         {isVisibleNative && (
-          <div>
-            {wordPair.nativeWord}
-            <button onClick={() => setIsVisibleNative(!isVisibleNative)}>
-              Edit
-            </button>
-          </div>
+          <Button
+            value={wordPair.nativeWord}
+            onClick={() => setIsVisibleNative(!isVisibleNative)}
+          />
         )}
         {!isVisibleNative && (
-          <NewWordName
-            folderId={folderId}
-            wordId={wordPair.wordId}
-            wordLanguage="native"
+          <EditingInput
+            initialState={wordPair.foreignWord}
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
-            word={wordPair.nativeWord}
-            onEdit={onEdit}
+            onSubmit={value => {
+              const newName = {
+                word: "native",
+                wordId: wordPair.wordId,
+                id: folderId,
+                renamedWord: value
+              };
+              sdk
+                .editWord(newName)
+                .then(() => onEdit(newName.wordId, "native", value));
+            }}
           />
         )}
       </td>
       <td>
-        <button
+        <Button
           onClick={() => {
             let wordInf = {
               id: folderId,
@@ -63,9 +74,8 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             };
             sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
           }}
-        >
-          Don't delete me, please :c
-        </button>
+          value="Delete"
+        />
       </td>
     </tr>
   );
