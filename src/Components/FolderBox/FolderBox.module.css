@@ -1,11 +1,15 @@
 .boxFolder {
+  display: flex;
   margin-bottom: 0.5em;
-  width: 9em;
   font-size: 15px;
   border-radius: 5px;
-  border: none;
+  color: black;
   padding: 0.3em;
   cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+
+  border: 2px solid white;
 
   transition: background 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -15,9 +19,10 @@
 }
 
 .boxFolder:hover {
-  background-color: #d4d4d4;
+  background-color: var(--dark-gray);
+  /* #d4d4d4; */
 }
 
-.textareaEditFolderName {
-  user-select: elem; /* Someday */
+.activeFolder {
+  border: 2px solid #808080;
 }

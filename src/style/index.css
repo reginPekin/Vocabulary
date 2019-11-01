@@ -1,5 +1,12 @@
 #root,
 html,
+body,
+element {
+  --dark-gray: #d4d4d4;
+}
+
+#root,
+html,
 body {
   width: 100%;
   height: 100%;
