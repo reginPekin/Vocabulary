@@ -5,21 +5,19 @@ import * as sdk from "../../sdk";
 
 import styles from "./FolderBox.module.css";
 
-const FolderButton = ({ folder, isActive, onDelete }) => {
+export const FolderBox = ({ folder, isActive, onDelete = () => null }) => {
+  console.log(isActive);
   return (
     <div>
       <Link href={`/voc/${folder.id}`} activeClassName="active">
-        <button
+        <div
           style={{
-            border:
-              parseInt(isActive) === folder.id
-                ? "2px solid #808080"
-                : "2px solid white"
+            border: isActive ? "2px solid #808080" : "2px solid white"
           }}
           className={styles.boxFolder}
         >
           {folder.name}
-        </button>
+        </div>
       </Link>
       <Link href="/" activeClassName="active">
         <button
@@ -31,11 +29,5 @@ const FolderButton = ({ folder, isActive, onDelete }) => {
         </button>
       </Link>
     </div>
-  );
-};
-
-export const FolderBox = ({ folder, isActive, onDelete = () => null }) => {
-  return (
-    <FolderButton folder={folder} isActive={isActive} onDelete={onDelete} />
   );
 };
