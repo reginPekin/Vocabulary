@@ -5,7 +5,7 @@ import * as sdk from "../../sdk";
 
 import styles from "./FolderBox.module.css";
 
-export const FolderBox = ({ folder, isActive, onDelete = () => null }) => {
+export const FolderBox = ({ folder, onDelete = () => null }) => {
   return (
     <div>
       <Link
