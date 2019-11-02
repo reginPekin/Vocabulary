@@ -5,7 +5,7 @@ import { EditingInput } from "../EditingInput";
 
 import Delete from "../../images/deleteImage.png";
 
-import styles from "./DisplayPair.module.css";
+import styles from "./PairOfWords.module.css";
 
 import * as sdk from "../../sdk";
 
@@ -70,7 +70,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
       <td className={styles.deleteTd}>
         <Button
           onClick={() => {
-            let wordInf = {
+            const wordInf = {
               id: folderId,
               wordId: wordPair.wordId
             };
