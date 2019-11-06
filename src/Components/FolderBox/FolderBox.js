@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-navi";
 
 import * as sdk from "../../sdk";
 
 import styles from "./FolderBox.module.css";
 
+import { Button } from "../Button";
+
 export const FolderBox = ({ folder, onDelete = () => null }) => {
+  const [isVisible, setIsVisible] = useState(false);
   return (
-    <div>
+    <div className={styles.boxFolder}>
       <Link
         href={`/voc/${folder.id}`}
-        className={styles.boxFolder}
         activeClassName={styles.activeFolder}
+        className={styles.link}
       >
         {folder.name}
       </Link>
-      <Link href="/">
+      <Button
+        buttonClassName={styles.button}
+        value=":"
+        onClick={() => setIsVisible(!isVisible)}
+      />
+      {isVisible && <div>Hi</div>}
+      {/* <Link href="/">
         <button
           onClick={() => {
             sdk.deleteFolder(folder.id).then(() => onDelete(folder.id));
@@ -23,7 +32,7 @@ export const FolderBox = ({ folder, onDelete = () => null }) => {
         >
           X
         </button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
