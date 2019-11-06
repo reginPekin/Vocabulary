@@ -18,6 +18,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
       <td>
         {isVisibleForeign && (
           <Button
+            buttonClassName={styles.button}
             value={wordPair.foreignWord}
             onClick={() => setIsVisibleForeign(!isVisibleForeign)}
           />
@@ -25,7 +26,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
 
         {!isVisibleForeign && (
           <EditingInput
-            initialState={wordPair.foreignWord}
+            value={wordPair.foreignWord}
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
             onSubmit={value => {
               const newName = {
@@ -45,6 +46,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
       <td>
         {isVisibleNative && (
           <Button
+            buttonClassName={styles.button}
             value={wordPair.nativeWord}
             onClick={() => setIsVisibleNative(!isVisibleNative)}
           />

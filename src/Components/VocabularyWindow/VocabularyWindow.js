@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { mount, route } from "navi";
 
+import styles from "./VocabularyWindow.module.css";
+
 import { InfoBox } from "../InfoBox";
 import { NewWordsPair } from "../NewWordsPair";
 import { PairOfWords } from "../PairOfWords";
@@ -18,9 +20,10 @@ const VocabularyWindow = ({ folderRequest }) => {
   }, [folderRequest]);
 
   return (
-    <div>
+    <main className={styles.main}>
       <InfoBox
         folder={folder}
+        buttonClassName={styles.infoBox}
         onRename={newName => {
           setFolder({ ...folder, name: newName });
           dispatch({ type: "SET_HOOK_BEAM" });
@@ -65,7 +68,7 @@ const VocabularyWindow = ({ folderRequest }) => {
           }}
         />
       </div>
-    </div>
+    </main>
   );
 };
 

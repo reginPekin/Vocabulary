@@ -9,6 +9,3 @@ export const routes = mount({
   }),
   "/voc": lazy(() => import("./components/VocabularyWindow/VocabularyWindow"))
 });
-
-// <Route exact path="/" component={Hello} />
-// <Route path="/:id" render={props => <VocabularyWindow {...props} />} />

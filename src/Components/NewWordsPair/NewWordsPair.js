@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import styles from "./NewWordsPair.module.css";
+
 import * as sdk from "../../sdk";
 
 export const NewWordsPair = ({ folderId, onAdd }) => {
@@ -37,6 +39,7 @@ export const NewWordsPair = ({ folderId, onAdd }) => {
                   }}
                 >
                   <input
+                    className={styles.input}
                     type="text"
                     ref={foreignInputRef}
                     value={foreignText}
@@ -64,6 +67,7 @@ export const NewWordsPair = ({ folderId, onAdd }) => {
                   }}
                 >
                   <input
+                    className={styles.input}
                     type="text"
                     ref={nativeInputRef}
                     value={nativeText}

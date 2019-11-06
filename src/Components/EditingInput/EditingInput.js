@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import cx from "classnames";
+
 import styles from "./EditInput.module.css";
 
 export const EditingInput = ({
-  initialState,
+  value = "",
   changeVisibility = () => null,
-  onSubmit = () => null
+  onSubmit = () => null,
+  inputClassName = null
 }) => {
-  const [text, setText] = useState(initialState);
+  const [text, setText] = useState(value);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export const EditingInput = ({
       }}
     >
       <input
-        className={styles.input}
+        className={cx(styles.input, inputClassName)}
         ref={inputRef}
         type="text"
         value={text}
