@@ -20,12 +20,12 @@ const MenuContainer = ({ beam }) => {
   return (
     <div className={styles.folderWindow}>
       <NewFolder
-        className={styles.newFolder}
+        inputClassName={styles.newFolderInput}
+        buttonClassName={styles.newFolderButtom}
         onAdd={newFolder => setFolderNames([newFolder, ...folderNames])}
       />
       {folderNames.map(
         (folder, key) => (
-          // isSuitable(searchText, folder) && (
           <FolderBox
             folder={folder}
             key={key}
