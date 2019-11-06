@@ -1,16 +1,22 @@
 .PairOfWords {
   margin-bottom: 0.5em;
-  /* display: flex; */
 }
 
 td {
-  border: 1px solid black;
+  border: none;
+  background-color: var(--light-gray);
   padding: 1em;
-  min-width: 7em;
-  max-width: 7em;
+  min-width: 12em;
+  max-width: 12em;
 }
 
 .deleteTd {
   border: none;
   padding: 3px;
+  background-color: white;
+}
+
+.button {
+  font-size: 1em;
+  background-color: var(--light-gray);
 }
