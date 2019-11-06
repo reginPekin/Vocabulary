@@ -1,28 +1,41 @@
 .boxFolder {
   display: flex;
-  margin-bottom: 0.5em;
-  font-size: 15px;
-  border-radius: 5px;
-  color: black;
-  padding: 0.3em;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
 
-  border: 2px solid white;
+  cursor: pointer;
+
+  text-align: center;
 
   transition: background 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+.link {
+  text-align: start;
+  flex: 1 1 auto;
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  padding: 1em 2em;
+}
 
+.button {
+  width: 2em;
+  justify-items: end;
+  border: 1px solid black;
+  margin: 1em;
+  display: none;
+}
 .boxFolder:focus {
   outline: none;
 }
 
 .boxFolder:hover {
-  background-color: var(--dark-gray);
-  /* #d4d4d4; */
+  background: var(--dark-gray);
+}
+
+.boxFolder:hover .button {
+  display: block;
 }
 
 .activeFolder {
-  border: 2px solid #808080;
+  background: var(--dark-gray);
+  color: white;
 }
