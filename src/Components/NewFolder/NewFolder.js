@@ -11,7 +11,7 @@ import styles from "./NewFolder.module.css";
 
 import * as sdk from "../../sdk";
 
-export const NewFolder = ({ onAdd, inputClassName, buttonClassName }) => {
+export const NewFolder = ({ onAdd }) => {
   const navigation = useNavigation();
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => setVisibility(!visibility);
@@ -21,18 +21,19 @@ export const NewFolder = ({ onAdd, inputClassName, buttonClassName }) => {
       <Button
         value={
           <div className={styles.span}>
-            <img src={Plus} alt="Plus" />
+            <img src={Plus} alt="Plus" width="15" />
             <span> Add folder </span>
           </div>
         }
         onClick={() => changeVisibility(!setVisibility)}
-        buttonClassName={buttonClassName}
+        buttonClassName={styles.newFolderButtom}
       />
     );
   } else {
     return (
       <EditingInput
-        inputClassName={inputClassName}
+        formClassName={styles.form}
+        inputClassName={styles.newFolderInput}
         changeVisibility={changeVisibility}
         onSubmit={text => {
           const newFolder = {
