@@ -1,41 +1,94 @@
 .boxFolder {
-  display: flex;
-
-  cursor: pointer;
-
-  text-align: center;
-
-  transition: background 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+  position: relative;
 }
+
 .link {
-  text-align: start;
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
+  width: 100%;
   text-decoration: none;
   color: black;
   font-size: 15px;
   padding: 1em 2em;
 }
 
-.button {
-  width: 2em;
-  justify-items: end;
-  border: 1px solid black;
-  margin: 1em;
-  display: none;
+.mainPart {
+  /* transition: background 0.5s cubic-bezier(0.075, 0.82, 0.165, 1); */
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
+
+.button {
+  margin: 5px;
+  padding: 0;
+  display: none;
+  background-color: var(--dark-gray);
+}
+
+.button:hover {
+  background-color: var(--light-gray);
+}
+
 .boxFolder:focus {
   outline: none;
 }
 
-.boxFolder:hover {
+.mainPart:hover {
   background: var(--dark-gray);
 }
 
-.boxFolder:hover .button {
-  display: block;
+.mainPart:hover .button {
+  display: flex;
 }
 
 .activeFolder {
   background: var(--dark-gray);
   color: white;
+}
+
+.glass {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+}
+
+.contextMenu {
+  border-radius: 3px;
+  position: absolute;
+  top: 20px;
+  left: 100px;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 220px;
+  z-index: 3;
+  background-color: white;
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px,
+    rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;
+}
+
+.menuButton {
+  width: 100%;
+  min-height: 28px;
+  font-size: 14px;
+  text-align: start;
+  padding-left: 1.5em;
+}
+
+.linkDelete {
+  width: 100%;
+}
+
+.deleteButton {
+  width: 100%;
+}
+
+.menuButton:hover {
+  background-color: var(--light-gray);
 }
