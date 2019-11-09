@@ -1,3 +1,28 @@
 .input {
   width: 10em;
 }
+
+.newFolderButtom {
+  text-align: left;
+  font-size: 1em;
+  padding: 1em 2em 1em 0;
+}
+
+.newFolderButtom:hover {
+  background-color: white;
+}
+
+.newFolderButtom img {
+  padding-right: 7px;
+}
+
+.section {
+  display: flex;
+  line-height: 120%;
+  align-items: center;
+  font-size: 16px;
+}
+
+.newFolderButtom:hover {
+  text-decoration: underline;
+}

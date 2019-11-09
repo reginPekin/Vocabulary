@@ -4,6 +4,10 @@ import styles from "./NewWordsPair.module.css";
 
 import * as sdk from "../../sdk";
 
+import Plus from "../../images/darkPlus.png";
+
+import { Button } from "../Button";
+
 export const NewWordsPair = ({ folderId, onAdd }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [foreignText, setForeignText] = useState("");
@@ -80,13 +84,18 @@ export const NewWordsPair = ({ folderId, onAdd }) => {
         </table>
       )}
       {!isClicked && (
-        <button
+        <Button
+          buttonClassName={styles.newFolderButtom}
           onClick={() => {
             setIsClicked(!isClicked);
           }}
-        >
-          Add new words
-        </button>
+          value={
+            <section className={styles.section}>
+              <img src={Plus} alt="Plus" width="15" />
+              <span>Add new words pair</span>
+            </section>
+          }
+        />
       )}
     </>
   );
