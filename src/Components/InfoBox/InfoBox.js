@@ -23,7 +23,7 @@ export const InfoBox = ({ folder, onRename = () => null }) => {
   return (
     <EditingInput
       inputClassName={styles.inputClassName}
-      initialState={folder.name}
+      value={folder.name}
       changeVisibility={changeVisibility}
       onSubmit={value =>
         sdk.renameFolder(folder.id, value).then(() => onRename(value))

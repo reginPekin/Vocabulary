@@ -1,8 +1,6 @@
 .folderWindow {
   min-width: 240px;
   min-height: 100vh;
-  /* display: flex; */
-  /* flex-direction: column; */
   background-color: var(--light-gray);
 }
 

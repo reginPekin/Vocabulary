@@ -2,9 +2,16 @@
   margin-bottom: 0.5em;
 }
 
+.rightColumn {
+  border-right: 1px solid var(--dark-gray);
+}
+
+.leftColumn {
+  border-left: 1px solid var(--dark-gray);
+}
+
 td {
-  border: none;
-  background-color: var(--light-gray);
+  border-bottom: 1px solid var(--dark-gray);
   padding: 1em;
   min-width: 12em;
 }
@@ -26,5 +33,4 @@ td {
 
 .button {
   font-size: 1em;
-  background-color: var(--light-gray);
 }

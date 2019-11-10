@@ -2,8 +2,8 @@
 html,
 body,
 element {
-  --dark-gray: #a0a0a0;
-  --light-gray: #eeeeee;
+  --dark-gray: rgba(48, 48, 48, 0.123);
+  --light-gray: rgba(0, 0, 0, 0.041);
 }
 
 #root,

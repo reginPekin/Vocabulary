@@ -26,3 +26,7 @@
 .newFolderButtom:hover {
   text-decoration: underline;
 }
+
+.rightColumn {
+  border-right: 1px solid var(--dark-gray);
+}

@@ -15,7 +15,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
 
   return (
     <tr className={styles.PairOfWords}>
-      <td>
+      <td className={styles.rightColumn}>
         {isVisibleForeign && (
           <Button
             buttonClassName={styles.button}
@@ -43,7 +43,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
         )}
       </td>
 
-      <td>
+      <td className={styles.leftColumn}>
         {isVisibleNative && (
           <Button
             buttonClassName={styles.button}

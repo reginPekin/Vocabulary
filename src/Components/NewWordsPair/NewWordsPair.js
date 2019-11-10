@@ -35,7 +35,7 @@ export const NewWordsPair = ({ folderId, onAdd }) => {
         <table ref={formRef}>
           <tbody>
             <tr>
-              <td>
+              <td className={styles.rightColumn}>
                 <form
                   onSubmit={event => {
                     event.preventDefault();
