@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useNavigation } from "react-navi";
 
-import Plus from "../../images/darkPlus.png";
+import Plus from "../../images/blackPlus.png";
 
 import { Button } from "../Button";
 import { EditingInput } from "../EditingInput";
@@ -20,10 +20,10 @@ export const NewFolder = ({ onAdd }) => {
     return (
       <Button
         value={
-          <div className={styles.span}>
+          <section className={styles.span}>
             <img src={Plus} alt="Plus" width="15" />
             <span> Add folder </span>
-          </div>
+          </section>
         }
         onClick={() => changeVisibility(!setVisibility)}
         buttonClassName={styles.newFolderButtom}

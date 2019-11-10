@@ -23,7 +23,6 @@ const VocabularyWindow = ({ folderRequest }) => {
     <main className={styles.main}>
       <InfoBox
         folder={folder}
-        buttonClassName={styles.infoBox}
         onRename={newName => {
           setFolder({ ...folder, name: newName });
           dispatch({ type: "SET_HOOK_BEAM" });

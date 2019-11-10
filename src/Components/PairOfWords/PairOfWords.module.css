@@ -7,13 +7,21 @@ td {
   background-color: var(--light-gray);
   padding: 1em;
   min-width: 12em;
-  max-width: 12em;
 }
 
 .deleteTd {
   border: none;
-  padding: 3px;
+  padding-left: 3px;
   background-color: white;
+  visibility: hidden;
+}
+
+.deleteButton {
+  padding: 0;
+}
+
+.PairOfWords:hover .deleteTd {
+  visibility: visible;
 }
 
 .button {

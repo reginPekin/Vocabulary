@@ -71,6 +71,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
       </td>
       <td className={styles.deleteTd}>
         <Button
+          buttonClassName={styles.deleteButton}
           onClick={() => {
             const wordInf = {
               id: folderId,
@@ -78,7 +79,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             };
             sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
           }}
-          value={<img alt="Delete" src={Delete} />}
+          value={<img alt="Delete" src={Delete} width="20" />}
         />
       </td>
     </tr>

@@ -3,3 +3,7 @@
   border-radius: 0.1em;
   border: none;
 }
+
+.button:focus {
+  outline: none;
+}

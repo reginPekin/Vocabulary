@@ -8,7 +8,8 @@ export const EditingInput = ({
   value = "",
   changeVisibility = () => null,
   onSubmit = () => null,
-  inputClassName = null
+  inputClassName = null,
+  formClassName = null
 }) => {
   const [text, setText] = useState(value);
   const inputRef = useRef(null);
@@ -32,6 +33,7 @@ export const EditingInput = ({
 
   return (
     <form
+      className={formClassName}
       onSubmit={event => {
         onSubmit(text);
         changeVisibility();

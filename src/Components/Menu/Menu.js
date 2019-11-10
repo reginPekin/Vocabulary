@@ -20,8 +20,6 @@ const MenuContainer = ({ beam }) => {
   return (
     <div className={styles.folderWindow}>
       <NewFolder
-        inputClassName={styles.newFolderInput}
-        buttonClassName={styles.newFolderButtom}
         onAdd={newFolder => setFolderNames([newFolder, ...folderNames])}
       />
       {folderNames.map(
