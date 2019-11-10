@@ -40,7 +40,9 @@ export const NewFolder = ({ onAdd }) => {
             name: text,
             date: Date.now(),
             id: Math.floor(Math.random() * Math.floor(100000000)),
-            words: []
+            words: [],
+            foreignLanguage: "Foreign language",
+            nativeLanguage: "Native language"
           };
 
           sdk

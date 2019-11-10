@@ -61,3 +61,13 @@ export const getFolder = async folderId => {
     .get("http://localhost:4000/vocabulary/folders/" + folderId)
     .then(response => response.data);
 };
+
+export const changeLanguage = async (id, text, language) => {
+  return await axios.patch(
+    "http://localhost:4000/vocabulary/folders/" + id + "/language",
+    {
+      language,
+      renamedLanguage: text
+    }
+  );
+};

@@ -37,7 +37,9 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
         _id: "$_id",
         id: { $sum: "$id" },
         name: { $first: "$name" },
-        date: { $sum: "$date" }
+        date: { $sum: "$date" },
+        foreignLanguage: { $first: "$foreignLanguage" },
+        nativeLanguage: { $first: "$nativeLanguage" }
       }
     },
     {
@@ -55,7 +57,9 @@ vocabularyRoutes.route("/folders").post((req, res) => {
       name: req.body.name,
       id: req.body.id,
       date: req.body.date,
-      words: req.body.words
+      words: req.body.words,
+      foreignLanguage: req.body.foreignLanguage,
+      nativeLanguage: req.body.nativeLanguage
     }
   ])
     .then(resp => {
@@ -108,6 +112,38 @@ vocabularyRoutes.route("/folders/:id").patch((req, res) => {
     .catch(err => {
       res.status(400).send("renaming folder failed");
     });
+});
+
+vocabularyRoutes.route("/folders/:id/language").patch((req, res) => {
+  if (req.body.language === "foreign") {
+    Folders.updateOne(
+      { id: req.params.id },
+      {
+        $set: { foreignLanguage: req.body.renamedLanguage }
+      }
+    )
+      .then(resp => {
+        console.log("200: ", resp);
+        res.status(200).json({ vocabulary: "word edited successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("editing word failed" + err);
+      });
+  } else if (req.body.language === "native") {
+    Folders.updateOne(
+      { id: req.params.id },
+      {
+        $set: { nativeLanguage: req.body.renamedLanguage }
+      }
+    )
+      .then(resp => {
+        console.log("200: ", resp);
+        res.status(200).json({ vocabulary: "word edited successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("editing word failed" + err);
+      });
+  }
 });
 
 vocabularyRoutes.route("/folders/:id/words/:wordId").post((req, res) => {

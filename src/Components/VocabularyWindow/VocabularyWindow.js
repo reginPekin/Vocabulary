@@ -10,10 +10,18 @@ import { NewWordsPair } from "../NewWordsPair";
 import { PairOfWords } from "../PairOfWords";
 
 import * as sdk from "../../sdk";
+import { Button } from "../Button";
+import { EditingInput } from "../EditingInput";
 
 const VocabularyWindow = ({ folderRequest }) => {
   const dispatch = useDispatch();
   const [folder, setFolder] = useState(folderRequest);
+  const [foreignVisibility, setForeignVisibility] = useState(true);
+  const [nativeVisibility, setNativeVisibility] = useState(true);
+
+  const changeForeignVisibility = () =>
+    setForeignVisibility(!foreignVisibility);
+  const changeNativeVisibility = () => setNativeVisibility(!nativeVisibility);
 
   useEffect(() => {
     setFolder(folderRequest);
@@ -31,6 +39,54 @@ const VocabularyWindow = ({ folderRequest }) => {
       <div>
         <table>
           <tbody>
+            <tr className={styles.languages}>
+              <td>
+                {foreignVisibility && (
+                  <Button
+                    value={folder.foreignLanguage}
+                    onClick={() => changeForeignVisibility()}
+                    buttonClassName={styles.buttonClassName}
+                  />
+                )}
+                {!foreignVisibility && (
+                  <EditingInput
+                    inputClassName={styles.inputClassName}
+                    value={folder.foreignLanguage}
+                    changeVisibility={() => changeForeignVisibility()}
+                    onSubmit={value => {
+                      sdk
+                        .changeLanguage(folder.id, value, "foreign")
+                        .then(() =>
+                          setFolder({ ...folder, foreignLanguage: value })
+                        );
+                    }}
+                  />
+                )}
+              </td>
+              <td>
+                {nativeVisibility && (
+                  <Button
+                    value={folder.nativeLanguage}
+                    onClick={() => setNativeVisibility(!nativeVisibility)}
+                    buttonClassName={styles.buttonClassName}
+                  />
+                )}
+                {!nativeVisibility && (
+                  <EditingInput
+                    inputClassName={styles.inputClassName}
+                    value={folder.nativeLanguage}
+                    changeVisibility={() => changeNativeVisibility()}
+                    onSubmit={value => {
+                      sdk
+                        .changeLanguage(folder.id, value, "native")
+                        .then(() =>
+                          setFolder({ ...folder, nativeLanguage: value })
+                        );
+                    }}
+                  />
+                )}
+              </td>
+            </tr>
             {folder.words.map((wordPair, key) => (
               <PairOfWords
                 folderId={folder.id}

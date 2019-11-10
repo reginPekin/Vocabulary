@@ -14,6 +14,12 @@ let Folders = new Schema(
     },
     date: {
       type: Number
+    },
+    foreignLanguage: {
+      type: String
+    },
+    nativeLanguage: {
+      type: String
     }
   },
   { versionKey: false }
