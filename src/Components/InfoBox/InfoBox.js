@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 import * as sdk from "../../sdk";
 
+import styles from "./InfoBox.module.css";
+
 import { Button } from "../Button";
 import { EditingInput } from "../EditingInput";
 
-export const InfoBox = ({ folder, buttonClassName, onRename = () => null }) => {
+export const InfoBox = ({ folder, onRename = () => null }) => {
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => setVisibility(!visibility);
 
@@ -14,12 +16,13 @@ export const InfoBox = ({ folder, buttonClassName, onRename = () => null }) => {
       <Button
         onClick={() => changeVisibility()}
         value={folder.name}
-        buttonClassName={buttonClassName}
+        buttonClassName={styles.buttonClassName}
       />
     );
 
   return (
     <EditingInput
+      inputClassName={styles.inputClassName}
       initialState={folder.name}
       changeVisibility={changeVisibility}
       onSubmit={value =>
