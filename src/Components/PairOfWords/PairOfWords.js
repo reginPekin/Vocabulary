@@ -55,7 +55,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
         )}
         {!isVisibleNative && (
           <EditingInput
-            initialState={wordPair.foreignWord}
+            value={wordPair.nativeWord}
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
             onSubmit={value => {
               const newName = {
