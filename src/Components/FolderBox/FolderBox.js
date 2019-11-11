@@ -40,25 +40,27 @@ export const FolderBox = ({ folder, onDelete = () => null }) => {
           </Link>
           <Button
             buttonClassName={styles.button}
-            value={<img src={Menu} alt="Menu" height="30" />}
             onClick={() => {
               setIsVisible(!isVisible);
             }}
-          />
+          >
+            <img src={Menu} alt="Menu" height="30" />
+          </Button>
         </div>
         {isVisible && (
           <div ref={divRef} className={styles.contextMenu}>
             <Link href="/" className={styles.deleteLink}>
               <Button
                 buttonClassName={styles.menuButton}
-                value="Delete"
                 onClick={() => {
                   sdk.deleteFolder(folder.id).then(() => onDelete(folder.id));
                   changeVisibility();
                 }}
-              />
+              >
+                Delete
+              </Button>
             </Link>
-            <Button buttonClassName={styles.menuButton} value="Edit" />
+            <Button buttonClassName={styles.menuButton}>Edit</Button>
           </div>
         )}
       </section>

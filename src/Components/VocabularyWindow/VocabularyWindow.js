@@ -40,13 +40,14 @@ const VocabularyWindow = ({ folderRequest }) => {
         <table>
           <tbody>
             <tr className={styles.languages}>
-              <td>
+              <th>
                 {foreignVisibility && (
                   <Button
-                    value={folder.foreignLanguage}
                     onClick={() => changeForeignVisibility()}
                     buttonClassName={styles.buttonClassName}
-                  />
+                  >
+                    {folder.foreignLanguage}
+                  </Button>
                 )}
                 {!foreignVisibility && (
                   <EditingInput
@@ -62,14 +63,15 @@ const VocabularyWindow = ({ folderRequest }) => {
                     }}
                   />
                 )}
-              </td>
-              <td>
+              </th>
+              <th>
                 {nativeVisibility && (
                   <Button
-                    value={folder.nativeLanguage}
                     onClick={() => setNativeVisibility(!nativeVisibility)}
                     buttonClassName={styles.buttonClassName}
-                  />
+                  >
+                    {folder.nativeLanguage}
+                  </Button>
                 )}
                 {!nativeVisibility && (
                   <EditingInput
@@ -85,7 +87,7 @@ const VocabularyWindow = ({ folderRequest }) => {
                     }}
                   />
                 )}
-              </td>
+              </th>
             </tr>
             {folder.words.map((wordPair, key) => (
               <PairOfWords
@@ -118,8 +120,17 @@ const VocabularyWindow = ({ folderRequest }) => {
         </table>
         <NewWordsPair
           folderId={folder.id}
-          onAdd={newWord => {
-            setFolder({ ...folder, words: [...folder.words, newWord] });
+          onAdd={(foreignValue, nativeValue) => {
+            sdk
+              .createNewWord({
+                folderId: folder.id,
+                foreignWord: foreignValue,
+                nativeWord: nativeValue
+              })
+              .then(data => {
+                const newWord = data.data;
+                setFolder({ ...folder, words: [...folder.words, newWord] });
+              });
           }}
         />
       </div>

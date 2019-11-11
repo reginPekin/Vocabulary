@@ -5,7 +5,7 @@ import cx from "classnames";
 import styles from "./Button.module.css";
 
 export const Button = ({
-  value,
+  children,
   onClick = () => null,
   buttonClassName = null
 }) => {
@@ -14,7 +14,7 @@ export const Button = ({
       className={cx(styles.button, buttonClassName)}
       onClick={() => onClick()}
     >
-      {value}
+      {children}
     </button>
   );
 };

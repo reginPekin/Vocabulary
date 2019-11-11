@@ -19,9 +19,10 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
         {isVisibleForeign && (
           <Button
             buttonClassName={styles.button}
-            value={wordPair.foreignWord}
             onClick={() => setIsVisibleForeign(!isVisibleForeign)}
-          />
+          >
+            {wordPair.foreignWord}
+          </Button>
         )}
 
         {!isVisibleForeign && (
@@ -47,9 +48,10 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
         {isVisibleNative && (
           <Button
             buttonClassName={styles.button}
-            value={wordPair.nativeWord}
             onClick={() => setIsVisibleNative(!isVisibleNative)}
-          />
+          >
+            {wordPair.nativeWord}
+          </Button>
         )}
         {!isVisibleNative && (
           <EditingInput
@@ -79,8 +81,9 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             };
             sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
           }}
-          value={<img alt="Delete" src={Delete} width="20" />}
-        />
+        >
+          <img alt="Delete" src={Delete} width="20" />
+        </Button>
       </td>
     </tr>
   );

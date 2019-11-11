@@ -15,9 +15,10 @@ export const InfoBox = ({ folder, onRename = () => null }) => {
     return (
       <Button
         onClick={() => changeVisibility()}
-        value={folder.name}
         buttonClassName={styles.buttonClassName}
-      />
+      >
+        {folder.name}
+      </Button>
     );
 
   return (

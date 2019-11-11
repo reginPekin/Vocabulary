@@ -19,15 +19,14 @@ export const NewFolder = ({ onAdd }) => {
   if (visibility) {
     return (
       <Button
-        value={
-          <section className={styles.span}>
-            <img src={Plus} alt="Plus" width="15" />
-            <span> Add folder </span>
-          </section>
-        }
         onClick={() => changeVisibility(!setVisibility)}
         buttonClassName={styles.newFolderButtom}
-      />
+      >
+        <section className={styles.span}>
+          <img src={Plus} alt="Plus" width="15" />
+          <span> Add folder </span>
+        </section>
+      </Button>
     );
   } else {
     return (
