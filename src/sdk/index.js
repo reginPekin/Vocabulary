@@ -26,9 +26,9 @@ export const renameFolder = async (id, text) => {
   });
 };
 
-export const createNewWord = async (folderId, newWord) => {
+export const createNewWord = async newWord => {
   return await axios.post(
-    "http://localhost:4000/vocabulary/folders/" + folderId + "/words",
+    "http://localhost:4000/vocabulary/folders/" + newWord.folderId + "/words",
     newWord
   );
 };

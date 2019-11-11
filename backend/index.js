@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const uid = require("uid");
 
 const PORT = 4000;
 
@@ -163,24 +164,25 @@ vocabularyRoutes.route("/folders/:id/words/:wordId").post((req, res) => {
 });
 
 vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
+  const newWord = {
+    foreignWord: req.body.foreignWord,
+    nativeWord: req.body.nativeWord,
+    wordId: uid(10)
+  };
+
   Folders.updateOne(
     { id: req.params.id },
     {
       $push: {
         words: {
-          $each: [
-            {
-              foreignWord: req.body.foreignWord,
-              nativeWord: req.body.nativeWord,
-              wordId: req.body.wordId
-            }
-          ]
+          $each: [newWord]
         }
       }
     }
   )
-    .then(() => {
-      res.status(200).json({ vocabulary: "wordPair added successfully" });
+    .then(resp => {
+      console.log("resp", resp);
+      res.status(200).send(newWord);
     })
     .catch(err => {
       res.status(400).send("adding new wordPair failed");
