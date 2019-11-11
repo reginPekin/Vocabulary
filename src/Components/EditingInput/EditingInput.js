@@ -1,4 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
+
+import { useOnClickOutside } from "../../utils/hooks";
+import { useSelect } from "../../utils/hooks";
 
 import cx from "classnames";
 
@@ -11,42 +14,25 @@ export const EditingInput = ({
   inputClassName = null,
   formClassName = null
 }) => {
-  const [text, setText] = useState(value);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    if (inputRef.current && inputRef) {
-      inputRef.current.select();
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        changeVisibility();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [changeVisibility]);
+  useSelect(inputRef);
+  useOnClickOutside(inputRef, () => changeVisibility());
 
   return (
     <form
       className={formClassName}
       onSubmit={event => {
-        onSubmit(text);
+        onSubmit(value);
         changeVisibility();
-        setText("");
+        inputRef.current.value = "";
         event.preventDefault();
       }}
     >
       <input
         className={cx(styles.input, inputClassName)}
         ref={inputRef}
-        type="text"
-        value={text}
-        onChange={event => setText(event.target.value)}
+        defaultValue={value}
         autoFocus
       />
     </form>

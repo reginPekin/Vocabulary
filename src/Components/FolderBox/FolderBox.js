@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-navi";
 
 import * as sdk from "../../sdk";
+import { useOnClickOutside } from "../../utils/hooks";
 
 import styles from "./FolderBox.module.css";
 
@@ -12,19 +13,9 @@ import Menu from "../../images/menu.png";
 export const FolderBox = ({ folder, onDelete = () => null }) => {
   const divRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const changeVisibility = () => setIsVisible(!isVisible);
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (divRef.current && !divRef.current.contains(event.target)) {
-        changeVisibility();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [changeVisibility]);
+  useOnClickOutside(divRef, () => changeVisibility());
 
   return (
     <>

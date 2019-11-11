@@ -13,3 +13,11 @@ export const useOnClickOutside = (ref, handler = () => null) => {
     return () => document.removeEventListener("mousedown", listener);
   }, [ref, handler]);
 };
+
+export const useSelect = ref => {
+  useEffect(() => {
+    if (ref.current && ref) {
+      ref.current.select();
+    }
+  }, []);
+};
