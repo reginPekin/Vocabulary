@@ -12,8 +12,8 @@
 
 td {
   border-bottom: 1px solid var(--dark-gray);
-  padding: 0.7em;
-  min-width: 12em;
+  padding: 0.7em 0;
+  min-width: 12rem;
 }
 
 .deleteTd {
@@ -33,4 +33,13 @@ td {
 
 .button {
   font-size: 1em;
+  padding: 0 1em;
+}
+
+.inputClassName {
+  font-size: 1em;
+  margin: 0 1em;
+  border: none;
+  border-bottom: 1px solid var(--dark-gray);
+  padding: 0;
 }

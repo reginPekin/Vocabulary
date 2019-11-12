@@ -1,12 +1,13 @@
 .input {
   width: 10em;
+  margin: 0 1em;
 }
 
 .newFolderButtom {
   text-align: left;
   font-size: 1em;
   padding: 1em 2em 1em 0;
-  width: 30em;
+  width: 24rem;
 }
 
 .newFolderButtom:hover {

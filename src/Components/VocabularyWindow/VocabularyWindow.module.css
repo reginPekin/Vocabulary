@@ -6,7 +6,8 @@ table {
   border-collapse: collapse;
 }
 
-.languages td {
+.languages th {
+  width: 12rem;
   border: none;
   padding: 0;
   padding-bottom: 1em;
@@ -14,13 +15,16 @@ table {
 }
 
 .buttonClassName {
-  font-size: 1.4em;
+  width: 12rem;
+  font-size: 1.4rem;
   font-weight: 400;
   padding: 0;
 }
 
 .inputClassName {
+  width: 12rem;
   font-size: 1.4em;
+  text-align: center;
   padding: 0;
   border: 0;
 }

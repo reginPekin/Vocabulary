@@ -23,7 +23,7 @@ export const EditingInput = ({
     <form
       className={formClassName}
       onSubmit={event => {
-        onSubmit(value);
+        onSubmit(inputRef.current.value);
         changeVisibility();
         inputRef.current.value = "";
         event.preventDefault();
