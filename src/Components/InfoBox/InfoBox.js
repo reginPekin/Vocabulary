@@ -1,34 +1,29 @@
 import React, { useState } from "react";
 
-import * as sdk from "../../sdk";
-
 import styles from "./InfoBox.module.css";
 
 import { Button } from "../Button";
 import { EditingInput } from "../EditingInput";
 
-export const InfoBox = ({ folder, onRename = () => null }) => {
+export const InfoBox = ({ onRename, name }) => {
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => setVisibility(!visibility);
 
-  if (visibility)
+  if (!visibility)
     return (
-      <Button
-        onClick={() => changeVisibility()}
-        buttonClassName={styles.buttonClassName}
-      >
-        {folder.name}
-      </Button>
+      <EditingInput
+        inputClassName={styles.inputClassName}
+        value={name}
+        changeVisibility={changeVisibility}
+        onSubmit={value => onRename(value)}
+      />
     );
-
   return (
-    <EditingInput
-      inputClassName={styles.inputClassName}
-      value={folder.name}
-      changeVisibility={changeVisibility}
-      onSubmit={value =>
-        sdk.renameFolder(folder.id, value).then(() => onRename(value))
-      }
-    />
+    <Button
+      onClick={() => changeVisibility()}
+      buttonClassName={styles.buttonClassName}
+    >
+      {name}
+    </Button>
   );
 };

@@ -30,10 +30,12 @@ const VocabularyWindow = ({ folderRequest }) => {
   return (
     <main className={styles.main}>
       <InfoBox
-        folder={folder}
+        name={folder.name}
         onRename={newName => {
-          setFolder({ ...folder, name: newName });
-          dispatch({ type: "SET_HOOK_BEAM" });
+          sdk.renameFolder(folder.id, newName).then(() => {
+            setFolder({ ...folder, name: newName });
+            dispatch({ type: "SET_HOOK_BEAM" });
+          });
         }}
       />
       <div>
