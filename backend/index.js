@@ -48,7 +48,7 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
     }
   ]).then(folders => {
     res.json(folders);
-    console.log(folders);
+    console.log("get folders");
   });
 });
 
@@ -65,7 +65,7 @@ vocabularyRoutes.route("/folders").post((req, res) => {
   ])
     .then(resp => {
       console.log("req.body: ", req.body);
-      console.log("200: ", resp);
+      console.log("post folders");
       res.status(200).json({ vocabulary: "folder added successfully" });
     })
     .catch(err => {
@@ -124,7 +124,7 @@ vocabularyRoutes.route("/folders/:id/language").patch((req, res) => {
       }
     )
       .then(resp => {
-        console.log("200: ", resp);
+        console.log("patch language");
         res.status(200).json({ vocabulary: "word edited successfully" });
       })
       .catch(err => {
@@ -138,7 +138,7 @@ vocabularyRoutes.route("/folders/:id/language").patch((req, res) => {
       }
     )
       .then(resp => {
-        console.log("200: ", resp);
+        console.log("patch language");
         res.status(200).json({ vocabulary: "word edited successfully" });
       })
       .catch(err => {
@@ -196,7 +196,7 @@ vocabularyRoutes.route("/folders/:id/words/edit/:wordId").patch((req, res) => {
       { $set: { "words.$.foreignWord": req.body.renamedWord } }
     )
       .then(resp => {
-        console.log("200: ", resp);
+        console.log("edit word");
         res.status(200).json({ vocabulary: "word edited successfully" });
       })
       .catch(err => {
@@ -208,7 +208,7 @@ vocabularyRoutes.route("/folders/:id/words/edit/:wordId").patch((req, res) => {
       { $set: { "words.$.nativeWord": req.body.renamedWord } }
     )
       .then(resp => {
-        console.log("200: ", resp);
+        console.log("edit word");
         res.status(200).json({ vocabulary: "word edited successfully" });
       })
       .catch(err => {

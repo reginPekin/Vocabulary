@@ -19,5 +19,6 @@ export const useSelect = ref => {
     if (ref.current && ref) {
       ref.current.select();
     }
+    // eslint-disable-next-line
   }, []);
 };

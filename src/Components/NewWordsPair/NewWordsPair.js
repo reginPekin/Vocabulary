@@ -9,7 +9,7 @@ import Plus from "../../images/darkPlus.png";
 
 import { Button } from "../Button";
 
-export const NewWordsPair = ({ folderId, onAdd }) => {
+export const NewWordsPair = ({ onAdd }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const foreignInputRef = useRef(null);
