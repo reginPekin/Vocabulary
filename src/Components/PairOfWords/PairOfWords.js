@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Button } from "../Button";
-import { EditingInput } from "../EditingInput";
+import { InputButton } from "../InputButton";
 
 import Delete from "../../images/deleteImage.png";
 
@@ -14,43 +14,27 @@ export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
   return (
     <tr className={styles.PairOfWords}>
       <td className={styles.rightColumn}>
-        {isVisibleForeign && (
-          <Button
-            buttonClassName={styles.button}
-            onClick={() => setIsVisibleForeign(!isVisibleForeign)}
-          >
-            {wordPair.foreignWord}
-          </Button>
-        )}
-
-        {!isVisibleForeign && (
-          <EditingInput
-            inputClassName={styles.inputClassName}
-            value={wordPair.foreignWord}
-            changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
-            onSubmit={value => onEdit(value, "foreign")}
-          />
-        )}
+        <InputButton
+          visibility={isVisibleForeign}
+          changeVisibility={visibility => setIsVisibleForeign(visibility)}
+          onChange={value => onEdit(value, "foreign")}
+          text={wordPair.foreignWord}
+          inputClassName={styles.inputClassName}
+          buttonClassName={styles.button}
+        />
       </td>
 
       <td className={styles.leftColumn}>
-        {isVisibleNative && (
-          <Button
-            buttonClassName={styles.button}
-            onClick={() => setIsVisibleNative(!isVisibleNative)}
-          >
-            {wordPair.nativeWord}
-          </Button>
-        )}
-        {!isVisibleNative && (
-          <EditingInput
-            inputClassName={styles.inputClassName}
-            value={wordPair.nativeWord}
-            changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
-            onSubmit={value => onEdit(value, "native")}
-          />
-        )}
+        <InputButton
+          visibility={isVisibleNative}
+          changeVisibility={visibility => setIsVisibleNative(visibility)}
+          onChange={value => onEdit(value, "native")}
+          text={wordPair.nativeWord}
+          inputClassName={styles.inputClassName}
+          buttonClassName={styles.button}
+        />
       </td>
+
       <td className={styles.deleteTd}>
         <Button
           buttonClassName={styles.deleteButton}

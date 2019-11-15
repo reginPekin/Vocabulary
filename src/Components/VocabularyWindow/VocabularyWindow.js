@@ -53,25 +53,34 @@ const VocabularyWindow = ({ folderRequest }) => {
                 folderId={folder.id}
                 wordPair={wordPair}
                 key={key}
-                onDelete={wordId => {
-                  const newWords = folder.words.filter(
-                    words => words.wordId !== wordId
-                  );
-                  setFolder({ ...folder, words: newWords });
-                }}
-                onEdit={(wordId, wordLanguage, newName) => {
-                  setFolder({
-                    ...folder,
-                    words: folder.words.map(words => {
-                      if (words.wordId === wordId) {
-                        if (wordLanguage === "foreign")
-                          words.foreignWord = newName;
-                        else if (wordLanguage === "native")
-                          words.nativeWord = newName;
-                      }
-                      return words;
-                    })
+                onDelete={() => {
+                  sdk.deleteWordsPair(folder.id, wordPair.wordId).then(() => {
+                    const newWords = folder.words.filter(
+                      words => words.wordId !== wordPair.wordId
+                    );
+                    setFolder({ ...folder, words: newWords });
                   });
+                }}
+                onEdit={(value, language) => {
+                  const newName = {
+                    word: language,
+                    wordId: wordPair.wordId,
+                    id: folder.id,
+                    renamedWord: value
+                  };
+                  sdk.editWord(newName).then(() =>
+                    setFolder({
+                      ...folder,
+                      words: folder.words.map(words => {
+                        if (words.wordId === wordPair.wordId) {
+                          if (language === "foreign") words.foreignWord = value;
+                          else if (language === "native")
+                            words.nativeWord = value;
+                        }
+                        return words;
+                      })
+                    })
+                  );
                 }}
               />
             ))}
