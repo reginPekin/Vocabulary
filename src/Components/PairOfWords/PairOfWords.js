@@ -7,9 +7,7 @@ import Delete from "../../images/deleteImage.png";
 
 import styles from "./PairOfWords.module.css";
 
-import * as sdk from "../../sdk";
-
-export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
+export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
   const [isVisibleForeign, setIsVisibleForeign] = useState(true);
   const [isVisibleNative, setIsVisibleNative] = useState(true);
 
@@ -30,17 +28,7 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             inputClassName={styles.inputClassName}
             value={wordPair.foreignWord}
             changeVisibility={() => setIsVisibleForeign(!isVisibleForeign)}
-            onSubmit={value => {
-              const newName = {
-                word: "foreign",
-                wordId: wordPair.wordId,
-                id: folderId,
-                renamedWord: value
-              };
-              sdk
-                .editWord(newName)
-                .then(() => onEdit(newName.wordId, "foreign", value));
-            }}
+            onSubmit={value => onEdit(value, "foreign")}
           />
         )}
       </td>
@@ -59,30 +47,14 @@ export const PairOfWords = ({ folderId, wordPair, onDelete, onEdit }) => {
             inputClassName={styles.inputClassName}
             value={wordPair.nativeWord}
             changeVisibility={() => setIsVisibleNative(!isVisibleNative)}
-            onSubmit={value => {
-              const newName = {
-                word: "native",
-                wordId: wordPair.wordId,
-                id: folderId,
-                renamedWord: value
-              };
-              sdk
-                .editWord(newName)
-                .then(() => onEdit(newName.wordId, "native", value));
-            }}
+            onSubmit={value => onEdit(value, "native")}
           />
         )}
       </td>
       <td className={styles.deleteTd}>
         <Button
           buttonClassName={styles.deleteButton}
-          onClick={() => {
-            const wordInf = {
-              id: folderId,
-              wordId: wordPair.wordId
-            };
-            sdk.deleteWordsPair(wordInf).then(() => onDelete(wordPair.wordId));
-          }}
+          onClick={() => onDelete()}
         >
           <img alt="Delete" src={Delete} width={20} />
         </Button>
