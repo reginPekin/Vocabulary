@@ -11,12 +11,13 @@ export const InputButton = ({
   inputClassName = null,
   buttonClassName = null
 }) => {
+  console.log(visibility);
   if (!visibility) {
     return (
       <EditingInput
         inputClassName={inputClassName}
         value={text}
-        changeVisibility={() => changeVisibility()}
+        changeVisibility={() => changeVisibility(true)}
         onSubmit={value => {
           onChange(value);
         }}
@@ -25,7 +26,7 @@ export const InputButton = ({
   }
   return (
     <Button
-      onClick={() => changeVisibility()}
+      onClick={() => changeVisibility(false)}
       buttonClassName={buttonClassName}
     >
       {text}

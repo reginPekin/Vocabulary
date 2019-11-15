@@ -40,13 +40,10 @@ export const createFolder = async newFolder => {
   );
 };
 
-export const deleteWordsPair = async wordInf => {
+export const deleteWordsPair = async (id, wordId) => {
   return await axios.post(
-    "http://localhost:4000/vocabulary/folders/" +
-      wordInf.id +
-      "/words/" +
-      wordInf.wordId,
-    wordInf
+    "http://localhost:4000/vocabulary/folders/" + id + "/words/" + wordId,
+    { id, wordId }
   );
 };
 
