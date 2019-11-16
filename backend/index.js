@@ -53,20 +53,20 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
 });
 
 vocabularyRoutes.route("/folders").post((req, res) => {
+  // const id = uid(10);
+  const id = Math.floor(Math.random() * 100000000);
   Folders.insertMany([
     {
       name: req.body.name,
-      id: req.body.id,
-      date: req.body.date,
-      words: req.body.words,
+      id,
+      date: Date.now(),
+      words: [],
       foreignLanguage: req.body.foreignLanguage,
       nativeLanguage: req.body.nativeLanguage
     }
   ])
-    .then(resp => {
-      console.log("req.body: ", req.body);
-      console.log("post folders");
-      res.status(200).json({ vocabulary: "folder added successfully" });
+    .then(folder => {
+      res.json(folder);
     })
     .catch(err => {
       console.log("err" + err);
