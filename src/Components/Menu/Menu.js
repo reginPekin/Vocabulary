@@ -36,20 +36,23 @@ const MenuContainer = ({ beam }) => {
           });
         }}
       />
-      {folderNames.map(
-        (folder, key) => (
-          <FolderBox
-            folder={folder}
-            key={key}
-            onDelete={folderId => {
-              setFolderNames(
-                folderNames.filter(folder => folderId !== folder.id)
+      {folderNames.map((folder, key) => (
+        <FolderBox
+          folder={folder}
+          key={key}
+          onDelete={() => {
+            sdk
+              .deleteFolder(folder.id)
+              .then(() =>
+                setFolderNames(
+                  folderNames.filter(
+                    filterFolder => folder.id !== filterFolder.id
+                  )
+                )
               );
-            }}
-          />
-        )
-        // )
-      )}
+          }}
+        />
+      ))}
     </div>
   );
 };
