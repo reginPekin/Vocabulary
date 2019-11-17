@@ -7,7 +7,7 @@ import styles from "./FolderBox.module.css";
 
 import { Button } from "../Button";
 
-import Menu from "../../images/menu.png";
+import Menu from "../../images/menu.svg";
 
 export const FolderBox = ({ folder, onDelete = () => null }) => {
   const divRef = useRef(null);
@@ -32,7 +32,7 @@ export const FolderBox = ({ folder, onDelete = () => null }) => {
             setIsVisible(!isVisible);
           }}
         >
-          <img src={Menu} alt="Menu" height="30" />
+          <img src={Menu} alt="Menu" width={27} />
         </Button>
       </div>
       {isVisible && <div className={styles.glass} />}

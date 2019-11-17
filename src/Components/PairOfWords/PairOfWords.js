@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "../Button";
 import { InputButton } from "../InputButton";
 
-import Delete from "../../images/deleteImage.png";
+import Delete from "../../images/delete.svg";
 
 import styles from "./PairOfWords.module.css";
 
@@ -19,6 +19,7 @@ export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
           changeVisibility={visibility => setIsVisibleForeign(visibility)}
           onChange={value => onEdit(value, "foreign")}
           text={wordPair.foreignWord}
+          formClassName={styles.formClassName}
           inputClassName={styles.inputClassName}
           buttonClassName={styles.button}
         />

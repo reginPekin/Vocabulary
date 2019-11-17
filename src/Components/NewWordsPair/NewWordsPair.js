@@ -28,7 +28,7 @@ export const NewWordsPair = ({ onAdd }) => {
         onClick={() => setIsClicked(true)}
       >
         <section className={styles.section}>
-          <img src={Plus} alt="Plus" width={15} />
+          <img src={Plus} alt="Plus" width={17} height={17} />
           <span>Add new words pair</span>
         </section>
       </Button>
@@ -41,6 +41,7 @@ export const NewWordsPair = ({ onAdd }) => {
         <tr>
           <td className={styles.rightColumn}>
             <form
+              className={styles.form}
               onSubmit={event => {
                 event.preventDefault();
                 nativeInputRef.current.focus();
