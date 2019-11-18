@@ -6,9 +6,8 @@
 }
 
 .form {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--light-gray);
   padding: 1em 2em;
-  height: 19px;
 }
 
 .newFolderInput {
@@ -20,6 +19,9 @@
 }
 
 .newFolderButtom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
   background-color: var(--light-gray);
   text-align: left;
@@ -34,4 +36,9 @@
 
 .newFolderButtom img {
   padding-right: 4px;
+}
+
+.popup {
+  bottom: 40px;
+  left: 150px;
 }
