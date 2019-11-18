@@ -22,20 +22,6 @@ const MenuContainer = ({ beam }) => {
 
   return (
     <div className={styles.folderWindow}>
-      <NewFolder
-        onAdd={text => {
-          const newFolder = {
-            name: text,
-            foreignLanguage: "Foreign language",
-            nativeLanguage: "Native language"
-          };
-          sdk.createFolder(newFolder).then(data => {
-            const newFolder = data.data[0];
-            setFolderNames([newFolder, ...folderNames]);
-            navigation.navigate(`/voc/${newFolder.id}`);
-          });
-        }}
-      />
       {folderNames.map((folder, key) => (
         <FolderBox
           folder={folder}
@@ -53,6 +39,26 @@ const MenuContainer = ({ beam }) => {
           }}
         />
       ))}
+      <NewFolder
+        onAdd={(name, foreignLanguage, nativeLanguage) => {
+          const newFolder = {
+            name,
+            foreignLanguage:
+              foreignLanguage.replace(/\s/g, "") !== ""
+                ? foreignLanguage
+                : "Foreign language",
+            nativeLanguage:
+              nativeLanguage.replace(/\s/g, "") !== ""
+                ? nativeLanguage
+                : "Native language"
+          };
+          sdk.createFolder(newFolder).then(data => {
+            const newFolder = data.data[0];
+            setFolderNames([newFolder, ...folderNames]);
+            navigation.navigate(`/voc/${newFolder.id}`);
+          });
+        }}
+      />
     </div>
   );
 };
