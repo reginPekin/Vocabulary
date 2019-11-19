@@ -22,43 +22,47 @@ const MenuContainer = ({ beam }) => {
 
   return (
     <div className={styles.folderWindow}>
-      {folderNames.map((folder, key) => (
-        <FolderBox
-          folder={folder}
-          key={key}
-          onDelete={() => {
-            sdk
-              .deleteFolder(folder.id)
-              .then(() =>
-                setFolderNames(
-                  folderNames.filter(
-                    filterFolder => folder.id !== filterFolder.id
+      <section className={styles.folders}>
+        {folderNames.map((folder, key) => (
+          <FolderBox
+            folder={folder}
+            key={key}
+            onDelete={() => {
+              sdk
+                .deleteFolder(folder.id)
+                .then(() =>
+                  setFolderNames(
+                    folderNames.filter(
+                      filterFolder => folder.id !== filterFolder.id
+                    )
                   )
-                )
-              );
+                );
+            }}
+          />
+        ))}
+      </section>
+      <div className={styles.button}>
+        <NewFolder
+          onAdd={(name, foreignLanguage, nativeLanguage) => {
+            const newFolder = {
+              name,
+              foreignLanguage:
+                foreignLanguage.replace(/\s/g, "") !== ""
+                  ? foreignLanguage
+                  : "Foreign language",
+              nativeLanguage:
+                nativeLanguage.replace(/\s/g, "") !== ""
+                  ? nativeLanguage
+                  : "Native language"
+            };
+            sdk.createFolder(newFolder).then(data => {
+              const newFolder = data.data[0];
+              setFolderNames([newFolder, ...folderNames]);
+              navigation.navigate(`/voc/${newFolder.id}`);
+            });
           }}
         />
-      ))}
-      <NewFolder
-        onAdd={(name, foreignLanguage, nativeLanguage) => {
-          const newFolder = {
-            name,
-            foreignLanguage:
-              foreignLanguage.replace(/\s/g, "") !== ""
-                ? foreignLanguage
-                : "Foreign language",
-            nativeLanguage:
-              nativeLanguage.replace(/\s/g, "") !== ""
-                ? nativeLanguage
-                : "Native language"
-          };
-          sdk.createFolder(newFolder).then(data => {
-            const newFolder = data.data[0];
-            setFolderNames([newFolder, ...folderNames]);
-            navigation.navigate(`/voc/${newFolder.id}`);
-          });
-        }}
-      />
+      </div>
     </div>
   );
 };
