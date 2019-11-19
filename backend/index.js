@@ -36,7 +36,7 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
     {
       $group: {
         _id: "$_id",
-        id: { $sum: "$id" },
+        id: { $first: "$id" },
         name: { $first: "$name" },
         date: { $sum: "$date" },
         foreignLanguage: { $first: "$foreignLanguage" },
@@ -53,8 +53,7 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
 });
 
 vocabularyRoutes.route("/folders").post((req, res) => {
-  // const id = uid(10);
-  const id = Math.floor(Math.random() * 100000000);
+  const id = uid(10);
   Folders.insertMany([
     {
       name: req.body.name,
