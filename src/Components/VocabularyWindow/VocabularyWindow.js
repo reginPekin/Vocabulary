@@ -84,23 +84,24 @@ const VocabularyWindow = ({ folderRequest }) => {
                 }}
               />
             ))}
+
+            <NewWordsPair
+              folderId={folder.id}
+              onAdd={(foreignValue, nativeValue) => {
+                sdk
+                  .createNewWord({
+                    folderId: folder.id,
+                    foreignWord: foreignValue,
+                    nativeWord: nativeValue
+                  })
+                  .then(data => {
+                    const newWord = data.data;
+                    setFolder({ ...folder, words: [...folder.words, newWord] });
+                  });
+              }}
+            />
           </tbody>
         </table>
-        <NewWordsPair
-          folderId={folder.id}
-          onAdd={(foreignValue, nativeValue) => {
-            sdk
-              .createNewWord({
-                folderId: folder.id,
-                foreignWord: foreignValue,
-                nativeWord: nativeValue
-              })
-              .then(data => {
-                const newWord = data.data;
-                setFolder({ ...folder, words: [...folder.words, newWord] });
-              });
-          }}
-        />
       </div>
     </main>
   );

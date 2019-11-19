@@ -23,53 +23,50 @@ export const NewWordsPair = ({ onAdd }) => {
 
   if (!isClicked) {
     return (
-      <Button
-        buttonClassName={styles.newFolderButtom}
-        onClick={() => setIsClicked(true)}
-      >
-        <section className={styles.section}>
-          <img src={Plus} alt="Plus" width={17} height={17} />
-          <span>Add new words pair</span>
-        </section>
-      </Button>
+      <tr>
+        <td colSpan={2}>
+          <Button
+            buttonClassName={styles.newFolderButtom}
+            onClick={() => setIsClicked(true)}
+          >
+            <section className={styles.section}>
+              <img src={Plus} alt="Plus" width={17} height={17} />
+              <span>Add new words pair</span>
+            </section>
+          </Button>
+        </td>
+      </tr>
     );
   }
 
   return (
-    <table ref={formRef}>
-      <tbody>
-        <tr>
-          <td className={styles.rightColumn}>
-            <form
-              className={styles.form}
-              onSubmit={event => {
-                event.preventDefault();
-                nativeInputRef.current.focus();
-              }}
-            >
-              <input className={styles.input} ref={foreignInputRef} autoFocus />
-            </form>
-          </td>
-          <td>
-            <form
-              onSubmit={event => {
-                event.preventDefault();
-                if (!foreignInputRef.current || !nativeInputRef.current) {
-                  return;
-                }
-                onAdd(
-                  foreignInputRef.current.value,
-                  nativeInputRef.current.value
-                );
-                dropInputRefValues(foreignInputRef, nativeInputRef);
-                foreignInputRef.current.focus();
-              }}
-            >
-              <input className={styles.input} ref={nativeInputRef} />
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <tr ref={formRef}>
+      <td className={styles.rightColumn}>
+        <form
+          className={styles.form}
+          onSubmit={event => {
+            event.preventDefault();
+            nativeInputRef.current.focus();
+          }}
+        >
+          <input className={styles.input} ref={foreignInputRef} autoFocus />
+        </form>
+      </td>
+      <td>
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            if (!foreignInputRef.current || !nativeInputRef.current) {
+              return;
+            }
+            onAdd(foreignInputRef.current.value, nativeInputRef.current.value);
+            dropInputRefValues(foreignInputRef, nativeInputRef);
+            foreignInputRef.current.focus();
+          }}
+        >
+          <input className={styles.input} ref={nativeInputRef} />
+        </form>
+      </td>
+    </tr>
   );
 };
