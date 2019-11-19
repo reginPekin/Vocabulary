@@ -16,9 +16,6 @@ export const useOnClickOutside = (ref, handler = () => null) => {
 
 export const useSelect = ref => {
   useEffect(() => {
-    if (ref.current && ref) {
-      ref.current.select();
-    }
-    // eslint-disable-next-line
-  }, []);
+    if (ref.current && ref) ref.current.select();
+  }, [ref]);
 };

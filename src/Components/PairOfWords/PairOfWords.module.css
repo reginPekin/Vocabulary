@@ -2,6 +2,10 @@
   margin-bottom: 0.5em;
 }
 
+.formClassName {
+  width: 12rem;
+}
+
 .rightColumn {
   border-right: 1px solid var(--dark-gray);
 }
@@ -13,7 +17,8 @@
 td {
   border-bottom: 1px solid var(--dark-gray);
   padding: 0.7em 0;
-  min-width: 12rem;
+  min-width: 180px;
+  max-width: 180px;
 }
 
 .deleteTd {

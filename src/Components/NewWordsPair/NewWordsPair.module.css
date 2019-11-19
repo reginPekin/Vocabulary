@@ -1,5 +1,7 @@
+.form {
+  width: 12rem;
+}
 .input {
-  width: 10em;
   margin: 0 1em;
 }
 
