@@ -1,10 +1,25 @@
 .folderWindow {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
   min-width: 240px;
-  min-height: 100vh;
+  height: calc(100vh - 50px);
+  max-width: 240px;
   background-color: var(--light-gray);
   position: relative;
+  margin-bottom: 50px;
 }
 
-.folder {
-  margin-bottom: 1em;
+.folders {
+  padding-top: 1em;
+  flex: 1;
+  /* margin-bottom: 40px; */
+}
+
+.button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  height: 50px;
 }

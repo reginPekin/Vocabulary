@@ -1,7 +1,11 @@
 .app {
   display: flex;
   background-color: white;
-  min-height: 100%;
   width: 100%;
   justify-items: stretch;
+}
+
+.main {
+  height: 100vh;
+  overflow-y: scroll;
 }
