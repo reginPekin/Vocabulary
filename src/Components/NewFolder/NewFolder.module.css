@@ -6,7 +6,7 @@
 }
 
 .form {
-  border-bottom: 1px solid var(--light-gray);
+  border-bottom: 1px solid var(--light-grey);
   padding: 1em 2em;
 }
 
@@ -15,7 +15,7 @@
   width: 100%;
   border: none;
   border-bottom: 1px solid black;
-  background-color: var(--light-gray);
+  background-color: var(--light-grey);
 }
 
 .newFolderButtom {
@@ -26,7 +26,6 @@
   text-align: left;
   font-size: 1em;
   padding: 1em 2em;
-  border-bottom: 1px solid black;
 }
 
 .newFolderButtom:hover {

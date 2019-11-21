@@ -20,7 +20,7 @@
 .button {
   padding: 0;
   display: none;
-  background-color: var(--dark-gray);
+  background-color: var(--dark-grey);
 }
 
 .button img {
@@ -28,7 +28,7 @@
 }
 
 .button:hover {
-  background-color: var(--light-gray);
+  background-color: var(--light-grey);
 }
 
 .boxFolder:focus {
@@ -36,7 +36,7 @@
 }
 
 .mainPart:hover {
-  background: var(--dark-gray);
+  background: var(--dark-grey);
 }
 
 .mainPart:hover .button {
@@ -44,7 +44,7 @@
 }
 
 .activeFolder {
-  background: var(--dark-gray);
+  background: var(--dark-grey);
   font-weight: 500;
   color: black;
 }
@@ -71,5 +71,5 @@
 }
 
 .menuButton:hover {
-  background-color: var(--light-gray);
+  background-color: var(--light-grey);
 }
