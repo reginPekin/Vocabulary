@@ -45,7 +45,7 @@ const MenuContainer = ({ beam }) => {
         <NewFolder
           onAdd={(name, foreignLanguage, nativeLanguage) => {
             const newFolder = {
-              name,
+              name: name.replace(/\s/g, "") !== "" ? name : "Unnamed",
               foreignLanguage:
                 foreignLanguage.replace(/\s/g, "") !== ""
                   ? foreignLanguage
