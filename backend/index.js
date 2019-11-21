@@ -166,7 +166,8 @@ vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
   const newWord = {
     foreignWord: req.body.foreignWord,
     nativeWord: req.body.nativeWord,
-    wordId: uid(10)
+    wordId: uid(10),
+    speechPart: req.body.speechPart
   };
 
   Folders.updateOne(

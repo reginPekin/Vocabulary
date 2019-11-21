@@ -87,15 +87,17 @@ const VocabularyWindow = ({ folderRequest }) => {
 
             <NewWordsPair
               folderId={folder.id}
-              onAdd={(foreignValue, nativeValue) => {
+              onAdd={(foreignWord, nativeWord, speechPart) => {
                 sdk
                   .createNewWord({
                     folderId: folder.id,
-                    foreignWord: foreignValue,
-                    nativeWord: nativeValue
+                    foreignWord,
+                    nativeWord,
+                    speechPart
                   })
                   .then(data => {
                     const newWord = data.data;
+                    console.log(newWord);
                     setFolder({ ...folder, words: [...folder.words, newWord] });
                   });
               }}

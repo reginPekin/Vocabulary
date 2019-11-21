@@ -6,6 +6,7 @@ import { InputButton } from "../InputButton";
 import Delete from "../../images/delete.svg";
 
 import styles from "./PairOfWords.module.css";
+import { setBackgroundColor, shortSpeechOfPart } from "../../utils";
 
 export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
   const [isVisibleForeign, setIsVisibleForeign] = useState(true);
@@ -34,6 +35,11 @@ export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
           inputClassName={styles.inputClassName}
           buttonClassName={styles.button}
         />
+      </td>
+      <td className={styles.speechPart}>
+        <span style={setBackgroundColor(wordPair.speechPart)}>
+          {shortSpeechOfPart(wordPair.speechPart)}
+        </span>
       </td>
 
       <td className={styles.deleteTd}>

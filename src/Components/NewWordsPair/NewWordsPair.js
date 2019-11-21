@@ -14,6 +14,7 @@ export const NewWordsPair = ({ onAdd }) => {
 
   const foreignInputRef = useRef(null);
   const nativeInputRef = useRef(null);
+  const speechPartRef = useRef(null);
   const formRef = useRef(null);
 
   useOnClickOutside(formRef, () => {
@@ -24,7 +25,7 @@ export const NewWordsPair = ({ onAdd }) => {
   if (!isClicked) {
     return (
       <tr>
-        <td colSpan={2}>
+        <td colSpan={2} className={styles.colSpan}>
           <Button
             buttonClassName={styles.newFolderButtom}
             onClick={() => setIsClicked(true)}
@@ -54,17 +55,52 @@ export const NewWordsPair = ({ onAdd }) => {
       </td>
       <td>
         <form
+          className={styles.form}
           onSubmit={event => {
             event.preventDefault();
-            if (!foreignInputRef.current || !nativeInputRef.current) {
-              return;
-            }
-            onAdd(foreignInputRef.current.value, nativeInputRef.current.value);
-            dropInputRefValues(foreignInputRef, nativeInputRef);
-            foreignInputRef.current.focus();
+            speechPartRef.current.focus();
           }}
         >
           <input className={styles.input} ref={nativeInputRef} />
+        </form>
+      </td>
+      <td className={styles.speechParts}>
+        <form
+          className={styles.form}
+          onSubmit={event => {
+            event.preventDefault();
+            if (
+              !foreignInputRef.current ||
+              !nativeInputRef.current ||
+              !speechPartRef.current
+            ) {
+              return;
+            }
+            onAdd(
+              foreignInputRef.current.value,
+              nativeInputRef.current.value,
+              speechPartRef.current.value
+            );
+            dropInputRefValues(foreignInputRef, nativeInputRef, speechPartRef);
+            foreignInputRef.current.focus();
+          }}
+        >
+          <input
+            list="browsers"
+            name="browser"
+            placeholder="noun"
+            ref={speechPartRef}
+          />
+          <datalist id="browsers">
+            <option value="noun" />
+            <option value="adjective" />
+            <option value="verb" />
+            <option value="adverb" />
+            <option value="pronoun" />
+            <option value="preposition" />
+            <option value="conjuction" />
+            <option value="interjection" />
+          </datalist>
         </form>
       </td>
     </tr>

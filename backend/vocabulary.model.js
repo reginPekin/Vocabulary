@@ -13,7 +13,7 @@ let Folders = new Schema(
       type: Array
     },
     date: {
-      type: Date
+      type: Number
     },
     foreignLanguage: {
       type: String
