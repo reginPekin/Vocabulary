@@ -176,12 +176,12 @@ vocabularyRoutes.route("/folders/words/dateSort").get((_, res) => {
 });
 
 vocabularyRoutes.route("/folders/sort").post((req, res) => {
-  const array = req.body;
+  const array = req.body.arr;
 
   array.forEach(element => {
     Folders.updateOne(
       { id: element.id },
-      { $set: { words: element.words } }
+      { $set: { words: element.words, sortMethod: req.body.sortMethod } }
     ).then(folders => {
       res.json(folders);
     });
@@ -197,7 +197,8 @@ vocabularyRoutes.route("/folders/names").get((_, res) => {
         name: { $first: "$name" },
         date: { $sum: "$date" },
         foreignLanguage: { $first: "$foreignLanguage" },
-        nativeLanguage: { $first: "$nativeLanguage" }
+        nativeLanguage: { $first: "$nativeLanguage" },
+        sortMethod: { $first: "$sortMethod" }
       }
     },
     {
@@ -218,7 +219,8 @@ vocabularyRoutes.route("/folders").post((req, res) => {
       date: Date.now(),
       words: [],
       foreignLanguage: req.body.foreignLanguage,
-      nativeLanguage: req.body.nativeLanguage
+      nativeLanguage: req.body.nativeLanguage,
+      sortMethod: "nativeWords"
     }
   ])
     .then(folder => {

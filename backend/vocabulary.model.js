@@ -20,6 +20,9 @@ let Folders = new Schema(
     },
     nativeLanguage: {
       type: String
+    },
+    sortMethod: {
+      type: String
     }
   },
   { versionKey: false }

@@ -104,6 +104,9 @@ export const dateSort = async () => {
   );
 };
 
-export const sortNext = async arr => {
-  return await axios.post("http://localhost:4000/vocabulary/folders/sort", arr);
+export const sortNext = async (arr, sortMethod) => {
+  return await axios.post("http://localhost:4000/vocabulary/folders/sort", {
+    arr,
+    sortMethod
+  });
 };
