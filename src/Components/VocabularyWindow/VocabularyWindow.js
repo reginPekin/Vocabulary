@@ -21,8 +21,9 @@ const VocabularyWindow = ({ folderRequest }) => {
   }, [folderRequest]);
 
   return (
-    <main className={styles.main}>
+    <main>
       <InfoBox
+        className={styles.InfoBox}
         name={folder.name}
         onRename={newName => {
           sdk.renameFolder(folder.id, newName).then(() => {
@@ -30,81 +31,120 @@ const VocabularyWindow = ({ folderRequest }) => {
             dispatch({ type: "SET_HOOK_BEAM" });
           });
         }}
+        onSort={speechPart => {
+          console.log(speechPart);
+          if (speechPart === "foreignWords")
+            sdk.foreignWordSort().then(arr => {
+              sdk.sortNext(arr.data);
+              // .then(() => sdk.getWordsArray(folder.id))
+            });
+          else if (speechPart === "nativeWords")
+            sdk.nativeWordSort().then(arr => {
+              sdk.sortNext(arr.data);
+              // .then(() => sdk.getWordsArray(folder.id))
+            });
+          else if (speechPart === "speechPart")
+            sdk.speechPartSort().then(arr => {
+              sdk.sortNext(arr.data);
+              // .then(() => sdk.getWordsArray(folder.id))
+            });
+          else if (speechPart === "date")
+            sdk.dateSort().then(arr => {
+              sdk.sortNext(arr.data);
+              // .then(() => sdk.getWordsArray(folder.id))
+            });
+        }}
       />
-      <div>
-        <table>
-          <tbody>
-            <LanguagesHeader
-              foreignLanguage={folder.foreignLanguage}
-              nativeLanguage={folder.nativeLanguage}
-              onForeignChange={value =>
-                sdk
-                  .changeLanguage(folder.id, value, "foreign")
-                  .then(() => setFolder({ ...folder, foreignLanguage: value }))
-              }
-              onNativeChange={value =>
-                sdk
-                  .changeLanguage(folder.id, value, "native")
-                  .then(() => setFolder({ ...folder, nativeLanguage: value }))
-              }
-            />
-            {folder.words.map((wordPair, key) => (
-              <PairOfWords
-                folderId={folder.id}
-                wordPair={wordPair}
-                key={key}
-                onDelete={() => {
-                  sdk.deleteWordsPair(folder.id, wordPair.wordId).then(() => {
-                    const newWords = folder.words.filter(
-                      words => words.wordId !== wordPair.wordId
-                    );
-                    setFolder({ ...folder, words: newWords });
-                  });
-                }}
-                onEdit={(value, language) => {
-                  const newName = {
-                    word: language,
-                    wordId: wordPair.wordId,
-                    id: folder.id,
-                    renamedWord: value
-                  };
-                  sdk.editWord(newName).then(() =>
-                    setFolder({
-                      ...folder,
-                      words: folder.words.map(words => {
-                        if (words.wordId === wordPair.wordId) {
-                          if (language === "foreign") words.foreignWord = value;
-                          else if (language === "native")
-                            words.nativeWord = value;
-                        }
-                        return words;
-                      })
-                    })
-                  );
-                }}
-              />
-            ))}
-
-            <NewWordsPair
+      <table className={styles.table}>
+        <tbody>
+          <LanguagesHeader
+            foreignLanguage={folder.foreignLanguage}
+            nativeLanguage={folder.nativeLanguage}
+            onForeignChange={value =>
+              sdk
+                .changeLanguage(folder.id, value, "foreign")
+                .then(() => setFolder({ ...folder, foreignLanguage: value }))
+            }
+            onNativeChange={value =>
+              sdk
+                .changeLanguage(folder.id, value, "native")
+                .then(() => setFolder({ ...folder, nativeLanguage: value }))
+            }
+          />
+          {folder.words.map((wordPair, key) => (
+            <PairOfWords
               folderId={folder.id}
-              onAdd={(foreignWord, nativeWord, speechPart) => {
-                sdk
-                  .createNewWord({
-                    folderId: folder.id,
-                    foreignWord,
-                    nativeWord,
-                    speechPart
+              wordPair={wordPair}
+              key={key}
+              onDelete={() => {
+                sdk.deleteWordsPair(folder.id, wordPair.wordId).then(() => {
+                  const newWords = folder.words.filter(
+                    words => words.wordId !== wordPair.wordId
+                  );
+                  setFolder({ ...folder, words: newWords });
+                });
+              }}
+              onEditWord={(value, language) => {
+                const newName = {
+                  word: language,
+                  wordId: wordPair.wordId,
+                  id: folder.id,
+                  renamedWord: value
+                };
+                sdk.editWord(newName).then(() =>
+                  setFolder({
+                    ...folder,
+                    words: folder.words.map(words => {
+                      if (words.wordId === wordPair.wordId) {
+                        if (language === "foreign") words.foreignWord = value;
+                        else if (language === "native")
+                          words.nativeWord = value;
+                      }
+                      return words;
+                    })
                   })
-                  .then(data => {
-                    const newWord = data.data;
-                    console.log(newWord);
-                    setFolder({ ...folder, words: [...folder.words, newWord] });
-                  });
+                );
+              }}
+              onEditSpeechPart={value => {
+                const newSpeechPart = {
+                  id: folder.id,
+                  wordId: wordPair.wordId,
+                  newSpeechPart: value
+                };
+                sdk.editSpeechPart(newSpeechPart).then(() =>
+                  setFolder({
+                    ...folder,
+                    words: folder.words.map(words => {
+                      if (words.wordId === wordPair.wordId) {
+                        words.speechPart = value;
+                      }
+                      return words;
+                    })
+                  })
+                );
               }}
             />
-          </tbody>
-        </table>
-      </div>
+          ))}
+
+          <NewWordsPair
+            folderId={folder.id}
+            onAdd={(foreignWord, nativeWord, speechPart) => {
+              sdk
+                .createNewWord({
+                  folderId: folder.id,
+                  foreignWord,
+                  nativeWord,
+                  speechPart
+                })
+                .then(data => {
+                  const newWord = data.data;
+                  console.log(newWord);
+                  setFolder({ ...folder, words: [...folder.words, newWord] });
+                });
+            }}
+          />
+        </tbody>
+      </table>
     </main>
   );
 };

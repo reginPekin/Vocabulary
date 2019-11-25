@@ -16,6 +16,17 @@ export const editWord = async newName => {
   );
 };
 
+export const editSpeechPart = async newSpeechPart => {
+  return await axios.patch(
+    "http://localhost:4000/vocabulary/folder/" +
+      newSpeechPart.id +
+      "/words/" +
+      newSpeechPart.wordId +
+      "/speechPart",
+    newSpeechPart
+  );
+};
+
 export const deleteFolder = async id => {
   return await axios.delete("http://localhost:4000/vocabulary/folders/" + id);
 };
@@ -67,4 +78,32 @@ export const changeLanguage = async (id, text, language) => {
       renamedLanguage: text
     }
   );
+};
+
+export const foreignWordSort = async () => {
+  return await axios.get(
+    "http://localhost:4000/vocabulary/folders/words/foreignWordSort"
+  );
+};
+
+export const nativeWordSort = async () => {
+  return await axios.get(
+    "http://localhost:4000/vocabulary/folders/words/nativeWordSort"
+  );
+};
+
+export const speechPartSort = async () => {
+  return await axios.get(
+    "http://localhost:4000/vocabulary/folders/words/speechPartSort"
+  );
+};
+
+export const dateSort = async () => {
+  return await axios.get(
+    "http://localhost:4000/vocabulary/folders/words/dateSort"
+  );
+};
+
+export const sortNext = async arr => {
+  return await axios.post("http://localhost:4000/vocabulary/folders/sort", arr);
 };

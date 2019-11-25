@@ -31,6 +31,163 @@ mongoose.connect(
   }
 );
 
+vocabularyRoutes.route("/folders/words/foreignWordSort").get((_, res) => {
+  Folders.aggregate([
+    {
+      $project: {
+        words: 1,
+        id: 1
+      }
+    },
+    {
+      $unwind: "$words"
+    },
+    {
+      $sort: {
+        "words.foreignWord": 1
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        id: { $first: "$id" },
+        words: {
+          $push: {
+            foreignWord: "$words.foreignWord",
+            nativeWord: "$words.nativeWord",
+            wordId: "$words.wordId",
+            speechPart: "$words.speechPart",
+            date: "$words.date"
+          }
+        }
+      }
+    }
+  ]).then(folders => {
+    res.json(folders);
+  });
+});
+
+vocabularyRoutes.route("/folders/words/nativeWordSort").get((_, res) => {
+  Folders.aggregate([
+    {
+      $project: {
+        words: 1,
+        id: 1
+      }
+    },
+    {
+      $unwind: "$words"
+    },
+    {
+      $sort: {
+        "words.nativeWord": 1
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        id: { $first: "$id" },
+        words: {
+          $push: {
+            foreignWord: "$words.foreignWord",
+            nativeWord: "$words.nativeWord",
+            wordId: "$words.wordId",
+            speechPart: "$words.speechPart",
+            date: "$words.date"
+          }
+        }
+      }
+    }
+  ]).then(folders => {
+    res.json(folders);
+  });
+});
+
+vocabularyRoutes.route("/folders/words/speechPartSort").get((_, res) => {
+  Folders.aggregate([
+    {
+      $project: {
+        words: 1,
+        id: 1
+      }
+    },
+    {
+      $unwind: "$words"
+    },
+    {
+      $sort: {
+        "words.speechPart": 1
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        id: { $first: "$id" },
+        words: {
+          $push: {
+            foreignWord: "$words.foreignWord",
+            nativeWord: "$words.nativeWord",
+            wordId: "$words.wordId",
+            speechPart: "$words.speechPart",
+            date: "$words.date"
+          }
+        }
+      }
+    }
+  ]).then(folders => {
+    res.json(folders);
+  });
+});
+
+vocabularyRoutes.route("/folders/words/dateSort").get((_, res) => {
+  Folders.aggregate([
+    {
+      $project: {
+        words: 1,
+        id: 1
+      }
+    },
+    {
+      $unwind: "$words"
+    },
+    {
+      $sort: {
+        "words.date": -1
+      }
+    },
+    {
+      $group: {
+        _id: "$_id",
+        id: { $first: "$id" },
+        words: {
+          $push: {
+            foreignWord: "$words.foreignWord",
+            nativeWord: "$words.nativeWord",
+            wordId: "$words.wordId",
+            speechPart: "$words.speechPart",
+            date: "$words.date"
+          }
+        }
+      }
+    }
+  ]).then(folders => {
+    res.json(folders);
+  });
+});
+
+vocabularyRoutes.route("/folders/sort").post((req, res) => {
+  const array = req.body;
+
+  array.forEach(element => {
+    Folders.updateOne(
+      { id: element.id },
+      { $set: { words: element.words } }
+    ).then(folders => {
+      res.json(folders);
+    });
+  });
+});
+
 vocabularyRoutes.route("/folders/names").get((_, res) => {
   Folders.aggregate([
     {
@@ -167,7 +324,8 @@ vocabularyRoutes.route("/folders/:id/words").post((req, res) => {
     foreignWord: req.body.foreignWord,
     nativeWord: req.body.nativeWord,
     wordId: uid(10),
-    speechPart: req.body.speechPart
+    speechPart: req.body.speechPart,
+    date: Date.now()
   };
 
   Folders.updateOne(
@@ -207,7 +365,7 @@ vocabularyRoutes.route("/folders/:id/words/edit/:wordId").patch((req, res) => {
       { id: req.body.id, "words.wordId": req.body.wordId },
       { $set: { "words.$.nativeWord": req.body.renamedWord } }
     )
-      .then(resp => {
+      .then(() => {
         console.log("edit word");
         res.status(200).json({ vocabulary: "word edited successfully" });
       })
@@ -216,6 +374,21 @@ vocabularyRoutes.route("/folders/:id/words/edit/:wordId").patch((req, res) => {
       });
   }
 });
+
+vocabularyRoutes
+  .route("/folder/:id/words/:wordId/speechPart")
+  .patch((req, res) => {
+    Folders.updateOne(
+      { id: req.body.id, "words.wordId": req.body.wordId },
+      { $set: { "words.$.speechPart": req.body.newSpeechPart } }
+    )
+      .then(() => {
+        res.status(200).json({ vocabulary: "speechPart edited successfully" });
+      })
+      .catch(err => {
+        res.status(400).send("editing speechPart failed" + err);
+      });
+  });
 
 app.listen(PORT, () => {
   console.log("Server is running on Port: " + PORT);

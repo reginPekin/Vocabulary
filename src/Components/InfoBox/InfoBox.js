@@ -22,14 +22,15 @@ export const InfoBox = ({ onRename, name, onSort }) => {
       <form
         onSubmit={event => {
           event.preventDefault();
-          onSort();
+          onSort(sortRef.current.value);
         }}
       >
         <label className={styles.sort}>
           Sort by:
           <select name="select" ref={sortRef}>
-            <option value="data">Data</option>
-            <option value="name">Name</option>
+            <option value="date">Date</option>
+            <option value="foreignWords">Foreign words</option>
+            <option value="nativeWords">Native words</option>
             <option value="speechPart">Speech parts</option>
           </select>
         </label>
