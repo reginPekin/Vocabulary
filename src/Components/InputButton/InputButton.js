@@ -15,11 +15,14 @@ export const InputButton = ({
   onChange,
   text,
   inputClassName = null,
-  buttonClassName = null
+  buttonClassName = null,
+  formClassName = null,
+  style = null
 }) => {
   if (!visibility) {
     return (
       <EditingInput
+        formClassName={formClassName}
         inputClassName={inputClassName}
         value={text}
         changeVisibility={() => changeVisibility(true)}
@@ -31,6 +34,7 @@ export const InputButton = ({
   }
   return (
     <Button
+      style={style}
       onClick={() => changeVisibility(false)}
       buttonClassName={buttonClassName}
     >
@@ -47,7 +51,6 @@ const EditingInput = ({
   formClassName = null
 }) => {
   const inputRef = useRef(null);
-
   useSelect(inputRef);
   useOnClickOutside(inputRef, () => changeVisibility());
 
