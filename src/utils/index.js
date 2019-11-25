@@ -6,21 +6,21 @@ export const dropInputRefValues = (...refs) => {
 
 export const setBackgroundColor = partOfSpeech => {
   switch (partOfSpeech) {
-    case "adverb":
+    case "adv":
       return { backgroundColor: "var(--blue)" };
     case "noun":
       return { backgroundColor: "var(--red)" };
     case "verb":
       return { backgroundColor: "var(--green)" };
-    case "pronoun":
+    case "pro":
       return { backgroundColor: "var(--dark-blue)" };
-    case "conjuction":
+    case "conj":
       return { backgroundColor: "var(--orange)" };
-    case "preposition":
+    case "prep":
       return { backgroundColor: "var(--violet)" };
-    case "interjection":
+    case "inter":
       return { backgroundColor: "var(--dark-violet)" };
-    case "adjective":
+    case "adj":
       return { backgroundColor: "var(--yellow)" };
     default:
       return { backgroundColor: "var(--grey)" };
