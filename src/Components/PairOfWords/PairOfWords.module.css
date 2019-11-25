@@ -9,11 +9,16 @@
   min-width: 0;
 }
 
-.speechPart span {
-  padding: 5px;
+.speechPartElement {
+  padding: 3px 7px;
   background-color: var(--red);
   border-radius: 5px;
-  /* color: white; */
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.speechPartInput {
+  width: 3rem;
 }
 
 .formClassName {

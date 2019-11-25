@@ -8,9 +8,15 @@ import Delete from "../../images/delete.svg";
 import styles from "./PairOfWords.module.css";
 import { setBackgroundColor, shortSpeechOfPart } from "../../utils";
 
-export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
+export const PairOfWords = ({
+  wordPair,
+  onDelete,
+  onEditWord,
+  onEditSpeechPart
+}) => {
   const [isVisibleForeign, setIsVisibleForeign] = useState(true);
   const [isVisibleNative, setIsVisibleNative] = useState(true);
+  const [isVisibleSpeechPart, setIsVisibleSpeechPart] = useState(true);
 
   return (
     <tr className={styles.PairOfWords}>
@@ -18,7 +24,7 @@ export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
         <InputButton
           visibility={isVisibleForeign}
           changeVisibility={visibility => setIsVisibleForeign(visibility)}
-          onChange={value => onEdit(value, "foreign")}
+          onChange={value => onEditWord(value, "foreign")}
           text={wordPair.foreignWord}
           formClassName={styles.formClassName}
           inputClassName={styles.inputClassName}
@@ -30,16 +36,22 @@ export const PairOfWords = ({ wordPair, onDelete, onEdit }) => {
         <InputButton
           visibility={isVisibleNative}
           changeVisibility={visibility => setIsVisibleNative(visibility)}
-          onChange={value => onEdit(value, "native")}
+          onChange={value => onEditWord(value, "native")}
           text={wordPair.nativeWord}
           inputClassName={styles.inputClassName}
           buttonClassName={styles.button}
         />
       </td>
       <td className={styles.speechPart}>
-        <span style={setBackgroundColor(wordPair.speechPart)}>
-          {shortSpeechOfPart(wordPair.speechPart)}
-        </span>
+        <InputButton
+          visibility={isVisibleSpeechPart}
+          changeVisibility={visibility => setIsVisibleSpeechPart(visibility)}
+          buttonClassName={styles.speechPartElement}
+          style={setBackgroundColor(shortSpeechOfPart(wordPair.speechPart))}
+          text={shortSpeechOfPart(wordPair.speechPart)}
+          onChange={value => onEditSpeechPart(value)}
+          inputClassName={styles.speechPartInput}
+        />
       </td>
 
       <td className={styles.deleteTd}>
