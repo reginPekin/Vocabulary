@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
 import styles from "./InfoBox.module.css";
@@ -6,7 +6,6 @@ import styles from "./InfoBox.module.css";
 import { InputButton } from "../InputButton";
 
 export const InfoBox = ({ onRename, name, onSort, sortMethod }) => {
-  const sortRef = useRef(null);
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => setVisibility(!visibility);
   let defaultValue = "";
@@ -44,25 +43,18 @@ export const InfoBox = ({ onRename, name, onSort, sortMethod }) => {
         formClassName={styles.formClassName}
         buttonClassName={styles.buttonClassName}
       />
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          onSort(sortRef.current.value);
-        }}
-      >
-        <label className={styles.sort}>
-          Sort by:
-          <Select
-            ref={sortRef}
-            options={options}
-            onChange={event => {
-              onSort(event.value);
-            }}
-            defaultValue={{ label: defaultValue }}
-          />
-        </label>
-        <input type="submit" value="Submit" style={{ visibility: "hidden" }} />
-      </form>
+
+      <label className={styles.sort}>
+        Sort by:
+        <Select
+          className={styles.sortSelect}
+          options={options}
+          onChange={event => {
+            onSort(event.value);
+          }}
+          defaultValue={{ label: defaultValue, value: sortMethod }}
+        />
+      </label>
     </div>
   );
 };
