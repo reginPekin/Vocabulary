@@ -32,39 +32,10 @@ const VocabularyWindow = ({ folderRequest }) => {
             dispatch({ type: "SET_HOOK_BEAM" });
           });
         }}
-        onSort={speechPart => {
-          if (speechPart === "foreignWords")
-            sdk.foreignWordSort().then(arr => {
-              sdk.sortNext(arr.data, "foreignWords").then(() =>
-                sdk.getFolder(folder.id).then(data => {
-                  setFolder({ ...folder, words: data.words });
-                })
-              );
-            });
-          else if (speechPart === "nativeWords")
-            sdk.nativeWordSort().then(arr => {
-              sdk.sortNext(arr.data, "nativeWords").then(() =>
-                sdk.getFolder(folder.id).then(data => {
-                  setFolder({ ...folder, words: data.words });
-                })
-              );
-            });
-          else if (speechPart === "speechPart")
-            sdk.speechPartSort().then(arr => {
-              sdk.sortNext(arr.data, "speechPart").then(() =>
-                sdk.getFolder(folder.id).then(data => {
-                  setFolder({ ...folder, words: data.words });
-                })
-              );
-            });
-          else if (speechPart === "date")
-            sdk.dateSort().then(arr => {
-              sdk.sortNext(arr.data, "date").then(() =>
-                sdk.getFolder(folder.id).then(data => {
-                  setFolder({ ...folder, words: data.words });
-                })
-              );
-            });
+        onSort={sortType => {
+          sdk
+            .getWordsArray(folder.id, sortType)
+            .then(data => setFolder({ ...folder, words: data.words }));
         }}
       />
       <table className={styles.table}>
