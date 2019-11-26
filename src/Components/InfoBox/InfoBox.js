@@ -28,9 +28,9 @@ export const InfoBox = ({ onRename, name, onSort, sortMethod }) => {
 
   const options = [
     { value: "date", label: "Date" },
-    { value: "foreignWords", label: "Foreign words" },
-    { value: "nativeWords", label: "Native words" },
-    { value: "speechPart", label: "Speech parts" }
+    { value: "foreign", label: "Foreign words" },
+    { value: "native", label: "Native words" },
+    { value: "speech", label: "Speech parts" }
   ];
   return (
     <div className={styles.infoBox}>
