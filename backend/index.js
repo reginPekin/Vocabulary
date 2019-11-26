@@ -31,44 +31,34 @@ mongoose.connect(
   }
 );
 
-vocabularyRoutes.route("/folders/words/foreignWordSort").get((_, res) => {
-  Folders.aggregate([
-    {
-      $project: {
-        words: 1,
-        id: 1
-      }
-    },
-    {
-      $unwind: "$words"
-    },
-    {
-      $sort: {
-        "words.foreignWord": 1
-      }
-    },
-    {
-      $group: {
-        _id: "$_id",
-        id: { $first: "$id" },
-        words: {
-          $push: {
-            foreignWord: "$words.foreignWord",
-            nativeWord: "$words.nativeWord",
-            wordId: "$words.wordId",
-            speechPart: "$words.speechPart",
-            date: "$words.date"
-          }
-        }
-      }
-    }
-  ]).then(folders => {
+// client sortType to server
+const parseWordsSortType = sortType => {
+  switch (sortType) {
+    case "foreign":
+      return "words.foreignWord";
+    case "native":
+      return "words.nativeWord";
+    case "speech":
+      return "words.speechPart";
+    case "date":
+      return "words.date";
+    default:
+      console.log("error");
+      return "words.date";
+  }
+};
+
+vocabularyRoutes.route("/folders/:id/words").get((req, res) => {
+  const sortType = parseWordsSortType(req.query.sort);
+  console.log(req.query.sort);
+  getMongoWordsWithSort(req.params.id, sortType, 1).then(folders => {
     res.json(folders);
   });
 });
 
-vocabularyRoutes.route("/folders/words/nativeWordSort").get((_, res) => {
-  Folders.aggregate([
+const getMongoWordsWithSort = (id, sortType, sortDirection) => {
+  return Folders.aggregate([
+    { $match: { id } },
     {
       $project: {
         words: 1,
@@ -80,7 +70,7 @@ vocabularyRoutes.route("/folders/words/nativeWordSort").get((_, res) => {
     },
     {
       $sort: {
-        "words.nativeWord": 1
+        [sortType]: sortDirection
       }
     },
     {
@@ -98,82 +88,12 @@ vocabularyRoutes.route("/folders/words/nativeWordSort").get((_, res) => {
         }
       }
     }
-  ]).then(folders => {
-    res.json(folders);
-  });
-});
-
-vocabularyRoutes.route("/folders/words/speechPartSort").get((_, res) => {
-  Folders.aggregate([
-    {
-      $project: {
-        words: 1,
-        id: 1
-      }
-    },
-    {
-      $unwind: "$words"
-    },
-    {
-      $sort: {
-        "words.speechPart": 1
-      }
-    },
-    {
-      $group: {
-        _id: "$_id",
-        id: { $first: "$id" },
-        words: {
-          $push: {
-            foreignWord: "$words.foreignWord",
-            nativeWord: "$words.nativeWord",
-            wordId: "$words.wordId",
-            speechPart: "$words.speechPart",
-            date: "$words.date"
-          }
-        }
-      }
+  ]).then(data => {
+    if (data.length > 0) {
+      return data[0];
     }
-  ]).then(folders => {
-    res.json(folders);
   });
-});
-
-vocabularyRoutes.route("/folders/words/dateSort").get((_, res) => {
-  Folders.aggregate([
-    {
-      $project: {
-        words: 1,
-        id: 1
-      }
-    },
-    {
-      $unwind: "$words"
-    },
-    {
-      $sort: {
-        "words.date": -1
-      }
-    },
-    {
-      $group: {
-        _id: "$_id",
-        id: { $first: "$id" },
-        words: {
-          $push: {
-            foreignWord: "$words.foreignWord",
-            nativeWord: "$words.nativeWord",
-            wordId: "$words.wordId",
-            speechPart: "$words.speechPart",
-            date: "$words.date"
-          }
-        }
-      }
-    }
-  ]).then(folders => {
-    res.json(folders);
-  });
-});
+};
 
 vocabularyRoutes.route("/folders/sort").post((req, res) => {
   const array = req.body.arr;
@@ -229,14 +149,6 @@ vocabularyRoutes.route("/folders").post((req, res) => {
     .catch(err => {
       console.log("err" + err);
       res.status(400).send("adding new folder failed");
-    });
-});
-
-vocabularyRoutes.route("/folders/:id/words").get((req, res) => {
-  Folders.findOne({ id: req.params.id })
-    .then(vocabulary => res.json(vocabulary.words))
-    .catch(err => {
-      res.status(400).send("file didn't find");
     });
 });
 
