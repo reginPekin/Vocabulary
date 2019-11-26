@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 let Folders = new Schema(
@@ -20,12 +20,9 @@ let Folders = new Schema(
     },
     nativeLanguage: {
       type: String
-    },
-    sortMethod: {
-      type: String
     }
   },
   { versionKey: false }
 );
 
-module.exports = mongoose.model("vocabulary", Folders);
+export default mongoose.model("vocabulary", Folders);
