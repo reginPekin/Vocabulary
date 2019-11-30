@@ -6,7 +6,7 @@ import styles from "./FolderBox.module.css";
 import { Button } from "../Button";
 import { Popup } from "../Popup";
 
-import Menu from "../../images/menu.svg";
+import { MenuIcon } from "../Icons";
 
 export const FolderBox = ({ folder, onDelete = () => null }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,7 +28,7 @@ export const FolderBox = ({ folder, onDelete = () => null }) => {
             setIsVisible(!isVisible);
           }}
         >
-          <img src={Menu} alt="Menu" width={27} />
+          <MenuIcon />
         </Button>
       </div>
       <Popup

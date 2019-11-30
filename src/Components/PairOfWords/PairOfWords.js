@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "../Button";
 import { InputButton } from "../InputButton";
 
-import Delete from "../../images/delete.svg";
+import { DeleteIcon } from "../Icons";
 
 import styles from "./PairOfWords.module.css";
 import { setBackgroundColor, shortSpeechOfPart } from "../../utils";
@@ -59,7 +59,7 @@ export const PairOfWords = ({
           buttonClassName={styles.deleteButton}
           onClick={() => onDelete()}
         >
-          <img alt="Delete" src={Delete} width={20} />
+          <DeleteIcon />
         </Button>
       </td>
     </tr>
