@@ -10,12 +10,17 @@ import { NewWordsPair } from "../NewWordsPair";
 import { PairOfWords } from "../PairOfWords";
 import { LanguagesHeader } from "../LanguagesHeader";
 
+import {
+  setSortType,
+  setHookBeam,
+  setSortDirection
+} from "../../utils/smallActions";
+
 import * as sdk from "../../sdk";
 
-const VocabularyWindow = ({ folderRequest }) => {
+const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
   const dispatch = useDispatch();
   const [folder, setFolder] = useState(folderRequest);
-
   useEffect(() => {
     setFolder(folderRequest);
   }, [folderRequest]);
@@ -23,19 +28,24 @@ const VocabularyWindow = ({ folderRequest }) => {
   return (
     <main>
       <InfoBox
+        sortDirection={sortDirection}
+        sortMethod={sortType}
         className={styles.InfoBox}
-        sortMethod={folder.sortMethod}
         name={folder.name}
         onRename={newName => {
           sdk.renameFolder(folder.id, newName).then(() => {
             setFolder({ ...folder, name: newName });
-            dispatch({ type: "SET_HOOK_BEAM" });
+            dispatch(setHookBeam());
           });
         }}
-        onSort={sortType => {
-          sdk
-            .getWordsArray(folder.id, sortType)
-            .then(data => setFolder({ ...folder, words: data.words }));
+        onSort={(sortType, sortDirection) => {
+          sdk.getWordsArray(folder.id, sortType, sortDirection).then(data => {
+            setFolder({ ...folder, words: data.words });
+            dispatch(setSortType(sortType));
+          });
+        }}
+        onClick={() => {
+          dispatch(setSortDirection());
         }}
       />
       <table className={styles.table}>
@@ -121,7 +131,6 @@ const VocabularyWindow = ({ folderRequest }) => {
                 })
                 .then(data => {
                   const newWord = data.data;
-                  console.log(newWord);
                   setFolder({ ...folder, words: [...folder.words, newWord] });
                 });
             }}
@@ -134,10 +143,21 @@ const VocabularyWindow = ({ folderRequest }) => {
 
 export default mount({
   "/:id": route({
-    async getView(request) {
-      const folder = await sdk.getFolder(request.params.id);
+    async getView(request, context) {
       try {
-        return <VocabularyWindow folderRequest={folder} />;
+        const folder = await sdk.getWordsArray(
+          request.params.id,
+          context.sortType,
+          context.sortDirection
+        );
+
+        return (
+          <VocabularyWindow
+            folderRequest={folder}
+            sortType={context.sortType}
+            sortDirection={context.sortDirection}
+          />
+        );
       } catch (error) {
         return <div>F</div>;
       }

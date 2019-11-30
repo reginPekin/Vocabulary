@@ -6,10 +6,19 @@ import * as lib from "../lib";
 
 export const getWords = (req, res) => {
   const sortType = lib.parseWordsSortType(req.query.sort);
-  console.log(req.query.sort);
-  lib.getMongoWordsWithSort(req.params.id, sortType, 1).then(folders => {
-    res.json(folders);
-  });
+  const sortDirection = parseInt(req.query.direction);
+  lib
+    .getMongoWordsWithSort(req.params.id, sortType, sortDirection)
+    .then(vocabulary => {
+      if (!vocabulary.words) {
+        vocabulary.words = [];
+      }
+
+      res.json(vocabulary);
+    })
+    .catch(error => {
+      console.log("error", error);
+    });
 };
 
 export const getFolderNames = (_, res) => {
