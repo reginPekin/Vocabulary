@@ -16,6 +16,7 @@ export const NewWordsPair = ({ onAdd }) => {
   const nativeInputRef = useRef(null);
   const speechPartRef = useRef(null);
   const formRef = useRef(null);
+  const datalistRef = useRef(null);
 
   useOnClickOutside(formRef, () => {
     setIsClicked(false);
@@ -59,6 +60,7 @@ export const NewWordsPair = ({ onAdd }) => {
           onSubmit={event => {
             event.preventDefault();
             speechPartRef.current.focus();
+            datalistRef.current.focus();
           }}
         >
           <input className={styles.input} ref={nativeInputRef} />
@@ -91,7 +93,7 @@ export const NewWordsPair = ({ onAdd }) => {
             placeholder="noun"
             ref={speechPartRef}
           />
-          <datalist id="browsers">
+          <datalist id="browsers" ref={datalistRef}>
             <option value="noun" />
             <option value="adjective" />
             <option value="verb" />

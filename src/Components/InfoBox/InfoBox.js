@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Select from "react-select";
 
 import styles from "./InfoBox.module.css";
 
 import { InputButton } from "../InputButton";
+import { Button } from "../Button";
 
-export const InfoBox = ({ onRename, name, onSort, sortMethod }) => {
+import Repeat from "../../images/repeat.svg";
+
+export const InfoBox = ({
+  onRename,
+  name,
+  onSort,
+  sortMethod,
+  onClick,
+  sortDirection
+}) => {
   const [visibility, setVisibility] = useState(true);
   const changeVisibility = () => setVisibility(!visibility);
+  const selectRef = useRef(null);
   let defaultValue = "";
   switch (sortMethod) {
     case "date":
       defaultValue = "Date";
       break;
-    case "foreignWords":
+    case "foreign":
       defaultValue = "Foreign words";
       break;
-    case "nativeWords":
+    case "native":
       defaultValue = "Native words";
       break;
-    case "speechPart":
+    case "speech":
       defaultValue = "Speech parts";
       break;
     default:
@@ -47,13 +58,27 @@ export const InfoBox = ({ onRename, name, onSort, sortMethod }) => {
       <label className={styles.sort}>
         Sort by:
         <Select
+          ref={selectRef}
           className={styles.sortSelect}
           options={options}
           onChange={event => {
-            onSort(event.value);
+            onSort(event.value, sortDirection);
           }}
           defaultValue={{ label: defaultValue, value: sortMethod }}
         />
+        <Button
+          onClick={() => {
+            onClick();
+            onSort(selectRef.current.state.value.value, sortDirection);
+          }}
+        >
+          <img
+            src={Repeat}
+            alt="repeat"
+            width={15}
+            style={{ transform: "rotate(90deg)" }}
+          />
+        </Button>
       </label>
     </div>
   );

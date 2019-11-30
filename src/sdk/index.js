@@ -58,14 +58,15 @@ export const deleteWordsPair = async (id, wordId) => {
   );
 };
 
-export const getWordsArray = async (folderId, sort) => {
-  console.log(sort);
+export const getWordsArray = async (folderId, sort, sortDirecton) => {
   return await axios
     .get(
       "http://localhost:4000/vocabulary/folders/" +
         folderId +
         "/words?sort=" +
-        sort
+        sort +
+        "&direction=" +
+        sortDirecton
     )
     .then(response => response.data);
 };
