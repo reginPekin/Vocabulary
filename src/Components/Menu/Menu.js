@@ -68,7 +68,7 @@ const MenuContainer = ({ beam }) => {
 };
 
 const mapStateProps = state => ({
-  beam: state.smallActions.beam
+  beam: state.hookBeamReducer.beam
 });
 
 export const Menu = connect(mapStateProps)(MenuContainer);
