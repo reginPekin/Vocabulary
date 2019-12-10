@@ -7,23 +7,23 @@ export const dropInputRefValues = (...refs) => {
 export const setBackgroundColor = partOfSpeech => {
   switch (partOfSpeech) {
     case "adv":
-      return { backgroundColor: "var(--blue)" };
+      return { borderBottom: "3px solid var(--blue)" };
     case "noun":
-      return { backgroundColor: "var(--red)" };
+      return { borderBottom: "3px solid var(--red)" };
     case "verb":
-      return { backgroundColor: "var(--green)" };
+      return { borderBottom: "3px solid var(--green)" };
     case "pro":
-      return { backgroundColor: "var(--dark-blue)" };
+      return { borderBottom: "3px solid var(--dark-blue)" };
     case "conj":
-      return { backgroundColor: "var(--orange)" };
+      return { borderBottom: "3px solid var(--orange)" };
     case "prep":
-      return { backgroundColor: "var(--violet)" };
+      return { borderBottom: "3px solid var(--violet)" };
     case "inter":
-      return { backgroundColor: "var(--dark-violet)" };
+      return { borderBottom: "3px solid var(--dark-violet)" };
     case "adj":
-      return { backgroundColor: "var(--yellow)" };
+      return { borderBottom: "3px solid var(--yellow)" };
     default:
-      return { backgroundColor: "var(--grey)" };
+      return { borderBottom: "3px solid var(--grey)" };
   }
 };
 
