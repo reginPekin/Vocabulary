@@ -4,17 +4,17 @@
 
 .speechPart {
   border: none;
-  width: 5rem;
   padding: 0 1em;
   min-width: 0;
 }
 
 .speechPartElement {
   padding: 3px 7px;
-  background-color: var(--red);
   border-radius: 5px;
   font-size: 0.8em;
   font-weight: 500;
+  width: 43px;
+  text-overflow: ellipsis;
 }
 
 .speechPartInput {
@@ -35,9 +35,8 @@
 
 td {
   border-bottom: 1px solid var(--dark-grey);
-  padding: 0.7em 0;
-  min-width: 180px;
-  max-width: 180px;
+  padding: 0.5em 0;
+  width: 170px;
 }
 
 .deleteTd {
