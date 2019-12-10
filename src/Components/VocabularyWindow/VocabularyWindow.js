@@ -6,9 +6,10 @@ import { mount, route } from "navi";
 import styles from "./VocabularyWindow.module.css";
 
 import { InfoBox } from "../InfoBox";
-import { NewWordsPair } from "../NewWordsPair";
+import { NewWordsPairButton } from "../NewWordsPairButton";
 import { PairOfWords } from "../PairOfWords";
 import { LanguagesHeader } from "../LanguagesHeader";
+import { NewWordsPair } from "../NewWordsPair";
 
 import {
   setSortType,
@@ -21,12 +22,18 @@ import * as sdk from "../../sdk";
 const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
   const dispatch = useDispatch();
   const [folder, setFolder] = useState(folderRequest);
+  const [isOpened, setIsOpened] = useState(false);
+
+  const changeVisibilityPopup = () => {
+    setIsOpened(!isOpened);
+  };
+
   useEffect(() => {
     setFolder(folderRequest);
   }, [folderRequest]);
 
   return (
-    <main>
+    <main className={styles.vocabularyWindow}>
       <InfoBox
         sortDirection={sortDirection}
         sortMethod={sortType}
@@ -119,24 +126,29 @@ const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
             />
           ))}
 
-          <NewWordsPair
-            folderId={folder.id}
-            onAdd={(foreignWord, nativeWord, speechPart) => {
-              sdk
-                .createNewWord({
-                  folderId: folder.id,
-                  foreignWord,
-                  nativeWord,
-                  speechPart
-                })
-                .then(data => {
-                  const newWord = data.data;
-                  setFolder({ ...folder, words: [...folder.words, newWord] });
-                });
-            }}
+          <NewWordsPairButton
+            isOpened={isOpened}
+            changeVisibility={changeVisibilityPopup}
           />
         </tbody>
       </table>
+      <NewWordsPair
+        isOpened={isOpened}
+        changeVisibility={changeVisibilityPopup}
+        onAdd={(foreignWord, nativeWord, speechPart) => {
+          sdk
+            .createNewWord({
+              folderId: folder.id,
+              foreignWord,
+              nativeWord,
+              speechPart
+            })
+            .then(data => {
+              const newWord = data.data;
+              setFolder({ ...folder, words: [...folder.words, newWord] });
+            });
+        }}
+      />
     </main>
   );
 };
