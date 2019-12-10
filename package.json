@@ -15,8 +15,7 @@
     "react-scripts": "3.1.1",
     "react-select": "^3.0.8",
     "redux": "^4.0.4",
-    "redux-persist": "^6.0.0",
-    "electron": "^2.0.8"
+    "redux-persist": "^6.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^2.0.18"
   }
 }
