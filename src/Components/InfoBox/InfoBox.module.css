@@ -1,5 +1,6 @@
 .buttonClassName {
-  font-size: 3em;
+  width: 5em;
+  font-size: 2em;
   font-weight: 700;
   display: flex;
   justify-content: flex-start;
@@ -8,14 +9,13 @@
 
 .inputClassName {
   border: none;
-  font-size: 3rem;
+  font-size: 2em;
   font-weight: 700;
   padding: 0;
 }
 
 .formClassName {
-  width: 5em;
-  font-size: 3rem;
+  width: 10rem;
   margin: 0;
   font-weight: 700;
   display: flex;
@@ -24,18 +24,38 @@
 
 .infoBox {
   display: flex;
-  flex-direction: column;
-  padding: 2em 0 1em 10.5em;
+  padding: 1em;
   margin-bottom: 0.7em;
 }
 
 .sort {
   display: flex;
   align-items: center;
-  padding-top: 1em;
+  /* padding-top: 1em; */
 }
 
 .sortSelect {
   padding-left: 0.5em;
   width: 12rem;
+}
+
+.popupInput {
+  width: 100%;
+  font-size: 1em;
+  padding: 0.5em;
+  border: none;
+}
+
+.popupForm {
+  width: 20em;
+}
+
+.searchedWord {
+  width: 100%;
+  padding: 0.5em 1em;
+}
+
+.popup {
+  left: 50%;
+  margin-left: -150px;
 }

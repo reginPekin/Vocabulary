@@ -1,23 +1,31 @@
 import React, { useState, useRef } from "react";
 import Select from "react-select";
+import { connect } from "react-redux";
 
 import styles from "./InfoBox.module.css";
 
 import { InputButton } from "../InputButton";
 import { Button } from "../Button";
+import { Popup } from "../Popup";
 
-import Repeat from "../../images/repeat.svg";
+import { RepeatIcon, SearchIcon } from "../Icons";
 
-export const InfoBox = ({
+import { setSearchText } from "../../utils/smallActions";
+
+export const InfoBoxContainer = ({
   onRename,
   name,
   onSort,
   sortMethod,
   onClick,
-  sortDirection
+  sortDirection,
+  searchText,
+  dispatch
 }) => {
   const [visibility, setVisibility] = useState(true);
+  const [popupVisibility, setPopupVisibility] = useState(false);
   const changeVisibility = () => setVisibility(!visibility);
+  const changePopupVisibility = () => setPopupVisibility(!popupVisibility);
   const selectRef = useRef(null);
   let defaultValue = "";
   switch (sortMethod) {
@@ -37,6 +45,20 @@ export const InfoBox = ({
       console.log("none");
   }
 
+  const Voc = [
+    "one",
+    "two",
+    "three",
+    "sdfsd",
+    "cxmv",
+    "dsfl",
+    "lcm",
+    "dvkci",
+    "tiro",
+    "pogpf",
+    "gbklc"
+  ];
+
   const options = [
     { value: "date", label: "Date" },
     { value: "foreign", label: "Foreign words" },
@@ -45,6 +67,42 @@ export const InfoBox = ({
   ];
   return (
     <div className={styles.infoBox}>
+      <Popup
+        positionClassName={styles.popup}
+        isVisible={popupVisibility}
+        changeVisibility={changePopupVisibility}
+      >
+        <form
+          className={styles.popupForm}
+          onSubmit={event => {
+            dispatch(setSearchText(""));
+            event.preventDefault();
+          }}
+        >
+          <input
+            className={styles.popupInput}
+            onChange={event => {
+              dispatch(setSearchText(event.target.value));
+              console.log(searchText);
+            }}
+            autoFocus
+            value={searchText}
+          />
+          {/* eslint-disable-next-line array-callback-return */}
+          {Voc.map((word, key) => {
+            if (
+              searchText !== "" &&
+              word.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+            ) {
+              return (
+                <div key={key} className={styles.searchedWord}>
+                  {word}
+                </div>
+              );
+            }
+          })}
+        </form>
+      </Popup>
       <InputButton
         visibility={visibility}
         changeVisibility={() => changeVisibility()}
@@ -72,14 +130,18 @@ export const InfoBox = ({
             onSort(selectRef.current.state.value.value, sortDirection);
           }}
         >
-          <img
-            src={Repeat}
-            alt="repeat"
-            width={15}
-            style={{ transform: "rotate(90deg)" }}
-          />
+          <RepeatIcon style={{ transform: "rotate(90deg)" }} />
+        </Button>
+        <Button onClick={() => changePopupVisibility()}>
+          <SearchIcon />
         </Button>
       </label>
     </div>
   );
 };
+
+const mapStateProps = state => ({
+  searchText: state.searchTextChanger.searchText
+});
+
+export const InfoBox = connect(mapStateProps)(InfoBoxContainer);
