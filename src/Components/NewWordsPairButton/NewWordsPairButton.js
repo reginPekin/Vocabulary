@@ -12,7 +12,7 @@ export const NewWordsPairButton = ({ changeVisibility, isOpened }) => {
       <tr>
         <td colSpan={2} className={styles.colSpan}>
           <Button
-            buttonClassName={styles.newFolderButtom}
+            buttonClassName={styles.newFolderButton}
             onClick={() => changeVisibility()}
           >
             <section className={styles.section}>

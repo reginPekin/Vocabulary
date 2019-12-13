@@ -21,7 +21,7 @@ export const NewFolder = ({ onAdd }) => {
     <>
       <Button
         onClick={() => changeVisibility(!isVisible)}
-        buttonClassName={styles.newFolderButtom}
+        buttonClassName={styles.newFolderButton}
       >
         <section className={styles.span}>
           <img src={Plus} alt="Plus" width={15} />

@@ -18,7 +18,7 @@
   background-color: var(--light-grey);
 }
 
-.newFolderButtom {
+.newFolderButton {
   /* position: fixed; */
 
   width: 200px;
@@ -28,11 +28,11 @@
   padding: 1em 2em;
 }
 
-.newFolderButtom:hover {
+.newFolderButton:hover {
   background-color: white;
 }
 
-.newFolderButtom img {
+.newFolderButton img {
   padding-right: 4px;
 }
 
