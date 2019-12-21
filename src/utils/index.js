@@ -49,3 +49,38 @@ export const shortSpeechOfPart = partOfSpeech => {
       return partOfSpeech;
   }
 };
+
+export const activeStyle = (activeWordsPairId, wordsPairId) => {
+  if (activeWordsPairId === wordsPairId) {
+    return {
+      backgroundColor: "var(--light-grey)"
+    };
+  } else return null;
+};
+
+export const clickedStyle = (activeWordsPairId, wordId, element, isClicked) => {
+  if (activeWordsPairId === wordId) console.log(isClicked);
+  if (activeWordsPairId === wordId && isClicked) {
+    if (element === "tdFirst") {
+      return {
+        borderBottomLeftRadius: "0"
+      };
+    } else if (element === "tdSecond") {
+      return {
+        borderBottomRightRadius: "0px",
+        transition: "border-bottom-right-radius 0s linear 1s"
+      };
+    }
+  } else {
+    if (element === "tdFirst") {
+      return {
+        borderBottomLeftRadius: "13px"
+      };
+    } else if (element === "tdSecond") {
+      return {
+        borderBottomRightRadius: "13px",
+        transition: "border-bottom-right-radius 0s linear 1s"
+      };
+    }
+  }
+};
