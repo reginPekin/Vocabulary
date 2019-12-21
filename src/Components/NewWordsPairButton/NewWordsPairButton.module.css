@@ -2,18 +2,18 @@
   border: none;
 }
 
-.newFolderButtom {
+.newFolderButton {
   text-align: left;
   font-size: 1em;
   padding: 1em 2em 1em 0;
   width: 100%;
 }
 
-.newFolderButtom:hover {
+.newFolderButton:hover {
   background-color: white;
 }
 
-.newFolderButtom img {
+.newFolderButton img {
   padding-right: 7px;
 }
 
@@ -24,6 +24,6 @@
   justify-content: center;
 }
 
-.newFolderButtom:hover {
+.newFolderButton:hover {
   text-decoration: underline;
 }
