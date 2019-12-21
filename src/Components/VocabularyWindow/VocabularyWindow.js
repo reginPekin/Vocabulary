@@ -19,18 +19,62 @@ import {
 
 import * as sdk from "../../sdk";
 
+// renders the main part of the app
 const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
   const dispatch = useDispatch();
+
   const [folder, setFolder] = useState(folderRequest);
   const [isOpened, setIsOpened] = useState(false);
+  const [activeWordsPairId, setActiveWordPairId] = useState(null);
 
-  const changeVisibilityPopup = () => {
-    setIsOpened(!isOpened);
-  };
+  const [isDoubleClicked, setIsDoubleClicked] = useState(false);
+
+  useEffect(() => setFolder(folderRequest), [folderRequest]);
 
   useEffect(() => {
-    setFolder(folderRequest);
-  }, [folderRequest]);
+    setIsDoubleClicked(false);
+
+    document.addEventListener("keydown", listenKeyboard);
+    return () => document.removeEventListener("keydown", listenKeyboard);
+  }, [activeWordsPairId]);
+
+  // finds the id of a next pair
+  const findNextPairId = (activeIndex, direction) => {
+    const nextIndex = direction === "up" ? activeIndex - 1 : activeIndex + 1;
+    const frontierIndex = direction === "up" ? folder.words.length - 1 : 0;
+
+    return folder.words[nextIndex]
+      ? folder.words[nextIndex].wordId
+      : folder.words[frontierIndex].wordId;
+  };
+
+  // executes commands on keys pressed
+  const listenKeyboard = event => {
+    const activeIndex = folder.words.findIndex(
+      element => element.wordId === activeWordsPairId
+    );
+
+    if (event.code === "ArrowUp") {
+      const nextId = findNextPairId(activeIndex, "up");
+      setActiveWordPairId(nextId);
+      setIsDoubleClicked(false);
+      return;
+    }
+    if (event.code === "ArrowDown") {
+      const nextId = findNextPairId(activeIndex, "down");
+      setActiveWordPairId(nextId);
+      setIsDoubleClicked(false);
+      return;
+    }
+    if (event.code === "Space") {
+      if (!activeWordsPairId) {
+        return;
+      }
+      setIsDoubleClicked(!isDoubleClicked);
+      console.log(isDoubleClicked);
+      return;
+    }
+  };
 
   return (
     <main className={styles.vocabularyWindow}>
@@ -75,7 +119,15 @@ const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
             <PairOfWords
               folderId={folder.id}
               wordPair={wordPair}
+              onClick={() => setActiveWordPairId(wordPair.wordId)}
+              setActiveWordPairId={setActiveWordPairId}
+              emptyState={() => setActiveWordPairId(null)}
+              activeWordsPairId={activeWordsPairId}
               key={key}
+              isContextOpen={
+                wordPair.wordId === activeWordsPairId && isDoubleClicked
+              }
+              onDoubleClick={() => setIsDoubleClicked(true)}
               onDelete={() => {
                 sdk.deleteWordsPair(folder.id, wordPair.wordId).then(() => {
                   const newWords = folder.words.filter(
@@ -128,13 +180,13 @@ const VocabularyWindow = ({ folderRequest, sortDirection, sortType }) => {
 
           <NewWordsPairButton
             isOpened={isOpened}
-            changeVisibility={changeVisibilityPopup}
+            changeVisibility={() => setIsOpened(!isOpened)}
           />
         </tbody>
       </table>
       <NewWordsPair
         isOpened={isOpened}
-        changeVisibility={changeVisibilityPopup}
+        changeVisibility={() => setIsOpened(!isOpened)}
         onAdd={(foreignWord, nativeWord, speechPart) => {
           sdk
             .createNewWord({
