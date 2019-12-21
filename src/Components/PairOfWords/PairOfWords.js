@@ -1,67 +1,79 @@
-import React, { useState } from "react";
-
-import { Button } from "../Button";
-import { InputButton } from "../InputButton";
-
-import { DeleteIcon } from "../Icons";
+import React, { useState, useRef, useEffect } from "react";
 
 import styles from "./PairOfWords.module.css";
-import { setBackgroundColor, shortSpeechOfPart } from "../../utils";
+import { activeStyle, clickedStyle } from "../../utils/index";
+import { useOnClickOutside } from "../../utils/hooks";
 
 export const PairOfWords = ({
+  activeWordsPairId,
+  onClick,
   wordPair,
-  onDelete,
-  onEditWord,
-  onEditSpeechPart
+  emptyState = () => null,
+  onDoubleClick = () => null,
+  isContextOpen
 }) => {
-  const [isVisibleForeign, setIsVisibleForeign] = useState(true);
-  const [isVisibleNative, setIsVisibleNative] = useState(true);
-  const [isVisibleSpeechPart, setIsVisibleSpeechPart] = useState(true);
+  const tableRef = useRef(null);
+
+  useOnClickOutside(tableRef, () => {
+    if (!activeWordsPairId === wordPair.wordId) {
+      return;
+    }
+
+    emptyState();
+  });
 
   return (
-    <tr className={styles.PairOfWords}>
-      <td className={styles.rightColumn}>
-        <InputButton
-          visibility={isVisibleForeign}
-          changeVisibility={visibility => setIsVisibleForeign(visibility)}
-          onChange={value => onEditWord(value, "foreign")}
-          text={wordPair.foreignWord}
-          formClassName={styles.formClassName}
-          inputClassName={styles.inputClassName}
-          buttonClassName={styles.button}
-        />
-      </td>
-
-      <td className={styles.leftColumn}>
-        <InputButton
-          visibility={isVisibleNative}
-          changeVisibility={visibility => setIsVisibleNative(visibility)}
-          onChange={value => onEditWord(value, "native")}
-          text={wordPair.nativeWord}
-          inputClassName={styles.inputClassName}
-          buttonClassName={styles.button}
-        />
-      </td>
-      <td className={styles.speechPart}>
-        <InputButton
-          visibility={isVisibleSpeechPart}
-          changeVisibility={visibility => setIsVisibleSpeechPart(visibility)}
-          buttonClassName={styles.speechPartElement}
-          style={setBackgroundColor(shortSpeechOfPart(wordPair.speechPart))}
-          text={shortSpeechOfPart(wordPair.speechPart)}
-          onChange={value => onEditSpeechPart(value)}
-          inputClassName={styles.speechPartInput}
-        />
-      </td>
-
-      <td className={styles.deleteTd}>
-        <Button
-          buttonClassName={styles.deleteButton}
-          onClick={() => onDelete()}
+    <>
+      <tr
+        className={styles.trOfWords}
+        style={activeStyle(activeWordsPairId, wordPair.wordId)}
+        ref={tableRef}
+        onClick={() => !isContextOpen && onClick()}
+        onDoubleClick={() => onDoubleClick()}
+      >
+        <td
+          style={clickedStyle(
+            activeWordsPairId,
+            wordPair.wordId,
+            "tdFirst",
+            isContextOpen
+          )}
         >
-          <DeleteIcon />
-        </Button>
-      </td>
-    </tr>
+          {wordPair.foreignWord}
+        </td>
+        <td
+          style={clickedStyle(
+            activeWordsPairId,
+            wordPair.wordId,
+            "tdSecond",
+            isContextOpen
+          )}
+        >
+          {wordPair.nativeWord}
+        </td>
+      </tr>
+      <tr
+        style={
+          isContextOpen
+            ? {
+                fontSize: "1em",
+                height: "50px",
+                transition:
+                  "height 0.2s ease-out 0s, color 0.1s linear 0s, font-size 0s linear 0.1s"
+              }
+            : {
+                fontSize: "0",
+                color: "rgba(0, 0, 0, 0)",
+                height: "0",
+                transition:
+                  "height 0.2s ease-out 0s, color 0.1s linear 0s, font-size 0s linear 0.1s"
+              }
+        }
+      >
+        <td colSpan="2" className={styles.additionTd}>
+          <span>The part of speech: {wordPair.speechPart}</span>
+        </td>
+      </tr>
+    </>
   );
 };

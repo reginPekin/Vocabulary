@@ -1,68 +1,27 @@
-.PairOfWords {
-  margin-bottom: 0.5em;
-}
-
-.speechPart {
-  border: none;
-  padding: 0 1em;
-  min-width: 0;
-}
-
-.speechPartElement {
-  padding: 3px 7px;
-  border-radius: 5px;
-  font-size: 0.8em;
-  font-weight: 500;
-  width: 43px;
-  text-overflow: ellipsis;
-}
-
-.speechPartInput {
-  width: 3rem;
-}
-
-.formClassName {
-  width: 12rem;
-}
-
-.rightColumn {
-  border-right: 1px solid var(--dark-grey);
-}
-
-.leftColumn {
-  border-left: 1px solid var(--dark-grey);
-}
-
 td {
-  border-bottom: 1px solid var(--dark-grey);
-  padding: 0.5em 0;
-  width: 170px;
+  /* border-bottom: 1px solid var(--dark-grey); */
+  width: 200px;
+  padding: 0.5em 1em;
 }
 
-.deleteTd {
-  border: none;
-  padding-left: 3px;
-  background-color: white;
-  visibility: hidden;
+.trOfWords {
+  margin: 1em;
 }
 
-.deleteButton {
-  padding: 0;
+td:first-child {
+  border-top-left-radius: 13px;
+  border-bottom-left-radius: 13px;
 }
 
-.PairOfWords:hover .deleteTd {
-  visibility: visible;
+td:last-child {
+  border-top-right-radius: 13px;
+  border-bottom-right-radius: 13px;
+  /* transition: border-bottom-right-radius 0s linear 0.3s; */
 }
 
-.button {
-  font-size: 1em;
-  padding: 0 1em;
-}
-
-.inputClassName {
-  font-size: 1em;
-  margin: 0 1em;
-  border: none;
-  border-bottom: 1px solid var(--dark-grey);
+td.additionTd {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  background-color: var(--light-grey);
   padding: 0;
 }
