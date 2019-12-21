@@ -15,18 +15,16 @@ const MenuContainer = ({ beam }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    sdk.getFolderNames().then(response => {
-      setFolderNames(response);
-    });
+    sdk.getFolderNames().then(setFolderNames);
   }, [beam]);
 
   return (
     <div className={styles.folderWindow}>
       <section className={styles.folders}>
-        {folderNames.map((folder, key) => (
+        {folderNames.map(folder => (
           <FolderBox
             folder={folder}
-            key={key}
+            key={folder.id}
             onDelete={() => {
               sdk
                 .deleteFolder(folder.id)
