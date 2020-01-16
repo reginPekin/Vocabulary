@@ -2,7 +2,7 @@ import uid from "uid";
 
 import Folders from "../vocabulary.model.mjs";
 
-import * as lib from "../lib";
+import * as lib from "../lib/index.mjs";
 
 export const getWords = (req, res) => {
   const sortType = lib.parseWordsSortType(req.query.sort);

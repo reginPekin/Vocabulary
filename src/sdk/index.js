@@ -79,10 +79,3 @@ export const changeLanguage = async (id, text, language) => {
     renamedLanguage: text
   });
 };
-
-export const sortNext = async (arr, sortMethod) => {
-  return await axios.post(`${API_ENDPOINT}/folders/sort`, {
-    arr,
-    sortMethod
-  });
-};
