@@ -57,7 +57,8 @@ export const getMongoWordsWithSort = (id, sortType, sortDirection) => {
             nativeWord: "$words.nativeWord",
             wordId: "$words.wordId",
             speechPart: "$words.speechPart",
-            date: "$words.date"
+            date: "$words.date",
+            tags: "$words.tags"
           }
         }
       }

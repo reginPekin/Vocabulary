@@ -151,7 +151,8 @@ export const addWordsPair = (req, res) => {
     nativeWord: req.body.nativeWord,
     wordId: uid(10),
     speechPart: req.body.speechPart,
-    date: Date.now()
+    date: Date.now(),
+    tags: []
   };
 
   Folders.updateOne(
@@ -205,6 +206,19 @@ export const editSpeechPart = (req, res) => {
   Folders.updateOne(
     { id: req.body.id, "words.wordId": req.body.wordId },
     { $set: { "words.$.speechPart": req.body.newSpeechPart } }
+  )
+    .then(() => {
+      res.status(200).json({ vocabulary: "speechPart edited successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("editing speechPart failed" + err);
+    });
+};
+
+export const editTags = (req, res) => {
+  Folders.updateOne(
+    { id: req.body.id, "words.wordId": req.body.wordId },
+    { $set: { "words.$.tags": req.body.tags } }
   )
     .then(() => {
       res.status(200).json({ vocabulary: "speechPart edited successfully" });
