@@ -24,6 +24,7 @@ r.route("/folders/:id/words").post(api.addWordsPair);
 r.route("/folders/:id/words/edit/:wordId").patch(api.editWordsPair);
 // add to editWord
 r.route("/folder/:id/words/:wordId/speechPart").patch(api.editSpeechPart);
+r.route("/folder/:id/words/:wordId/tags").patch(api.editTags);
 
 const PORT = 4000;
 
